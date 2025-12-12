@@ -203,15 +203,26 @@ class WizardViewModel @Inject constructor(
                 }
 
                 val variants = entries.mapIndexed { index, entry ->
+                    // Parse label to detect variant types
+                    val label = entry.label
+                    val isANC = label.contains("(ANC", ignoreCase = true) ||
+                               label.contains("ANC ON", ignoreCase = true) ||
+                               label.contains("ANC Off", ignoreCase = true)
+                    val isPadModified = label.contains("velour", ignoreCase = true) ||
+                                       label.contains("pad", ignoreCase = true) &&
+                                       !label.contains("(sample", ignoreCase = true)
+
                     EQProfileVariant(
                         id = "${modelId}_${index}",
                         modelId = modelId,
-                        name = entry.label,
+                        name = entry.label,  // Keep full original label for matching
                         variant = if (entries.size > 1) {
                             "${entry.source} - ${entry.rig}"
                         } else {
                             null
                         },
+                        isANC = isANC,
+                        isPadModified = isPadModified,
                         source = entry.source,
                         rig = entry.rig,
                         description = "Measured by ${entry.source} on ${entry.rig} (${entry.form})"
@@ -311,8 +322,8 @@ class WizardViewModel @Inject constructor(
 
                 for (variant in selectedVariants) {
                     try {
-                        // Get the Entry for this variant
-                        val entries = autoEqSearch.getVariantsForModel(variant.name)
+                        // Get all variants for the model to find the matching entry
+                        val entries = autoEqSearch.getVariantsForModel(modelName)
                         val matchingEntry = entries.find {
                             it.label == variant.name &&
                             it.source == variant.source &&
@@ -326,7 +337,7 @@ class WizardViewModel @Inject constructor(
                             if (fixedBandEQ != null) {
                                 val profile = SavedEQProfile(
                                     id = variant.id,
-                                    name = variant.displayName,
+                                    name = variant.name,  // Use original name, not displayName
                                     deviceModel = modelName,
                                     source = variant.source,
                                     rig = variant.rig,

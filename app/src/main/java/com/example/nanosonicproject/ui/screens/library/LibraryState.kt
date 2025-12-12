@@ -1,5 +1,6 @@
 package com.example.nanosonicproject.ui.screens.library
 
+import com.example.nanosonicproject.data.Track
 import java.util.Locale
 import kotlin.text.format
 
@@ -27,7 +28,11 @@ data class LibraryState(
 
     // First launch state
     val isFirstLaunch: Boolean = true,
-    val hasScannedBefore: Boolean = false
+    val hasScannedBefore: Boolean = false,
+
+    // Selection mode for playlist management
+    val isSelectionMode: Boolean = false,
+    val selectedTrackIds: Set<String> = emptySet()
 ) {
     /**
      * True if we should show the empty state
@@ -46,42 +51,6 @@ data class LibraryState(
      */
     val showLoading: Boolean
         get() = isLoading && tracks.isEmpty() && !isRefreshing
-}
-
-/**
- * Track model for display
- */
-data class Track(
-    val id: String,
-    val title: String,
-    val artist: String,
-    val album: String,
-    val albumId: String,
-    val duration: Long, // in milliseconds
-    val filePath: String,
-    val artworkUri: String?,
-    val dateAdded: Long,
-    val size: Long // file size in bytes
-) {
-    /**
-     * Format duration as MM:SS
-     */
-    val formattedDuration: String
-        get() {
-            val minutes = duration / 60000
-            val seconds = (duration % 60000) / 1000
-            // Corrected line: Use String.format with a specific Locale
-            return String.format(Locale.US, "%02d:%02d", minutes, seconds)
-        }
-
-    /**
-     * Format file size as MB
-     */
-    val formattedSize: String
-        get() {
-            val mb = size / (1024 * 1024)
-            return "${mb}MB"
-        }
 }
 
 /**

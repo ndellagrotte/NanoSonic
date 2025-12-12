@@ -6,6 +6,7 @@ import android.provider.MediaStore
 import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.nanosonicproject.data.Track
 import com.example.nanosonicproject.util.PermissionUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -24,11 +25,15 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class LibraryViewModel @Inject constructor(
-    application: Application
+    application: Application,
+    private val playlistRepository: com.example.nanosonicproject.data.PlaylistRepository
 ) : AndroidViewModel(application) {
 
     private val _state = MutableStateFlow(LibraryState())
     val state: StateFlow<LibraryState> = _state.asStateFlow()
+
+    // Expose playlists from repository
+    val playlists = playlistRepository.playlists
 
     init {
         checkPermissionAndScan()
@@ -227,7 +232,8 @@ class LibraryViewModel @Inject constructor(
                         filePath = filePath,
                         artworkUri = artworkUri,
                         dateAdded = dateAdded,
-                        size = size
+                        size = size,
+                        albumArtUri = artworkUri // Also assign to legacy field
                     )
                 )
             }
@@ -240,8 +246,93 @@ class LibraryViewModel @Inject constructor(
         _state.update { it.copy(error = null) }
     }
 
-    fun onPlayTrack(track: Track) {
-        // TODO: Implement audio playback
-        println("Playing track: ${track.title} by ${track.artist}")
+    // ═══════════════════════════════════════════════════════════════
+    // Selection Mode for Playlist Management
+    // ═══════════════════════════════════════════════════════════════
+
+    /**
+     * Enter selection mode with the first selected track
+     */
+    fun onTrackLongPress(trackId: String) {
+        _state.update {
+            it.copy(
+                isSelectionMode = true,
+                selectedTrackIds = setOf(trackId)
+            )
+        }
+    }
+
+    /**
+     * Toggle track selection (add or remove from selection)
+     */
+    fun onTrackSelected(trackId: String) {
+        _state.update { currentState ->
+            val newSelection = if (currentState.selectedTrackIds.contains(trackId)) {
+                currentState.selectedTrackIds - trackId
+            } else {
+                currentState.selectedTrackIds + trackId
+            }
+
+            // Exit selection mode if no tracks are selected
+            if (newSelection.isEmpty()) {
+                currentState.copy(
+                    isSelectionMode = false,
+                    selectedTrackIds = emptySet()
+                )
+            } else {
+                currentState.copy(selectedTrackIds = newSelection)
+            }
+        }
+    }
+
+    /**
+     * Exit selection mode and clear all selections
+     */
+    fun onExitSelectionMode() {
+        _state.update {
+            it.copy(
+                isSelectionMode = false,
+                selectedTrackIds = emptySet()
+            )
+        }
+    }
+
+    /**
+     * Get currently selected tracks
+     */
+    fun getSelectedTracks(): List<Track> {
+        val selectedIds = _state.value.selectedTrackIds
+        return _state.value.tracks.filter { it.id in selectedIds }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // Playlist Management
+    // ═══════════════════════════════════════════════════════════════
+
+    /**
+     * Create a new playlist with the given name
+     */
+    suspend fun createPlaylist(name: String): com.example.nanosonicproject.data.Playlist {
+        return playlistRepository.createPlaylist(name)
+    }
+
+    /**
+     * Add currently selected tracks to a playlist
+     */
+    suspend fun addSelectedTracksToPlaylist(playlistId: String) {
+        val selectedIds = _state.value.selectedTrackIds.toList()
+        if (selectedIds.isNotEmpty()) {
+            playlistRepository.addTracksToPlaylist(playlistId, selectedIds)
+            // Exit selection mode after adding tracks
+            onExitSelectionMode()
+        }
+    }
+
+    /**
+     * Create a new playlist and add currently selected tracks to it
+     */
+    suspend fun createPlaylistAndAddSelectedTracks(name: String) {
+        val newPlaylist = createPlaylist(name)
+        addSelectedTracksToPlaylist(newPlaylist.id)
     }
 }

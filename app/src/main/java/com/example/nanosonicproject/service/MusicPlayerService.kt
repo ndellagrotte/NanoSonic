@@ -1,6 +1,7 @@
 package com.example.nanosonicproject.service
 
 import android.Manifest
+import android.R
 import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
@@ -38,8 +39,8 @@ import androidx.media3.session.MediaSession
 import androidx.media3.session.SessionError
 import com.example.nanosonicproject.MainActivity
 import com.example.nanosonicproject.data.EQProfileRepository
+import com.example.nanosonicproject.data.Track
 import com.example.nanosonicproject.service.audio.CustomEqualizerAudioProcessor
-import com.example.nanosonicproject.ui.screens.library.Track
 import com.google.common.collect.ImmutableList
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
@@ -79,7 +80,7 @@ class MusicPlayerService : MediaLibraryService() {
     private val _playbackState = MutableStateFlow(PlaybackState())
     val playbackState: StateFlow<PlaybackState> = _playbackState.asStateFlow()
 
-    private var currentPlaylist = listOf<Track>()
+    private var currentPlaylist: List<Track> = listOf()
     private var currentTrackIndex = -1
 
     // Android Auto EQ state management
@@ -111,11 +112,14 @@ class MusicPlayerService : MediaLibraryService() {
         private const val CHANNEL_ID = "music_playback_channel"
         private const val CHANNEL_NAME = "Music Playback"
         private const val ROOT_ID = "root"
+        private const val SEEK_INTERVAL_MS = 10000L // 10 seconds
 
         const val ACTION_PLAY = "com.example.nanosonicproject.action.PLAY"
         const val ACTION_PAUSE = "com.example.nanosonicproject.action.PAUSE"
         const val ACTION_NEXT = "com.example.nanosonicproject.action.NEXT"
         const val ACTION_PREVIOUS = "com.example.nanosonicproject.action.PREVIOUS"
+        const val ACTION_SEEK_FORWARD = "com.example.nanosonicproject.action.SEEK_FORWARD"
+        const val ACTION_SEEK_BACKWARD = "com.example.nanosonicproject.action.SEEK_BACKWARD"
         const val ACTION_STOP = "com.example.nanosonicproject.action.STOP"
     }
 
@@ -363,13 +367,12 @@ class MusicPlayerService : MediaLibraryService() {
             val mediaItems = tracks.map { track ->
                 MediaItem.Builder()
                     .setMediaId(track.id)
-                    .setUri(track.filePath)
+                    .setUri(track.filePath.toUri())
                     .setMediaMetadata(
                         MediaMetadata.Builder()
                             .setTitle(track.title)
                             .setArtist(track.artist)
-                            .setAlbumTitle(track.album)
-                            .setArtworkUri(track.artworkUri?.toUri())
+                            .setArtworkUri(track.albumArtUri?.toUri())
                             .setIsPlayable(true)
                             .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
                             .build()
@@ -398,13 +401,12 @@ class MusicPlayerService : MediaLibraryService() {
             return if (track != null) {
                 val mediaItem = MediaItem.Builder()
                     .setMediaId(track.id)
-                    .setUri(track.filePath)
+                    .setUri(track.filePath.toUri())
                     .setMediaMetadata(
                         MediaMetadata.Builder()
                             .setTitle(track.title)
                             .setArtist(track.artist)
-                            .setAlbumTitle(track.album)
-                            .setArtworkUri(track.artworkUri?.toUri())
+                            .setArtworkUri(track.albumArtUri?.toUri())
                             .setIsPlayable(true)
                             .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
                             .build()
@@ -434,13 +436,12 @@ class MusicPlayerService : MediaLibraryService() {
                 if (track != null) {
                     MediaItem.Builder()
                         .setMediaId(track.id)
-                        .setUri(track.filePath)
+                        .setUri(track.filePath.toUri())
                         .setMediaMetadata(
                             MediaMetadata.Builder()
                                 .setTitle(track.title)
                                 .setArtist(track.artist)
-                                .setAlbumTitle(track.album)
-                                .setArtworkUri(track.artworkUri?.toUri())
+                                .setArtworkUri(track.albumArtUri?.toUri())
                                 .setIsPlayable(true)
                                 .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
                                 .build()
@@ -519,6 +520,8 @@ class MusicPlayerService : MediaLibraryService() {
             ACTION_PAUSE -> pause()
             ACTION_NEXT -> next()
             ACTION_PREVIOUS -> previous()
+            ACTION_SEEK_FORWARD -> seekForward()
+            ACTION_SEEK_BACKWARD -> seekBackward()
             ACTION_STOP -> stopService()
         }
         return START_STICKY
@@ -578,13 +581,12 @@ class MusicPlayerService : MediaLibraryService() {
             // Create MediaItem with metadata for Android Auto
             val mediaItem = MediaItem.Builder()
                 .setMediaId(track.id)
-                .setUri(track.filePath)
+                .setUri(track.filePath.toUri())
                 .setMediaMetadata(
                     MediaMetadata.Builder()
                         .setTitle(track.title)
                         .setArtist(track.artist)
-                        .setAlbumTitle(track.album)
-                        .setArtworkUri(track.artworkUri?.toUri())
+                        .setArtworkUri(track.albumArtUri?.toUri())
                         .setIsPlayable(true)
                         .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
                         .build()
@@ -693,6 +695,26 @@ class MusicPlayerService : MediaLibraryService() {
     }
 
     /**
+     * Seek forward by 10 seconds
+     */
+    fun seekForward() {
+        exoPlayer?.let { player ->
+            val newPosition = (player.currentPosition + SEEK_INTERVAL_MS).coerceAtMost(player.duration)
+            player.seekTo(newPosition)
+        }
+    }
+
+    /**
+     * Seek backward by 10 seconds
+     */
+    fun seekBackward() {
+        exoPlayer?.let { player ->
+            val newPosition = (player.currentPosition - SEEK_INTERVAL_MS).coerceAtLeast(0L)
+            player.seekTo(newPosition)
+        }
+    }
+
+    /**
      * Seek to a specific position
      */
     fun seekTo(positionMs: Long) {
@@ -740,7 +762,7 @@ class MusicPlayerService : MediaLibraryService() {
         val id = cursor.getLong(idColumn)
         val title = cursor.getString(titleColumn) ?: "Unknown Title"
         val artist = cursor.getString(artistColumn) ?: "Unknown Artist"
-        val album = cursor.getString(albumColumn) ?: "Unknown Album"
+        val album = cursor.getString(albumColumn)
         val albumId = cursor.getLong(albumIdColumn)
         val duration = cursor.getLong(durationColumn)
         val filePath = cursor.getString(dataColumn) ?: ""
@@ -767,7 +789,8 @@ class MusicPlayerService : MediaLibraryService() {
             filePath = filePath,
             artworkUri = artworkUri,
             dateAdded = dateAdded,
-            size = size
+            size = size,
+            albumArtUri = artworkUri // Also assign to legacy field
         )
     }
 
@@ -924,12 +947,12 @@ class MusicPlayerService : MediaLibraryService() {
     }
 
     /**
-     * Create notification for foreground service
+     * Create notification for foreground service with MediaStyle controls
      */
     @SuppressLint("RestrictedApi")
     private fun createNotification(track: Track): Notification {
         // Load album art bitmap for notification (same as library screen approach)
-        val albumArt = loadAlbumArtBitmap(track.artworkUri)
+        val albumArt = loadAlbumArtBitmap(track.albumArtUri)
 
         val contentIntent = PendingIntent.getActivity(
             this,
@@ -938,62 +961,91 @@ class MusicPlayerService : MediaLibraryService() {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        val playPauseIntent = if (_playbackState.value.isPlaying) {
-            PendingIntent.getService(
-                this, 0,
-                Intent(this, MusicPlayerService::class.java).setAction(ACTION_PAUSE),
-                PendingIntent.FLAG_IMMUTABLE
-            )
-        } else {
-            PendingIntent.getService(
-                this, 0,
-                Intent(this, MusicPlayerService::class.java).setAction(ACTION_PLAY),
-                PendingIntent.FLAG_IMMUTABLE
-            )
-        }
-
-        val nextIntent = PendingIntent.getService(
-            this, 0,
-            Intent(this, MusicPlayerService::class.java).setAction(ACTION_NEXT),
-            PendingIntent.FLAG_IMMUTABLE
-        )
-
+        // Create pending intents for all controls
         val previousIntent = PendingIntent.getService(
             this, 0,
             Intent(this, MusicPlayerService::class.java).setAction(ACTION_PREVIOUS),
             PendingIntent.FLAG_IMMUTABLE
         )
 
+        val seekBackwardIntent = PendingIntent.getService(
+            this, 1,
+            Intent(this, MusicPlayerService::class.java).setAction(ACTION_SEEK_BACKWARD),
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val playPauseIntent = if (_playbackState.value.isPlaying) {
+            PendingIntent.getService(
+                this, 2,
+                Intent(this, MusicPlayerService::class.java).setAction(ACTION_PAUSE),
+                PendingIntent.FLAG_IMMUTABLE
+            )
+        } else {
+            PendingIntent.getService(
+                this, 2,
+                Intent(this, MusicPlayerService::class.java).setAction(ACTION_PLAY),
+                PendingIntent.FLAG_IMMUTABLE
+            )
+        }
+
+        val seekForwardIntent = PendingIntent.getService(
+            this, 3,
+            Intent(this, MusicPlayerService::class.java).setAction(ACTION_SEEK_FORWARD),
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val nextIntent = PendingIntent.getService(
+            this, 4,
+            Intent(this, MusicPlayerService::class.java).setAction(ACTION_NEXT),
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(track.title)
             .setContentText(track.artist)
-            .setSubText(track.album)
-            .setSmallIcon(android.R.drawable.ic_media_play)
+            .setSmallIcon(R.drawable.ic_media_play)
             .setLargeIcon(albumArt)
             .setContentIntent(contentIntent)
             .setOngoing(true)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setShowWhen(false)
+            // Action 0: Previous track
             .addAction(
-                android.R.drawable.ic_media_previous,
+                R.drawable.ic_media_previous,
                 "Previous",
                 previousIntent
             )
+            // Action 1: Seek backward (-10s)
+            .addAction(
+                R.drawable.ic_media_rew,
+                "Rewind 10s",
+                seekBackwardIntent
+            )
+            // Action 2: Play/Pause
             .addAction(
                 if (_playbackState.value.isPlaying)
-                    android.R.drawable.ic_media_pause
+                    R.drawable.ic_media_pause
                 else
-                    android.R.drawable.ic_media_play,
+                    R.drawable.ic_media_play,
                 if (_playbackState.value.isPlaying) "Pause" else "Play",
                 playPauseIntent
             )
+            // Action 3: Seek forward (+10s)
             .addAction(
-                android.R.drawable.ic_media_next,
+                R.drawable.ic_media_ff,
+                "Fast Forward 10s",
+                seekForwardIntent
+            )
+            // Action 4: Next track
+            .addAction(
+                R.drawable.ic_media_next,
                 "Next",
                 nextIntent
             )
             .setStyle(
                 androidx.media.app.NotificationCompat.MediaStyle()
-                    .setShowActionsInCompactView(0, 1, 2)
+                    // Show Previous, Play/Pause, Next in compact view (lock screen)
+                    .setShowActionsInCompactView(0, 2, 4)
                     .setMediaSession(
                         mediaSession?.token?.let { fromBundle(it.toBundle()) }
                     )

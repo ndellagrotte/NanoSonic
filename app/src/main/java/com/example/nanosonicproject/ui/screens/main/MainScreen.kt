@@ -5,28 +5,25 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import kotlinx.coroutines.launch
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.nanosonicproject.ui.theme.NanoSonicProjectTheme
-import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.automirrored.filled.QueueMusic
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.media3.common.util.UnstableApi
+import com.example.nanosonicproject.data.Track
+import com.example.nanosonicproject.service.MusicPlayerViewModel
 import com.example.nanosonicproject.ui.components.NanoSonicBottomNavigationBar
 import com.example.nanosonicproject.ui.components.NowPlayingPanel
 import com.example.nanosonicproject.ui.screens.albums.AlbumScreen
+import com.example.nanosonicproject.ui.screens.eq.EqScreen
 import com.example.nanosonicproject.ui.screens.library.LibraryScreen
-import com.example.nanosonicproject.ui.screens.library.Track
-import com.example.nanosonicproject.ui.screens.eq.EQScreen
-import com.example.nanosonicproject.service.MusicPlayerViewModel
+import com.example.nanosonicproject.ui.screens.playlists.PlaylistDetailScreen
+import com.example.nanosonicproject.ui.screens.playlists.PlaylistScreen
+import com.example.nanosonicproject.ui.theme.NanoSonicProjectTheme
 
 /**
  * Main screen with bottom navigation
@@ -36,7 +33,9 @@ import com.example.nanosonicproject.service.MusicPlayerViewModel
 @androidx.annotation.OptIn(UnstableApi::class)
 @Composable
 fun MainScreen(
-    viewModel: MainViewModel = hiltViewModel(),
+    viewModel: MainViewModel = hiltViewModel(checkNotNull(LocalViewModelStoreOwner.current) {
+                "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
+            }, null),
     musicPlayerViewModel: MusicPlayerViewModel = hiltViewModel(),
     onNavigateToWizard: () -> Unit = {}
 ) {
@@ -69,23 +68,38 @@ private fun MainScreenContent(
     onPlayTrack: (Track, List<Track>) -> Unit,
     onNavigateToWizard: () -> Unit
 ) {
+    // Track selected playlist for navigation
+    var selectedPlaylistId by remember { mutableStateOf<String?>(null) }
+
+    // Show PlaylistDetailScreen if a playlist is selected
+    if (selectedPlaylistId != null) {
+        PlaylistDetailScreen(
+            onNavigateBack = { selectedPlaylistId = null },
+            onPlayTrack = onPlayTrack
+        )
+        return
+    }
+
     // Create pager state with 4 pages (one for each tab)
     val pagerState = rememberPagerState(
         initialPage = selectedTab.ordinal,
         pageCount = { 4 }
     )
-    val coroutineScope = rememberCoroutineScope()
 
     // Sync pager state with selected tab
     LaunchedEffect(selectedTab) {
-        pagerState.animateScrollToPage(selectedTab.ordinal)
+        if (pagerState.currentPage != selectedTab.ordinal) {
+            pagerState.animateScrollToPage(selectedTab.ordinal)
+        }
     }
 
     // Sync selected tab with pager state
-    LaunchedEffect(pagerState.currentPage) {
-        val newTab = MainTab.entries[pagerState.currentPage]
-        if (newTab != selectedTab) {
-            onTabSelected(newTab)
+    LaunchedEffect(pagerState) {
+        snapshotFlow { pagerState.currentPage }.collect { page ->
+            val newTab = MainTab.entries.getOrNull(page)
+            if (newTab != null && newTab != selectedTab) {
+                onTabSelected(newTab)
+            }
         }
     }
 
@@ -107,12 +121,7 @@ private fun MainScreenContent(
                 // Bottom Navigation Bar
                 NanoSonicBottomNavigationBar(
                     selectedTab = selectedTab,
-                    onTabSelected = { tab ->
-                        onTabSelected(tab)
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(tab.ordinal)
-                        }
-                    }
+                    onTabSelected = onTabSelected
                 )
             }
         }
@@ -126,43 +135,15 @@ private fun MainScreenContent(
             when (page) {
                 0 -> LibraryScreen(onPlayTrack = onPlayTrack)
                 1 -> AlbumScreen(onPlayTrack = onPlayTrack)
-                2 -> PlaylistsContent()
-                3 -> EQScreen(onNavigateToWizard = onNavigateToWizard)
+                2 -> PlaylistScreen(onPlaylistClick = { playlistId ->
+                    selectedPlaylistId = playlistId
+                })
+                3 -> EqScreen(onNavigateToWizard = onNavigateToWizard)
             }
         }
     }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// PLACEHOLDER CONTENT SCREENS (Replace with actual implementations)
-// ═══════════════════════════════════════════════════════════════
-
-@Composable
-private fun PlaylistsContent() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.QueueMusic,
-                contentDescription = null,
-                modifier = Modifier.size(64.dp),
-                tint = MaterialTheme.colorScheme.primary
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "Playlists Screen",
-                style = MaterialTheme.typography.headlineMedium
-            )
-            Text(
-                text = "Your playlists will appear here",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-    }
-}
 
 // ═══════════════════════════════════════════════════════════════
 // PREVIEW

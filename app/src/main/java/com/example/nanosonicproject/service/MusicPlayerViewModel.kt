@@ -10,7 +10,6 @@ import androidx.annotation.OptIn
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.util.UnstableApi
-import com.example.nanosonicproject.ui.screens.library.Track
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -83,7 +82,7 @@ class MusicPlayerViewModel @Inject constructor(
      * Play a track with a playlist
      */
     @OptIn(UnstableApi::class)
-    fun playTrack(track: Track, playlist: List<Track>) {
+    fun playTrack(track: com.example.nanosonicproject.data.Track, playlist: List<com.example.nanosonicproject.data.Track>) {
         musicPlayerService?.playTrack(track, playlist)
     }
 

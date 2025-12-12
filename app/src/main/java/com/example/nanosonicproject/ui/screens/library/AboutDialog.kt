@@ -66,7 +66,7 @@ fun AboutDialog(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Precision Audio Equalizer",
+                    text = "Next-gen music player with \n smart EQ",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium,
                     textAlign = TextAlign.Center,
@@ -101,10 +101,9 @@ fun AboutDialog(
                         )
 
                         FeatureItem("🎧", "Device-specific EQ profiles")
-                        FeatureItem("🎵", "High-quality audio playback")
                         FeatureItem("☁️", "Cloud sync for registered users")
                         FeatureItem("📱", "Works 100% offline")
-                        FeatureItem("🎛️", "Custom parametric EQ support")
+                        FeatureItem("🎛️", "Custom Fixed-Band EQ support")
                     }
                 }
 
@@ -145,7 +144,7 @@ fun AboutDialog(
 
                 // Legal Section
                 Text(
-                    text = "© 2025 NanoSonic. All rights reserved.",
+                    text = "NanoSonic is licenced under the \n GNU General Public License v3.0",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center

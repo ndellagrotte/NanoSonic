@@ -25,8 +25,18 @@ class MusicSourcesViewModel @Inject constructor(
     application: Application
 ) : AndroidViewModel(application) {
 
+    private val prefs = application.getSharedPreferences(
+        "music_sources_prefs",
+        android.content.Context.MODE_PRIVATE
+    )
+
     private val _state = MutableStateFlow(MusicSourcesState())
     val state: StateFlow<MusicSourcesState> = _state.asStateFlow()
+
+    companion object {
+        private const val KEY_SOURCE_TYPE = "source_type"
+        private const val KEY_SELECTED_FOLDERS = "selected_folders"
+    }
 
     init {
         checkPermissions()
@@ -39,9 +49,62 @@ class MusicSourcesViewModel @Inject constructor(
     }
 
     private fun loadCurrentSettings() {
-        // TODO: Load saved settings from preferences
-        // For now, default to SYSTEM
-        _state.update { it.copy(sourceType = MusicSourceType.SYSTEM) }
+        viewModelScope.launch(Dispatchers.IO) {
+            // Load source type from preferences (default to SYSTEM)
+            val sourceTypeStr = prefs.getString(KEY_SOURCE_TYPE, MusicSourceType.SYSTEM.name)
+            val sourceType = try {
+                MusicSourceType.valueOf(sourceTypeStr ?: MusicSourceType.SYSTEM.name)
+            } catch (e: IllegalArgumentException) {
+                MusicSourceType.SYSTEM
+            }
+
+            // Load selected folders from preferences
+            val foldersJson = prefs.getString(KEY_SELECTED_FOLDERS, null)
+            val folders = if (foldersJson != null) {
+                try {
+                    parseFoldersJson(foldersJson)
+                } catch (e: Exception) {
+                    emptyList()
+                }
+            } else {
+                emptyList()
+            }
+
+            _state.update {
+                it.copy(
+                    sourceType = sourceType,
+                    selectedFolders = folders
+                )
+            }
+        }
+    }
+
+    /**
+     * Parse folders from JSON string
+     */
+    private fun parseFoldersJson(json: String): List<MusicFolder> {
+        // Simple parsing: format is "path1:name1:count1;path2:name2:count2"
+        return json.split(";")
+            .filter { it.isNotBlank() }
+            .mapNotNull { entry ->
+                val parts = entry.split(":")
+                if (parts.size == 3) {
+                    MusicFolder(
+                        path = parts[0],
+                        name = parts[1],
+                        trackCount = parts[2].toIntOrNull() ?: 0
+                    )
+                } else null
+            }
+    }
+
+    /**
+     * Convert folders to JSON string
+     */
+    private fun foldersToJson(folders: List<MusicFolder>): String {
+        return folders.joinToString(";") { folder ->
+            "${folder.path}:${folder.name}:${folder.trackCount}"
+        }
     }
 
     /**
@@ -142,12 +205,22 @@ class MusicSourcesViewModel @Inject constructor(
      */
     fun onSaveSettings() {
         viewModelScope.launch {
-            // TODO: Save settings to preferences
-            // TODO: Trigger library rescan based on selected source type
-
-            // For now, just simulate saving
             _state.update { it.copy(isLoading = true) }
-            kotlinx.coroutines.delay(500)
+
+            withContext(Dispatchers.IO) {
+                // Save settings to preferences
+                prefs.edit().apply {
+                    putString(KEY_SOURCE_TYPE, _state.value.sourceType.name)
+                    putString(KEY_SELECTED_FOLDERS, foldersToJson(_state.value.selectedFolders))
+                    apply()
+                }
+            }
+
+            // Note: Library rescan would be triggered by the LibraryViewModel
+            // when it observes changes to these settings. For now, settings
+            // are saved and will be applied on next app launch or when
+            // library screen refreshes.
+
             _state.update { it.copy(isLoading = false) }
         }
     }

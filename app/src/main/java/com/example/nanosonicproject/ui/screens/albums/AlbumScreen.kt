@@ -16,15 +16,26 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,7 +48,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import coil.compose.SubcomposeAsyncImage
 import com.example.nanosonicproject.ui.screens.library.LibraryViewModel
-import com.example.nanosonicproject.ui.screens.library.Track
+import com.example.nanosonicproject.data.Track
 
 /**
  * Album data class representing a music album with its tracks
@@ -54,9 +65,12 @@ data class Album(
 /**
  * Main AlbumScreen composable that displays albums in a grid layout
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AlbumScreen(
-    onPlayTrack: (Track, List<Track>) -> Unit,
+    onPlayTrack: (com.example.nanosonicproject.data.Track, List<com.example.nanosonicproject.data.Track>) -> Unit,
+    onShowSettings: () -> Unit = {},
+    onShowAbout: () -> Unit = {},
     viewModel: LibraryViewModel = hiltViewModel(
         checkNotNull(LocalViewModelStoreOwner.current) {
             "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
@@ -74,24 +88,48 @@ fun AlbumScreen(
             val firstTrack = tracks.first()
             Album(
                 albumId = albumId,
-                albumName = firstTrack.album,
+                albumName = firstTrack.album ?: "Unknown Album",
                 artist = firstTrack.artist,
                 artworkUri = firstTrack.artworkUri,
                 trackCount = tracks.size,
-                tracks = tracks
+                tracks = tracks // <-- This is the complete list of tracks for the album
             )
         }
         .sortedBy { it.albumName }
 
-    AlbumScreenContent(
-        albums = albums,
-        onAlbumClick = { album ->
-            // When an album is clicked, play the first track with all album tracks as queue
-            if (album.tracks.isNotEmpty()) {
-                onPlayTrack(album.tracks.first(), album.tracks)
-            }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Column {
+                        Text("Albums")
+                        Text(
+                            text = "${albums.size} ${if (albums.size == 1) "album" else "albums"}",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                },
+                actions = {
+                    OverflowMenu(
+                        onShowSettings = onShowSettings,
+                        onShowAbout = onShowAbout
+                    )
+                }
+            )
         }
-    )
+    ) { paddingValues ->
+        AlbumScreenContent(
+            albums = albums,
+            onAlbumClick = { album ->
+                // When an album is clicked, play the first track with all album tracks as queue
+                if (album.tracks.isNotEmpty()) {
+                    onPlayTrack(album.tracks.first(), album.tracks)
+                }
+            },
+            modifier = Modifier.padding(paddingValues)
+        )
+    }
 }
 
 /**
@@ -100,19 +138,70 @@ fun AlbumScreen(
 @Composable
 private fun AlbumScreenContent(
     albums: List<Album>,
-    onAlbumClick: (Album) -> Unit
+    onAlbumClick: (Album) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
         items(albums) { album ->
             AlbumCard(
                 album = album,
                 onClick = { onAlbumClick(album) }
+            )
+        }
+    }
+}
+
+@Composable
+private fun OverflowMenu(
+    onShowSettings: () -> Unit,
+    onShowAbout: () -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Box {
+        IconButton(onClick = { expanded = true }) {
+            Icon(
+                imageVector = Icons.Default.MoreVert,
+                contentDescription = "More options"
+            )
+        }
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            DropdownMenuItem(
+                text = { Text("Settings") },
+                onClick = {
+                    expanded = false
+                    onShowSettings()
+                },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Settings,
+                        contentDescription = null
+                    )
+                }
+            )
+
+            DropdownMenuItem(
+                text = { Text("About") },
+                onClick = {
+                    expanded = false
+                    onShowAbout()
+                },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = null
+                    )
+                }
             )
         }
     }

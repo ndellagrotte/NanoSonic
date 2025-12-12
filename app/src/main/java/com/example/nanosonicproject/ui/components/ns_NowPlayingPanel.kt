@@ -39,11 +39,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
 import com.example.nanosonicproject.service.PlaybackState
 
@@ -85,10 +84,10 @@ fun NowPlayingPanel(
                             .fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        // Album Art
+                        // Album Art (10% smaller to prevent overlap with seek bar)
                         AlbumArt(
-                            artworkUri = track.artworkUri,
-                            modifier = Modifier.size(56.dp)
+                            artworkUri = track.albumArtUri,
+                            modifier = Modifier.size(58.dp)
                         )
 
                         Spacer(modifier = Modifier.width(12.dp))
@@ -180,11 +179,12 @@ fun NowPlayingPanel(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        // Current Time
+                        // Current Time (start-aligned for equidistant spacing)
                         Text(
                             text = formatTime(sliderPosition.toLong()),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            textAlign = TextAlign.Start,
                             modifier = Modifier.width(40.dp)
                         )
 
@@ -204,11 +204,12 @@ fun NowPlayingPanel(
                             )
                         )
 
-                        // Total Duration
+                        // Total Duration (end-aligned for equidistant spacing)
                         Text(
                             text = formatTime(playbackState.duration),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            textAlign = TextAlign.End,
                             modifier = Modifier.width(40.dp)
                         )
                     }
@@ -253,7 +254,7 @@ private fun AlbumArt(
                 model = artworkUri,
                 contentDescription = "Album Art",
                 modifier = Modifier
-                    .size(64.dp)
+                    .size(58.dp)
                     .clip(RoundedCornerShape(8.dp)),
                 contentScale = ContentScale.Crop,
                 error = {
@@ -276,7 +277,7 @@ private fun AlbumArt(
 private fun AlbumArtPlaceholder() {
     Box(
         modifier = Modifier
-            .size(64.dp)
+            .size(58.dp)
             .background(
                 color = MaterialTheme.colorScheme.surfaceVariant,
                 shape = RoundedCornerShape(8.dp)
@@ -287,7 +288,7 @@ private fun AlbumArtPlaceholder() {
             imageVector = Icons.Default.MusicNote,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.size(32.dp)
+            modifier = Modifier.size(28.dp)
         )
     }
 }

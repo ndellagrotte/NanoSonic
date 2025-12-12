@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.DpOffset
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.nanosonicproject.data.SavedEQProfile
@@ -25,7 +26,7 @@ import com.example.nanosonicproject.ui.theme.NanoSonicProjectTheme
  * EQ Screen - Manage and select EQ profiles
  */
 @Composable
-fun EQScreen(
+fun EqScreen(
     viewModel: EQViewModel = hiltViewModel(),
     onNavigateToWizard: () -> Unit
 ) {
@@ -67,7 +68,7 @@ fun EQScreen(
         }
     }
 
-    EQScreenContent(
+    EqScreenContent(
         profiles = state.profiles,
         activeProfileId = state.activeProfileId,
         onProfileSelected = { viewModel.selectProfile(it) },
@@ -113,7 +114,7 @@ fun EQScreen(
 }
 
 @Composable
-private fun EQScreenContent(
+private fun EqScreenContent(
     profiles: List<SavedEQProfile>,
     activeProfileId: String?,
     onProfileSelected: (String?) -> Unit,
@@ -121,15 +122,16 @@ private fun EQScreenContent(
     onImportCustomEQ: () -> Unit,
     onDeleteProfile: (String) -> Unit
 ) {
-    Column(
+    var showMenu by remember { mutableStateOf(false) }
+
+    Box(
         modifier = Modifier.fillMaxSize()
     ) {
         // Profile list
         LazyColumn(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth(),
-            contentPadding = PaddingValues(vertical = 8.dp)
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(top = 8.dp, bottom = 88.dp)
+
         ) {
             // Header
             item {
@@ -243,7 +245,7 @@ private fun EQScreenContent(
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
-                                text = "Import profiles using the buttons below",
+                                text = "Import profiles using the + button",
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -253,59 +255,66 @@ private fun EQScreenContent(
             }
         }
 
-        // Bottom buttons
-        Surface(
-            tonalElevation = 3.dp,
-            shadowElevation = 8.dp
+        // Floating Action Button with popup menu
+        FloatingActionButton(
+            onClick = { showMenu = true },
+            containerColor = MaterialTheme.colorScheme.tertiary,
+            contentColor = MaterialTheme.colorScheme.onTertiary,
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                // Import via Wizard button
-                Button(
-                    onClick = onImportViaWizard,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary
-                    )
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.AutoFixHigh,
-                        contentDescription = null,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = "Import via Wizard",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                }
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = "Import EQ Profile"
+            )
+        }
 
-                // Import Custom EQ button
-                OutlinedButton(
-                    onClick = onImportCustomEQ,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Upload,
-                        contentDescription = null,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = "Import Custom EQ",
-                        style = MaterialTheme.typography.titleMedium
-                    )
+        // Dropdown menu for import options
+        DropdownMenu(
+            expanded = showMenu,
+            onDismissRequest = { showMenu = false },
+            offset = DpOffset(x = (-16).dp, y = (-16).dp),
+            modifier = Modifier.align(Alignment.BottomEnd)
+        ) {
+            DropdownMenuItem(
+                text = {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.AutoFixHigh,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Text("Import via Wizard")
+                    }
+                },
+                onClick = {
+                    showMenu = false
+                    onImportViaWizard()
                 }
-            }
+            )
+            DropdownMenuItem(
+                text = {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Upload,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.secondary
+                        )
+                        Text("Import Custom EQ")
+                    }
+                },
+                onClick = {
+                    showMenu = false
+                    onImportCustomEQ()
+                }
+            )
         }
     }
 }
@@ -390,12 +399,12 @@ private fun EQProfileItem(
             )
             Spacer(modifier = Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
-                // Profile name with custom badge
+                // Device model name with custom badge
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = profile.name,
+                        text = profile.deviceModel,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal
                     )
@@ -415,12 +424,6 @@ private fun EQProfileItem(
                         }
                     }
                 }
-                Spacer(modifier = Modifier.height(2.dp))
-                Text(
-                    text = profile.deviceModel,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
                 if (profile.source != "unknown" && profile.source != "Custom Import") {
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
@@ -473,9 +476,9 @@ private fun EQProfileItem(
 
 @Preview(showBackground = true)
 @Composable
-private fun EQScreenPreview() {
+private fun EqScreenPreview() {
     NanoSonicProjectTheme {
-        EQScreenContent(
+        EqScreenContent(
             profiles = emptyList(),
             activeProfileId = null,
             onProfileSelected = {},
