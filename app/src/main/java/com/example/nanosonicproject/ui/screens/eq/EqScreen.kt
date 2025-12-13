@@ -10,6 +10,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -131,7 +133,6 @@ private fun EqScreenContent(
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(top = 8.dp, bottom = 88.dp)
-
         ) {
             // Header
             item {
@@ -255,69 +256,73 @@ private fun EqScreenContent(
             }
         }
 
-        // Floating Action Button with popup menu
-        FloatingActionButton(
-            onClick = { showMenu = true },
-            containerColor = MaterialTheme.colorScheme.tertiary,
-            contentColor = MaterialTheme.colorScheme.onTertiary,
+        // Floating Action Button with popup menu anchored to it
+        Box(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(16.dp)
         ) {
-            Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = "Import EQ Profile"
-            )
-        }
+            FloatingActionButton(
+                onClick = { showMenu = true },
+                containerColor = MaterialTheme.colorScheme.tertiary,
+                contentColor = MaterialTheme.colorScheme.onTertiary
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Import EQ Profile"
+                )
+            }
 
-        // Dropdown menu for import options
-        DropdownMenu(
-            expanded = showMenu,
-            onDismissRequest = { showMenu = false },
-            offset = DpOffset(x = (-16).dp, y = (-16).dp),
-            modifier = Modifier.align(Alignment.BottomEnd)
-        ) {
-            DropdownMenuItem(
-                text = {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.AutoFixHigh,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary
-                        )
-                        Text("Import via Wizard")
+            // Dropdown menu anchored to FAB
+            DropdownMenu(
+                expanded = showMenu,
+                onDismissRequest = { showMenu = false },
+                offset = DpOffset(x = 0.dp, y = (-56).dp) // Position above the FAB
+            ) {
+                DropdownMenuItem(
+                    text = {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.AutoFixHigh,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                            Text("Import via Wizard")
+                        }
+                    },
+                    onClick = {
+                        showMenu = false
+                        onImportViaWizard()
                     }
-                },
-                onClick = {
-                    showMenu = false
-                    onImportViaWizard()
-                }
-            )
-            DropdownMenuItem(
-                text = {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Upload,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.secondary
-                        )
-                        Text("Import Custom EQ")
+                )
+                DropdownMenuItem(
+                    text = {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Upload,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.secondary
+                            )
+                            Text("Import Custom EQ")
+                        }
+                    },
+                    onClick = {
+                        showMenu = false
+                        onImportCustomEQ()
                     }
-                },
-                onClick = {
-                    showMenu = false
-                    onImportCustomEQ()
-                }
-            )
+                )
+            }
         }
     }
 }
+
+// --- HELPER COMPOSABLES (Moved outside EqScreenContent) ---
 
 @Composable
 private fun NoEqualizationItem(
@@ -432,13 +437,12 @@ private fun EQProfileItem(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
-                /** Spacer(modifier = Modifier.height(2.dp))
+                Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = "${profile.bands.size} frequency bands",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-            } **/
             }
             IconButton(onClick = { showDeleteDialog = true }) {
                 Icon(
