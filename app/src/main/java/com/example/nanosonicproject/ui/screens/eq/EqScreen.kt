@@ -432,12 +432,13 @@ private fun EQProfileItem(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
-                Spacer(modifier = Modifier.height(2.dp))
+                /** Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = "${profile.bands.size} frequency bands",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+            } **/
             }
             IconButton(onClick = { showDeleteDialog = true }) {
                 Icon(

@@ -206,11 +206,11 @@ class WizardViewModel @Inject constructor(
                     // Parse label to detect variant types
                     val label = entry.label
                     val isANC = label.contains("(ANC", ignoreCase = true) ||
-                               label.contains("ANC ON", ignoreCase = true) ||
-                               label.contains("ANC Off", ignoreCase = true)
+                            label.contains("ANC ON", ignoreCase = true) ||
+                            label.contains("ANC Off", ignoreCase = true)
                     val isPadModified = label.contains("velour", ignoreCase = true) ||
-                                       label.contains("pad", ignoreCase = true) &&
-                                       !label.contains("(sample", ignoreCase = true)
+                            label.contains("pad", ignoreCase = true) &&
+                            !label.contains("(sample", ignoreCase = true)
 
                     EQProfileVariant(
                         id = "${modelId}_${index}",
@@ -326,8 +326,8 @@ class WizardViewModel @Inject constructor(
                         val entries = autoEqSearch.getVariantsForModel(modelName)
                         val matchingEntry = entries.find {
                             it.label == variant.name &&
-                            it.source == variant.source &&
-                            it.rig == variant.rig
+                                    it.source == variant.source &&
+                                    it.rig == variant.rig
                         }
 
                         if (matchingEntry != null) {
