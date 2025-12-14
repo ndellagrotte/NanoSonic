@@ -80,13 +80,18 @@ private fun MainScreenContent(
     }
 
     // Sync selected tab with pager state
+    // We only update the ViewModel when scrolling has finished to avoid
+    // race conditions during animation (e.g. jumping from 0 to 2 passes through 1)
     LaunchedEffect(pagerState) {
-        snapshotFlow { pagerState.currentPage }.collect { page ->
-            val newTab = MainTab.entries.getOrNull(page)
-            if (newTab != null && newTab != selectedTab) {
-                onTabSelected(newTab)
+        snapshotFlow { pagerState.isScrollInProgress to pagerState.currentPage }
+            .collect { (isScrolling, page) ->
+                if (!isScrolling) {
+                    val newTab = MainTab.entries.getOrNull(page)
+                    if (newTab != null && newTab != selectedTab) {
+                        onTabSelected(newTab)
+                    }
+                }
             }
-        }
     }
 
     Scaffold(

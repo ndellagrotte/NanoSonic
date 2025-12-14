@@ -121,7 +121,7 @@ class CustomEqualizerAudioProcessor : AudioProcessor {
         }
 
         // Only support 16-bit PCM stereo/mono
-        if (encoding != C.ENCODING_PCM_16BIT) {
+        if (encoding != C.ENCODING_PCM_16BIT || channelCount > 2) {
             val exception = AudioProcessor.UnhandledAudioFormatException(inputAudioFormat)
             throw exception // Rethrow, unsupported
         }
@@ -179,7 +179,7 @@ class CustomEqualizerAudioProcessor : AudioProcessor {
     private fun processAudioBuffer16Bit(input: ByteBuffer, output: ByteBuffer) {
         val sampleCount = input.remaining() / 2 // 2 bytes per 16-bit sample
 
-        for (i in 0 until sampleCount step channelCount) {
+        repeat(sampleCount / channelCount) {
             when (channelCount) {
                 1 -> {
                     // Mono
@@ -225,8 +225,8 @@ class CustomEqualizerAudioProcessor : AudioProcessor {
                     output.putShort(outputRight)
                 }
                 else -> {
-                    // Multi-channel (not supported, passthrough)
-                    for (ch in 0 until channelCount) {
+                    // Should not happen as configure rejects > 2 channels
+                    repeat(channelCount) {
                         output.putShort(input.getShort())
                     }
                 }
