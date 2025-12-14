@@ -12,7 +12,7 @@ import javax.inject.Singleton
 
 /**
  * Service for managing custom EQ using ExoPlayer's AudioProcessor
- * Supports Parametric EQ presets from AutoEQ project and importing of custom Parametric EQ profiles
+ * Supports 10-band FixedBandEQ format from AutoEQ project
  */
 @Singleton
 class EqualizerService @Inject constructor() {
@@ -81,6 +81,7 @@ class EqualizerService @Inject constructor() {
             return false
         }
     }
+
     /**
      * Disable the equalizer (flat response)
      * If audio processor is not set, stores pending disable request

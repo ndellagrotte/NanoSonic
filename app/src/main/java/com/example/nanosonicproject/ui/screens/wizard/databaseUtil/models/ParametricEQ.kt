@@ -5,26 +5,20 @@ import kotlin.math.abs
 
 /**
  * Represents a single parametric EQ filter/band
+ * Supports all AutoEQ filter types
  */
 @Serializable
 data class ParametricEQBand(
-    val filterType: FilterType,     // Filter type (PK, LSC, HSC, etc.)
-    val frequency: Double,          // Center frequency in Hz
-    val gain: Double,               // Gain in dB
-    val q: Double                   // Q factor (bandwidth)
-) {
-    enum class FilterType {
-        PK,     // Peaking filter
-        LSC,    // Low shelf
-        HSC,    // High shelf
-        LPQ,    // Low pass
-        HPQ     // High pass
-    }
-}
+    val frequency: Double,                      // Center frequency in Hz
+    val gain: Double,                           // Gain in dB
+    val q: Double = 1.41,                       // Q factor (bandwidth) - default to sqrt(2)
+    val filterType: FilterType = FilterType.PK, // Filter type
+    val enabled: Boolean = true                 // Whether this band is active
+)
 
 /**
  * Represents a complete parametric EQ configuration for a headphone
- * Parsed from device_parametricEQ.txt files
+ * Parsed from AutoEQ preset files (ParametricEQ.txt, FixedBandEQ.txt)
  */
 @Serializable
 data class ParametricEQ(
@@ -33,7 +27,13 @@ data class ParametricEQ(
     val metadata: Map<String, String> = emptyMap()  // Additional metadata from file
 ) {
     companion object {
-        const val MAX_BANDS = 10  // Typical maximum for mobile EQ implementations
+        const val MAX_BANDS = 20  // Maximum bands supported by the implementation
+
+        // Standard 10-band frequencies used by AutoEQ FixedBandEQ format
+        val STANDARD_10_BAND_FREQUENCIES = listOf(
+            31.0, 62.0, 125.0, 250.0, 500.0,
+            1000.0, 2000.0, 4000.0, 8000.0, 16000.0
+        )
     }
 
     /**
@@ -51,46 +51,5 @@ data class ParametricEQ(
             bands = sortedBands.take(maxBands),
             metadata = metadata
         )
-    }
-
-    /**
-     * Applies this EQ configuration to a device/app EQ
-     * PLACEHOLDER: This is where you'd integrate with your app's EQ system
-     */
-    fun applyToEqualizer(/* equalizerInstance: YourEQInterface */): Boolean {
-        // PLACEHOLDER CODE - Replace with your actual EQ implementation
-        /*
-        try {
-            // Set preamp/gain
-            equalizerInstance.setPreamp(preamp)
-
-            // Apply each band
-            bands.forEachIndexed { index, band ->
-                equalizerInstance.setBand(
-                    bandNumber = index,
-                    frequency = band.frequency,
-                    gain = band.gain,
-                    q = band.q,
-                    filterType = band.filterType
-                )
-            }
-
-            // Enable the equalizer
-            equalizerInstance.setEnabled(true)
-
-            return true
-        } catch (e: Exception) {
-            return false
-        }
-        */
-
-        // For now, just log the configuration
-        println("Applying EQ Configuration:")
-        println("Preamp: $preamp dB")
-        bands.forEachIndexed { index, band ->
-            println("Band ${index + 1}: ${band.filterType} @ ${band.frequency} Hz, Gain: ${band.gain} dB, Q: ${band.q}")
-        }
-
-        return true
     }
 }

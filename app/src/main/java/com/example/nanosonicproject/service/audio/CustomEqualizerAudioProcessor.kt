@@ -4,15 +4,15 @@ import android.util.Log
 import androidx.media3.common.C
 import androidx.media3.common.audio.AudioProcessor
 import androidx.media3.common.util.UnstableApi
-import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.FixedBandEQ
-import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.FixedBandEQBand
+import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.ParametricEQ
+import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.ParametricEQBand
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import kotlin.math.pow
 
 /**
- * Custom audio processor for ExoPlayer that applies 10-band EQ using biquad filters
- * Uses FixedBandEQ format from AutoEQ project
+ * Custom audio processor for ExoPlayer that applies parametric EQ using biquad filters
+ * Uses ParametricEQ format from AutoEQ project
  */
 @UnstableApi
 class CustomEqualizerAudioProcessor : AudioProcessor {
@@ -29,7 +29,7 @@ class CustomEqualizerAudioProcessor : AudioProcessor {
 
     private var filters: List<BiquadFilter> = emptyList()
     private var preampGain: Double = 1.0  // Linear preamp gain multiplier
-    private var pendingProfile: FixedBandEQ? = null
+    private var pendingProfile: ParametricEQ? = null
 
     companion object {
         private const val TAG = "CustomEqualizerAudioProcessor"
@@ -40,24 +40,24 @@ class CustomEqualizerAudioProcessor : AudioProcessor {
      * Apply an EQ profile
      */
     @Synchronized
-    fun applyProfile(fixedBandEQ: FixedBandEQ) {
+    fun applyProfile(parametricEQ: ParametricEQ) {
         if (sampleRate == 0) {
             // Audio processor not configured yet, store as pending
-            Log.d(TAG, "Audio processor not configured yet. Storing profile as pending with ${fixedBandEQ.bands.size} bands")
-            pendingProfile = fixedBandEQ
+            Log.d(TAG, "Audio processor not configured yet. Storing profile as pending with ${parametricEQ.bands.size} bands")
+            pendingProfile = parametricEQ
             return
         }
 
         // Convert preamp from dB to linear gain
-        preampGain = 10.0.pow(fixedBandEQ.preamp / 20.0)
+        preampGain = 10.0.pow(parametricEQ.preamp / 20.0)
 
-        createFilters(fixedBandEQ.bands)
+        createFilters(parametricEQ.bands)
         equalizerEnabled = true
 
         // Reset filter states to ensure clean transition
         filters.forEach { it.reset() }
 
-        Log.d(TAG, "Applied EQ profile with ${filters.size} bands and ${fixedBandEQ.preamp} dB preamp")
+        Log.d(TAG, "Applied EQ profile with ${filters.size} bands and ${parametricEQ.preamp} dB preamp")
     }
 
     /**
@@ -78,11 +78,11 @@ class CustomEqualizerAudioProcessor : AudioProcessor {
     fun isEnabled(): Boolean = equalizerEnabled
 
     /**
-     * Create biquad filters from FixedBandEQ bands
+     * Create biquad filters from ParametricEQ bands
      * Only creates filters for enabled bands below Nyquist frequency
      * Supports PK (peaking), LSC (low-shelf), and HSC (high-shelf) filter types
      */
-    private fun createFilters(bands: List<FixedBandEQBand>) {
+    private fun createFilters(bands: List<ParametricEQBand>) {
         if (sampleRate == 0) {
             Log.w(TAG, "Cannot create filters: sample rate not set")
             return
