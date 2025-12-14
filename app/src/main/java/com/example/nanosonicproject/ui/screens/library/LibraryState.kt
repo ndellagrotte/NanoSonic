@@ -28,11 +28,7 @@ data class LibraryState(
 
     // First launch state
     val isFirstLaunch: Boolean = true,
-    val hasScannedBefore: Boolean = false,
-
-    // Selection mode for playlist management
-    val isSelectionMode: Boolean = false,
-    val selectedTrackIds: Set<String> = emptySet()
+    val hasScannedBefore: Boolean = false
 ) {
     /**
      * True if we should show the empty state
@@ -51,6 +47,10 @@ data class LibraryState(
      */
     val showLoading: Boolean
         get() = isLoading && tracks.isEmpty() && !isRefreshing
+    
+    // Selection mode properties are removed as Playlist functionality is removed
+    val isSelectionMode: Boolean = false
+    val selectedTrackIds: Set<String> = emptySet()
 }
 
 /**

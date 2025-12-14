@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.nanosonicproject.ui.theme.NanoSonicProjectTheme
 import com.example.nanosonicproject.util.PermissionUtil
+import androidx.core.content.edit
 
 /**
  * Theme mode options
@@ -52,7 +53,7 @@ private fun getThemeMode(context: Context): ThemeMode {
 
 private fun setThemeMode(context: Context, mode: ThemeMode) {
     val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    prefs.edit().putString(KEY_THEME_MODE, mode.name).apply()
+    prefs.edit { putString(KEY_THEME_MODE, mode.name) }
 }
 
 /**

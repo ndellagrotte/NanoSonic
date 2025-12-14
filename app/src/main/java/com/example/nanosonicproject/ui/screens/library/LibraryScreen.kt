@@ -24,11 +24,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.QueueMusic
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.CheckBox
-import androidx.compose.material.icons.filled.CheckBoxOutlineBlank
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.Info
@@ -59,7 +55,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -75,13 +70,12 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import coil.compose.SubcomposeAsyncImage
-import com.example.nanosonicproject.ui.theme.NanoSonicProjectTheme
-import com.example.nanosonicproject.util.PermissionUtil
-import kotlinx.coroutines.launch
 import com.example.nanosonicproject.data.Track
 import com.example.nanosonicproject.data.formattedDuration
 import com.example.nanosonicproject.ui.screens.about.AboutDialog
 import com.example.nanosonicproject.ui.screens.settings.SettingsDialog
+import com.example.nanosonicproject.ui.theme.NanoSonicProjectTheme
+import com.example.nanosonicproject.util.PermissionUtil
 
 @Composable
 fun LibraryScreen(
@@ -92,13 +86,10 @@ fun LibraryScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
-    val coroutineScope = rememberCoroutineScope()
 
     // Show dialogs
     var showSettingsDialog by remember { mutableStateOf(false) }
     var showAboutDialog by remember { mutableStateOf(false) }
-    var showAddToPlaylistMenu by remember { mutableStateOf(false) }
-    var showCreatePlaylistDialog by remember { mutableStateOf(false) }
 
     // Permission launcher with enhanced debugging
     val permissionLauncher = rememberLauncherForActivityResult(
@@ -141,46 +132,10 @@ fun LibraryScreen(
 
         onRefresh = { viewModel.onRefresh() },
         onPlayTrack = { track -> onPlayTrack(track, state.tracks) },
-        onTrackLongPress = { trackId -> viewModel.onTrackLongPress(trackId) },
-        onTrackSelected = { trackId -> viewModel.onTrackSelected(trackId) },
-        onExitSelectionMode = { viewModel.onExitSelectionMode() },
-        onAddToPlaylistClick = { showAddToPlaylistMenu = true },
         onErrorDismissed = { viewModel.onErrorDismissed() },
         onShowSettings = { showSettingsDialog = true },
         onShowAbout = { showAboutDialog = true }
     )
-
-    // Add to Playlist Menu
-    if (showAddToPlaylistMenu) {
-        val playlists by viewModel.playlists.collectAsStateWithLifecycle()
-        AddToPlaylistMenu(
-            playlists = playlists,
-            onDismiss = { showAddToPlaylistMenu = false },
-            onPlaylistSelected = { playlistId ->
-                coroutineScope.launch {
-                    viewModel.addSelectedTracksToPlaylist(playlistId)
-                    showAddToPlaylistMenu = false
-                }
-            },
-            onCreatePlaylist = {
-                showAddToPlaylistMenu = false
-                showCreatePlaylistDialog = true
-            }
-        )
-    }
-
-    // Create Playlist Dialog
-    if (showCreatePlaylistDialog) {
-        CreatePlaylistDialog(
-            onDismiss = { showCreatePlaylistDialog = false },
-            onConfirm = { playlistName ->
-                coroutineScope.launch {
-                    viewModel.createPlaylistAndAddSelectedTracks(playlistName)
-                    showCreatePlaylistDialog = false
-                }
-            }
-        )
-    }
 
     // Settings Dialog
     if (showSettingsDialog) {
@@ -205,10 +160,6 @@ private fun LibraryScreenContent(
     onOpenSettings: () -> Unit,
     onRefresh: () -> Unit,
     onPlayTrack: (Track) -> Unit,
-    onTrackLongPress: (String) -> Unit,
-    onTrackSelected: (String) -> Unit,
-    onExitSelectionMode: () -> Unit,
-    onAddToPlaylistClick: () -> Unit,
     onErrorDismissed: () -> Unit,
     onShowSettings: () -> Unit,
     onShowAbout: () -> Unit
@@ -232,14 +183,8 @@ private fun LibraryScreenContent(
                     TopAppBar(
                         title = {
                             Column {
-                                Text(if (state.isSelectionMode) "Select songs" else "Library")
-                                if (state.isSelectionMode) {
-                                    Text(
-                                        text = "${state.selectedTrackIds.size} selected",
-                                        style = MaterialTheme.typography.bodySmall,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                } else if (state.tracks.isNotEmpty()) {
+                                Text("Library")
+                                if (state.tracks.isNotEmpty()) {
                                     Text(
                                         text = "${state.totalTracks} songs",
                                         style = MaterialTheme.typography.bodySmall,
@@ -248,35 +193,12 @@ private fun LibraryScreenContent(
                                 }
                             }
                         },
-                        navigationIcon = {
-                            if (state.isSelectionMode) {
-                                IconButton(onClick = onExitSelectionMode) {
-                                    Icon(
-                                        imageVector = Icons.Default.Close,
-                                        contentDescription = "Exit selection mode"
-                                    )
-                                }
-                            }
-                        },
                         actions = {
-                            if (state.isSelectionMode) {
-                                // Show "Add to playlist" button when in selection mode
-                                IconButton(
-                                    onClick = onAddToPlaylistClick,
-                                    enabled = state.selectedTrackIds.isNotEmpty()
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Add,
-                                        contentDescription = "Add to playlist"
-                                    )
-                                }
-                            } else {
-                                // Three dots overflow menu
-                                OverflowMenu(
-                                    onShowSettings = onShowSettings,
-                                    onShowAbout = onShowAbout
-                                )
-                            }
+                            // Three dots overflow menu
+                            OverflowMenu(
+                                onShowSettings = onShowSettings,
+                                onShowAbout = onShowAbout
+                            )
                         }
                     )
                 }
@@ -293,11 +215,7 @@ private fun LibraryScreenContent(
                     ) {
                         TrackList(
                             tracks = state.tracks,
-                            isSelectionMode = state.isSelectionMode,
-                            selectedTrackIds = state.selectedTrackIds,
-                            onPlayTrack = onPlayTrack,
-                            onTrackLongPress = onTrackLongPress,
-                            onTrackSelected = onTrackSelected
+                            onPlayTrack = onPlayTrack
                         )
                     }
                 }
@@ -640,11 +558,7 @@ private fun EmptyLibraryScreen(
 @Composable
 private fun TrackList(
     tracks: List<Track>,
-    isSelectionMode: Boolean,
-    selectedTrackIds: Set<String>,
-    onPlayTrack: (Track) -> Unit,
-    onTrackLongPress: (String) -> Unit,
-    onTrackSelected: (String) -> Unit
+    onPlayTrack: (Track) -> Unit
 ) {
     LazyColumn(
         contentPadding = PaddingValues(vertical = 8.dp),
@@ -653,11 +567,7 @@ private fun TrackList(
         items(tracks) { track ->
             TrackItem(
                 track = track,
-                isSelectionMode = isSelectionMode,
-                isSelected = selectedTrackIds.contains(track.id),
-                onPlayClick = { onPlayTrack(track) },
-                onLongPress = { onTrackLongPress(track.id) },
-                onSelectionClick = { onTrackSelected(track.id) }
+                onPlayClick = { onPlayTrack(track) }
             )
         }
     }
@@ -667,11 +577,7 @@ private fun TrackList(
 @Composable
 private fun TrackItem(
     track: Track,
-    isSelectionMode: Boolean,
-    isSelected: Boolean,
-    onPlayClick: () -> Unit,
-    onLongPress: () -> Unit,
-    onSelectionClick: () -> Unit
+    onPlayClick: () -> Unit
 ) {
     ListItem(
         headlineContent = {
@@ -707,38 +613,15 @@ private fun TrackItem(
             )
         },
         trailingContent = {
-            if (isSelectionMode) {
-                // Show checkbox in selection mode
-                IconButton(onClick = onSelectionClick) {
-                    Icon(
-                        imageVector = if (isSelected) Icons.Default.CheckBox else Icons.Default.CheckBoxOutlineBlank,
-                        contentDescription = if (isSelected) "Deselect" else "Select",
-                        tint = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            } else {
-                // Show play button in normal mode
-                IconButton(onClick = onPlayClick) {
-                    Icon(
-                        imageVector = Icons.Default.PlayArrow,
-                        contentDescription = "Play"
-                    )
-                }
+            IconButton(onClick = onPlayClick) {
+                Icon(
+                    imageVector = Icons.Default.PlayArrow,
+                    contentDescription = "Play"
+                )
             }
         },
         modifier = Modifier.combinedClickable(
-            onClick = {
-                if (isSelectionMode) {
-                    onSelectionClick()
-                } else {
-                    onPlayClick()
-                }
-            },
-            onLongClick = {
-                if (!isSelectionMode) {
-                    onLongPress()
-                }
-            }
+            onClick = onPlayClick
         )
     )
 }
@@ -799,135 +682,6 @@ private fun AlbumArtPlaceholder() {
         )
     }
 }
-
-// ═══════════════════════════════════════════════════════════════
-// Playlist Management Dialogs
-// ═══════════════════════════════════════════════════════════════
-
-/**
- * Menu to select a playlist or create a new one
- */
-@Composable
-private fun AddToPlaylistMenu(
-    playlists: List<com.example.nanosonicproject.data.Playlist>,
-    onDismiss: () -> Unit,
-    onPlaylistSelected: (String) -> Unit,
-    onCreatePlaylist: () -> Unit
-) {
-    androidx.compose.material3.AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text("Add to playlist") },
-        text = {
-            Column {
-                if (playlists.isEmpty()) {
-                    Text(
-                        text = "No playlists yet. Create one to get started!",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(vertical = 16.dp)
-                    )
-                } else {
-                    LazyColumn(
-                        modifier = Modifier.height(300.dp)
-                    ) {
-                        items(playlists) { playlist ->
-                            ListItem(
-                                headlineContent = { Text(playlist.name) },
-                                supportingContent = { Text("${playlist.trackCount} songs") },
-                                leadingContent = {
-                                    Icon(
-                                        imageVector = Icons.AutoMirrored.Filled.QueueMusic,
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.primary
-                                    )
-                                },
-                                modifier = Modifier.combinedClickable(
-                                    onClick = { onPlaylistSelected(playlist.id) }
-                                )
-                            )
-                        }
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // Create Playlist Button
-                OutlinedButton(
-                    onClick = onCreatePlaylist,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = null,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text("Create new playlist")
-                }
-            }
-        },
-        confirmButton = {},
-        dismissButton = {
-            androidx.compose.material3.TextButton(onClick = onDismiss) {
-                Text("Cancel")
-            }
-        }
-    )
-}
-
-/**
- * Dialog to create a new playlist
- */
-@Composable
-private fun CreatePlaylistDialog(
-    onDismiss: () -> Unit,
-    onConfirm: (String) -> Unit
-) {
-    var playlistName by remember { mutableStateOf("") }
-
-    androidx.compose.material3.AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text("Create playlist") },
-        text = {
-            Column {
-                Text(
-                    text = "Enter a name for your new playlist",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                androidx.compose.material3.TextField(
-                    value = playlistName,
-                    onValueChange = { playlistName = it },
-                    label = { Text("Playlist name") },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-        },
-        confirmButton = {
-            androidx.compose.material3.TextButton(
-                onClick = {
-                    if (playlistName.isNotBlank()) {
-                        onConfirm(playlistName.trim())
-                    }
-                },
-                enabled = playlistName.isNotBlank()
-            ) {
-                Text("Create")
-            }
-        },
-        dismissButton = {
-            androidx.compose.material3.TextButton(onClick = onDismiss) {
-                Text("Cancel")
-            }
-        }
-    )
-}
-
-// ═══════════════════════════════════════════════════════════════
-// PREVIEWS
-// ═══════════════════════════════════════════════════════════════
 
 @Preview(showBackground = true)
 @Composable

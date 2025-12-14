@@ -21,13 +21,11 @@ import com.example.nanosonicproject.ui.components.NowPlayingPanel
 import com.example.nanosonicproject.ui.screens.albums.AlbumScreen
 import com.example.nanosonicproject.ui.screens.eq.EqScreen
 import com.example.nanosonicproject.ui.screens.library.LibraryScreen
-import com.example.nanosonicproject.ui.screens.playlists.PlaylistDetailScreen
-import com.example.nanosonicproject.ui.screens.playlists.PlaylistScreen
 import com.example.nanosonicproject.ui.theme.NanoSonicProjectTheme
 
 /**
  * Main screen with bottom navigation
- * Contains 4 tabs: Library, Albums, Playlists, EQ
+ * Contains 3 tabs: Library, Albums, EQ
  */
 
 @androidx.annotation.OptIn(UnstableApi::class)
@@ -50,7 +48,7 @@ fun MainScreen(
         onNextClick = { musicPlayerViewModel.next() },
         onPreviousClick = { musicPlayerViewModel.previous() },
         onSeek = { musicPlayerViewModel.seekTo(it) },
-        onPlayTrack = { track, playlist -> musicPlayerViewModel.playTrack(track, playlist) },
+        onPlayTrack = { track, queue -> musicPlayerViewModel.playTrack(track, queue) },
         onNavigateToWizard = onNavigateToWizard
     )
 }
@@ -68,22 +66,10 @@ private fun MainScreenContent(
     onPlayTrack: (Track, List<Track>) -> Unit,
     onNavigateToWizard: () -> Unit
 ) {
-    // Track selected playlist for navigation
-    var selectedPlaylistId by remember { mutableStateOf<String?>(null) }
-
-    // Show PlaylistDetailScreen if a playlist is selected
-    if (selectedPlaylistId != null) {
-        PlaylistDetailScreen(
-            onNavigateBack = { selectedPlaylistId = null },
-            onPlayTrack = onPlayTrack
-        )
-        return
-    }
-
-    // Create pager state with 4 pages (one for each tab)
+    // Create pager state with 3 pages (one for each tab)
     val pagerState = rememberPagerState(
         initialPage = selectedTab.ordinal,
-        pageCount = { 4 }
+        pageCount = { 3 }
     )
 
     // Sync pager state with selected tab
@@ -135,10 +121,7 @@ private fun MainScreenContent(
             when (page) {
                 0 -> LibraryScreen(onPlayTrack = onPlayTrack)
                 1 -> AlbumScreen(onPlayTrack = onPlayTrack)
-                2 -> PlaylistScreen(onPlaylistClick = { playlistId ->
-                    selectedPlaylistId = playlistId
-                })
-                3 -> EqScreen(onNavigateToWizard = onNavigateToWizard)
+                2 -> EqScreen(onNavigateToWizard = onNavigateToWizard)
             }
         }
     }

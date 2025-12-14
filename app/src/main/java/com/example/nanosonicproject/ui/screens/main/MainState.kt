@@ -12,6 +12,5 @@ data class MainState(
 enum class MainTab {
     LIBRARY,
     ALBUMS,
-    PLAYLISTS,
     EQ
 }

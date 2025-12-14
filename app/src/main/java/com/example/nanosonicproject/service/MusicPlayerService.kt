@@ -80,7 +80,7 @@ class MusicPlayerService : MediaLibraryService() {
     private val _playbackState = MutableStateFlow(PlaybackState())
     val playbackState: StateFlow<PlaybackState> = _playbackState.asStateFlow()
 
-    private var currentPlaylist: List<Track> = listOf()
+    private var currentQueue: List<Track> = listOf()
     private var currentTrackIndex = -1
 
     // Android Auto EQ state management
@@ -554,15 +554,15 @@ class MusicPlayerService : MediaLibraryService() {
     }
 
     /**
-     * Play a specific track with a playlist
+     * Play a specific track with a queue
      */
-    fun playTrack(track: Track, playlist: List<Track>) {
-        currentPlaylist = playlist
-        currentTrackIndex = playlist.indexOfFirst { it.id == track.id }
+    fun playTrack(track: Track, queue: List<Track>) {
+        currentQueue = queue
+        currentTrackIndex = queue.indexOfFirst { it.id == track.id }
 
         if (currentTrackIndex == -1) {
-            // Track not in playlist, play as single track
-            currentPlaylist = listOf(track)
+            // Track not in queue, play as single track
+            currentQueue = listOf(track)
             currentTrackIndex = 0
         }
 
@@ -570,12 +570,12 @@ class MusicPlayerService : MediaLibraryService() {
     }
 
     /**
-     * Play the current track in the playlist
+     * Play the current track in the queue
      */
     private fun playCurrentTrack() {
-        if (currentTrackIndex < 0 || currentTrackIndex >= currentPlaylist.size) return
+        if (currentTrackIndex < 0 || currentTrackIndex >= currentQueue.size) return
 
-        val track = currentPlaylist[currentTrackIndex]
+        val track = currentQueue[currentTrackIndex]
 
         exoPlayer?.let { player ->
             // Create MediaItem with metadata for Android Auto
@@ -668,9 +668,9 @@ class MusicPlayerService : MediaLibraryService() {
      * Skip to next track
      */
     fun next() {
-        if (currentPlaylist.isEmpty()) return
+        if (currentQueue.isEmpty()) return
 
-        currentTrackIndex = (currentTrackIndex + 1) % currentPlaylist.size
+        currentTrackIndex = (currentTrackIndex + 1) % currentQueue.size
         playCurrentTrack()
     }
 
@@ -678,7 +678,7 @@ class MusicPlayerService : MediaLibraryService() {
      * Skip to previous track
      */
     fun previous() {
-        if (currentPlaylist.isEmpty()) return
+        if (currentQueue.isEmpty()) return
 
         // If we're more than 3 seconds into the song, restart it
         if ((exoPlayer?.currentPosition ?: 0) > 3000) {
@@ -686,7 +686,7 @@ class MusicPlayerService : MediaLibraryService() {
         } else {
             // Otherwise, go to previous track
             currentTrackIndex = if (currentTrackIndex - 1 < 0) {
-                currentPlaylist.size - 1
+                currentQueue.size - 1
             } else {
                 currentTrackIndex - 1
             }

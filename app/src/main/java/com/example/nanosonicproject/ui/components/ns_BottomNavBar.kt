@@ -1,7 +1,6 @@
 package com.example.nanosonicproject.ui.components
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.QueueMusic
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -53,27 +52,6 @@ fun NanoSonicBottomNavigationBar(
                 )
             },
             label = { Text("Albums") },
-            alwaysShowLabel = true,
-            colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                selectedTextColor = MaterialTheme.colorScheme.onSurface,
-                indicatorColor = MaterialTheme.colorScheme.primaryContainer,
-                unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        )
-
-        // Playlists Tab
-        NavigationBarItem(
-            selected = selectedTab == MainTab.PLAYLISTS,
-            onClick = { onTabSelected(MainTab.PLAYLISTS) },
-            icon = {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.QueueMusic,
-                    contentDescription = "Playlists"
-                )
-            },
-            label = { Text("Playlists") },
             alwaysShowLabel = true,
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
