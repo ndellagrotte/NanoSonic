@@ -1,18 +1,24 @@
 package com.example.nanosonicproject.service.audio
 
+import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.FilterType
+import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.ParametricEQBand
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.pow
 import kotlin.math.sin
+import kotlin.math.sqrt
 
 /**
- * Biquad filter implementation for graphic EQ
- * Applies gain at a specific frequency using peaking EQ filter
+ * Biquad filter implementation for EQ
+ * Supports peaking (PK), low-shelf (LSC), and high-shelf (HSC) filters
+ * Based on Robert Bristow-Johnson's Audio EQ Cookbook
  */
 class BiquadFilter(
     private val sampleRate: Int,
     private val frequency: Double,
-    private val gain: Double
+    private val gain: Double,
+    private val q: Double = 1.41,
+    private val filterType: ParametricEQBand.FilterType = ParametricEQBand.FilterType.PK
 ) {
     // Filter coefficients
     private var a0 = 0.0
@@ -33,26 +39,32 @@ class BiquadFilter(
     private var y1R = 0.0
     private var y2R = 0.0
 
-    companion object {
-        // Fixed Q value matching AutoEQ FixedBandEQ format
-        // Q = 1.41 (sqrt(2)) provides optimal response for 10-band EQ
-        private const val GRAPHIC_EQ_Q = 1.41
-    }
-
     init {
         calculateCoefficients()
     }
 
     /**
-     * Calculate biquad filter coefficients for peaking EQ
+     * Calculate biquad filter coefficients based on filter type
      * Based on Robert Bristow-Johnson's Audio EQ Cookbook
      */
     private fun calculateCoefficients() {
+        when (filterType) {
+            ParametricEQBand.FilterType.PK -> calculatePeakingCoefficients()
+            ParametricEQBand.FilterType.LSC -> calculateLowShelfCoefficients()
+            ParametricEQBand.FilterType.HSC -> calculateHighShelfCoefficients()
+        }
+    }
+
+    /**
+     * Calculate peaking EQ coefficients (PK)
+     * Boosts or cuts around a center frequency
+     */
+    private fun calculatePeakingCoefficients() {
         val A = 10.0.pow(gain / 40.0) // Gain in linear scale
         val omega = 2.0 * PI * frequency / sampleRate
         val sinOmega = sin(omega)
         val cosOmega = cos(omega)
-        val alpha = sinOmega / (2.0 * GRAPHIC_EQ_Q)
+        val alpha = sinOmega / (2.0 * q)
 
         // Peaking EQ coefficients
         b0 = 1.0 + alpha * A
@@ -61,6 +73,74 @@ class BiquadFilter(
         a0 = 1.0 + alpha / A
         a1 = -2.0 * cosOmega
         a2 = 1.0 - alpha / A
+
+        // Normalize coefficients
+        b0 /= a0
+        b1 /= a0
+        b2 /= a0
+        a1 /= a0
+        a2 /= a0
+        a0 = 1.0
+    }
+
+    /**
+     * Calculate low-shelf coefficients (LSC)
+     * Boosts or cuts frequencies below the cutoff frequency
+     */
+    private fun calculateLowShelfCoefficients() {
+        val A = sqrt(10.0.pow(gain / 20.0)) // Gain amplitude
+        val omega = 2.0 * PI * frequency / sampleRate
+        val sinOmega = sin(omega)
+        val cosOmega = cos(omega)
+        val S = 1.0 // Shelf slope parameter (could be made adjustable)
+        val alpha = sinOmega / 2.0 * sqrt((A + 1.0 / A) * (1.0 / S - 1.0) + 2.0)
+        val sqrtA = sqrt(A)
+
+        // Low-shelf coefficients
+        val aPlusOne = A + 1.0
+        val aMinusOne = A - 1.0
+        val twoSqrtAAlpha = 2.0 * sqrtA * alpha
+
+        b0 = A * (aPlusOne - aMinusOne * cosOmega + twoSqrtAAlpha)
+        b1 = 2.0 * A * (aMinusOne - aPlusOne * cosOmega)
+        b2 = A * (aPlusOne - aMinusOne * cosOmega - twoSqrtAAlpha)
+        a0 = aPlusOne + aMinusOne * cosOmega + twoSqrtAAlpha
+        a1 = -2.0 * (aMinusOne + aPlusOne * cosOmega)
+        a2 = aPlusOne + aMinusOne * cosOmega - twoSqrtAAlpha
+
+        // Normalize coefficients
+        b0 /= a0
+        b1 /= a0
+        b2 /= a0
+        a1 /= a0
+        a2 /= a0
+        a0 = 1.0
+    }
+
+    /**
+     * Calculate high-shelf coefficients (HSC)
+     * Boosts or cuts frequencies above the cutoff frequency
+     */
+    private fun calculateHighShelfCoefficients() {
+        val A = sqrt(10.0.pow(gain / 20.0)) // Gain amplitude
+        val omega = 2.0 * PI * frequency / sampleRate
+        val sinOmega = sin(omega)
+        val cosOmega = cos(omega)
+        val S = 1.0 // Shelf slope parameter (could be made adjustable)
+        val alpha = sinOmega / 2.0 * sqrt((A + 1.0 / A) * (1.0 / S - 1.0) + 2.0)
+        val sqrtA = sqrt(A)
+
+        // High-shelf coefficients
+        val aPlusOne = A + 1.0
+        val aMinusOne = A - 1.0
+        val twoSqrtAAlpha = 2.0 * sqrtA * alpha
+
+        b0 = A * (aPlusOne + aMinusOne * cosOmega + twoSqrtAAlpha)
+        b1 = -2.0 * A * (aMinusOne + aPlusOne * cosOmega)
+        b2 = A * (aPlusOne + aMinusOne * cosOmega - twoSqrtAAlpha)
+        a0 = aPlusOne - aMinusOne * cosOmega + twoSqrtAAlpha
+        a1 = 2.0 * (aMinusOne - aPlusOne * cosOmega)
+        a2 = aPlusOne - aMinusOne * cosOmega - twoSqrtAAlpha
 
         // Normalize coefficients
         b0 /= a0

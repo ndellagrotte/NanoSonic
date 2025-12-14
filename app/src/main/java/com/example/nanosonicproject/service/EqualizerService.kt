@@ -74,8 +74,8 @@ class EqualizerService @Inject constructor() {
                     com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.FixedBandEQBand(
                         frequency = band.frequency,
                         gain = band.gain,
-                        //q = band.q, TODO: implement q
-                        //filterType = band.filterType, TODO: implement filterType
+                        q = band.q,
+                        filterType = band.filterType,
                         enabled = true
                     )
                 }
