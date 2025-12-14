@@ -1,4 +1,4 @@
-package com.example.nanosonicproject.ui.screens.library
+package com.example.nanosonicproject.ui.screens.settings
 
 import android.content.Context
 import android.content.Intent
@@ -11,7 +11,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*

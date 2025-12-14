@@ -1,4 +1,4 @@
-package com.example.nanosonicproject.ui.screens.library
+package com.example.nanosonicproject.ui.screens.about
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState

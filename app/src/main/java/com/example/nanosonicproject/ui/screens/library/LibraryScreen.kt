@@ -51,7 +51,6 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -79,10 +78,10 @@ import coil.compose.SubcomposeAsyncImage
 import com.example.nanosonicproject.ui.theme.NanoSonicProjectTheme
 import com.example.nanosonicproject.util.PermissionUtil
 import kotlinx.coroutines.launch
-import com.example.nanosonicproject.data.Playlist
-import com.example.nanosonicproject.data.PlaylistRepository
 import com.example.nanosonicproject.data.Track
 import com.example.nanosonicproject.data.formattedDuration
+import com.example.nanosonicproject.ui.screens.about.AboutDialog
+import com.example.nanosonicproject.ui.screens.settings.SettingsDialog
 
 @Composable
 fun LibraryScreen(
