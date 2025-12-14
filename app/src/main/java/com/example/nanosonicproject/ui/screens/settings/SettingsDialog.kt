@@ -1,4 +1,4 @@
-package com.example.nanosonicproject.ui.screens.library
+package com.example.nanosonicproject.ui.screens.settings
 
 import android.content.Context
 import android.content.Intent
@@ -11,7 +11,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -25,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.nanosonicproject.ui.theme.NanoSonicProjectTheme
 import com.example.nanosonicproject.util.PermissionUtil
+import androidx.core.content.edit
 
 /**
  * Theme mode options
@@ -53,7 +53,7 @@ private fun getThemeMode(context: Context): ThemeMode {
 
 private fun setThemeMode(context: Context, mode: ThemeMode) {
     val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    prefs.edit().putString(KEY_THEME_MODE, mode.name).apply()
+    prefs.edit { putString(KEY_THEME_MODE, mode.name) }
 }
 
 /**
@@ -354,8 +354,8 @@ private fun PermissionsDialog(
 
                 // Network Access Permission (Cosmetic only)
                 PermissionToggleItem(
-                    icon = Icons.Default.Wifi,
-                    title = "Network Access",
+                    icon = Icons.Default.Adjust,
+                    title = "Sicko Mode",
                     subtitle = if (hasNetworkAccess) "Enabled" else "Disabled",
                     checked = hasNetworkAccess,
                     onCheckedChange = { enabled ->

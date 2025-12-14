@@ -29,7 +29,8 @@ class MusicPlayerViewModel @Inject constructor(
     application: Application
 ) : AndroidViewModel(application) {
 
-    private var musicPlayerService: MusicPlayerService? = null
+    // Store reference to the interface, not the concrete Service class (which is a Context)
+    private var musicPlayerController: MusicPlayerController? = null
     private var isBound = false
     private var positionUpdateJob: Job? = null
 
@@ -40,12 +41,13 @@ class MusicPlayerViewModel @Inject constructor(
         @OptIn(UnstableApi::class)
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             val binder = service as MusicPlayerService.MusicPlayerBinder
-            musicPlayerService = binder.getService()
+            // The service implements MusicPlayerController
+            musicPlayerController = binder.getService()
             isBound = true
 
             // Start observing service playback state
             viewModelScope.launch {
-                musicPlayerService?.playbackState?.collect { state ->
+                musicPlayerController?.playbackState?.collect { state ->
                     _playbackState.value = state
                 }
             }
@@ -55,7 +57,7 @@ class MusicPlayerViewModel @Inject constructor(
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
-            musicPlayerService = null
+            musicPlayerController = null
             isBound = false
         }
     }
@@ -79,11 +81,11 @@ class MusicPlayerViewModel @Inject constructor(
     }
 
     /**
-     * Play a track with a playlist
+     * Play a track with a queue
      */
     @OptIn(UnstableApi::class)
-    fun playTrack(track: com.example.nanosonicproject.data.Track, playlist: List<com.example.nanosonicproject.data.Track>) {
-        musicPlayerService?.playTrack(track, playlist)
+    fun playTrack(track: com.example.nanosonicproject.data.Track, queue: List<com.example.nanosonicproject.data.Track>) {
+        musicPlayerController?.playTrack(track, queue)
     }
 
     /**
@@ -102,7 +104,7 @@ class MusicPlayerViewModel @Inject constructor(
      */
     @OptIn(UnstableApi::class)
     fun play() {
-        musicPlayerService?.play()
+        musicPlayerController?.play()
     }
 
     /**
@@ -110,7 +112,7 @@ class MusicPlayerViewModel @Inject constructor(
      */
     @OptIn(UnstableApi::class)
     fun pause() {
-        musicPlayerService?.pause()
+        musicPlayerController?.pause()
     }
 
     /**
@@ -118,7 +120,7 @@ class MusicPlayerViewModel @Inject constructor(
      */
     @OptIn(UnstableApi::class)
     fun next() {
-        musicPlayerService?.next()
+        musicPlayerController?.next()
     }
 
     /**
@@ -126,7 +128,7 @@ class MusicPlayerViewModel @Inject constructor(
      */
     @OptIn(UnstableApi::class)
     fun previous() {
-        musicPlayerService?.previous()
+        musicPlayerController?.previous()
     }
 
     /**
@@ -134,7 +136,7 @@ class MusicPlayerViewModel @Inject constructor(
      */
     @OptIn(UnstableApi::class)
     fun seekTo(positionMs: Long) {
-        musicPlayerService?.seekTo(positionMs)
+        musicPlayerController?.seekTo(positionMs)
     }
 
     /**
@@ -145,7 +147,7 @@ class MusicPlayerViewModel @Inject constructor(
         positionUpdateJob = viewModelScope.launch {
             while (isActive) {
                 if (_playbackState.value.isPlaying) {
-                    val currentPosition = musicPlayerService?.getCurrentPosition() ?: 0L
+                    val currentPosition = musicPlayerController?.getCurrentPosition() ?: 0L
                     _playbackState.value = _playbackState.value.copy(
                         currentPosition = currentPosition
                     )

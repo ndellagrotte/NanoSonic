@@ -1,7 +1,6 @@
 package com.example.nanosonicproject.service
 
 import android.Manifest
-import android.R
 import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
@@ -63,7 +62,7 @@ import javax.inject.Inject
  */
 @UnstableApi
 @AndroidEntryPoint
-class MusicPlayerService : MediaLibraryService() {
+class MusicPlayerService : MediaLibraryService(), MusicPlayerController {
 
     @Inject
     lateinit var equalizerService: EqualizerService
@@ -78,9 +77,9 @@ class MusicPlayerService : MediaLibraryService() {
     private val equalizerProcessor = CustomEqualizerAudioProcessor()
 
     private val _playbackState = MutableStateFlow(PlaybackState())
-    val playbackState: StateFlow<PlaybackState> = _playbackState.asStateFlow()
+    override val playbackState: StateFlow<PlaybackState> = _playbackState.asStateFlow()
 
-    private var currentPlaylist: List<Track> = listOf()
+    private var currentQueue: List<Track> = listOf()
     private var currentTrackIndex = -1
 
     // Android Auto EQ state management
@@ -139,7 +138,7 @@ class MusicPlayerService : MediaLibraryService() {
                 context: Context,
                 enableFloatOutput: Boolean,
                 enableAudioTrackPlaybackParams: Boolean
-            ): AudioSink? {
+            ): AudioSink {
                 return DefaultAudioSink.Builder(context)
                     .setAudioProcessors(arrayOf(equalizerProcessor))
                     .build()
@@ -554,15 +553,15 @@ class MusicPlayerService : MediaLibraryService() {
     }
 
     /**
-     * Play a specific track with a playlist
+     * Play a specific track with a queue
      */
-    fun playTrack(track: Track, playlist: List<Track>) {
-        currentPlaylist = playlist
-        currentTrackIndex = playlist.indexOfFirst { it.id == track.id }
+    override fun playTrack(track: Track, queue: List<Track>) {
+        currentQueue = queue
+        currentTrackIndex = queue.indexOfFirst { it.id == track.id }
 
         if (currentTrackIndex == -1) {
-            // Track not in playlist, play as single track
-            currentPlaylist = listOf(track)
+            // Track not in queue, play as single track
+            currentQueue = listOf(track)
             currentTrackIndex = 0
         }
 
@@ -570,12 +569,12 @@ class MusicPlayerService : MediaLibraryService() {
     }
 
     /**
-     * Play the current track in the playlist
+     * Play the current track in the queue
      */
     private fun playCurrentTrack() {
-        if (currentTrackIndex < 0 || currentTrackIndex >= currentPlaylist.size) return
+        if (currentTrackIndex < 0 || currentTrackIndex >= currentQueue.size) return
 
-        val track = currentPlaylist[currentTrackIndex]
+        val track = currentQueue[currentTrackIndex]
 
         exoPlayer?.let { player ->
             // Create MediaItem with metadata for Android Auto
@@ -626,7 +625,7 @@ class MusicPlayerService : MediaLibraryService() {
     /**
      * Play/Resume playback
      */
-    fun play() {
+    override fun play() {
         // Request audio focus
         val audioFocusRequestBuilder = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
             .setOnAudioFocusChangeListener(audioFocusChangeListener)
@@ -653,7 +652,7 @@ class MusicPlayerService : MediaLibraryService() {
     /**
      * Pause playback
      */
-    fun pause() {
+    override fun pause() {
         exoPlayer?.pause()
         _playbackState.value = _playbackState.value.copy(isPlaying = false)
         _playbackState.value.currentTrack?.let { track ->
@@ -667,18 +666,18 @@ class MusicPlayerService : MediaLibraryService() {
     /**
      * Skip to next track
      */
-    fun next() {
-        if (currentPlaylist.isEmpty()) return
+    override fun next() {
+        if (currentQueue.isEmpty()) return
 
-        currentTrackIndex = (currentTrackIndex + 1) % currentPlaylist.size
+        currentTrackIndex = (currentTrackIndex + 1) % currentQueue.size
         playCurrentTrack()
     }
 
     /**
      * Skip to previous track
      */
-    fun previous() {
-        if (currentPlaylist.isEmpty()) return
+    override fun previous() {
+        if (currentQueue.isEmpty()) return
 
         // If we're more than 3 seconds into the song, restart it
         if ((exoPlayer?.currentPosition ?: 0) > 3000) {
@@ -686,7 +685,7 @@ class MusicPlayerService : MediaLibraryService() {
         } else {
             // Otherwise, go to previous track
             currentTrackIndex = if (currentTrackIndex - 1 < 0) {
-                currentPlaylist.size - 1
+                currentQueue.size - 1
             } else {
                 currentTrackIndex - 1
             }
@@ -717,14 +716,14 @@ class MusicPlayerService : MediaLibraryService() {
     /**
      * Seek to a specific position
      */
-    fun seekTo(positionMs: Long) {
+    override fun seekTo(positionMs: Long) {
         exoPlayer?.seekTo(positionMs)
     }
 
     /**
      * Get current playback position
      */
-    fun getCurrentPosition(): Long = exoPlayer?.currentPosition ?: 0L
+    override fun getCurrentPosition(): Long = exoPlayer?.currentPosition ?: 0L
 
     /**
      * Get total duration
@@ -1003,7 +1002,7 @@ class MusicPlayerService : MediaLibraryService() {
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(track.title)
             .setContentText(track.artist)
-            .setSmallIcon(R.drawable.ic_media_play)
+            .setSmallIcon(android.R.drawable.ic_media_play)
             .setLargeIcon(albumArt)
             .setContentIntent(contentIntent)
             .setOngoing(true)
@@ -1011,34 +1010,34 @@ class MusicPlayerService : MediaLibraryService() {
             .setShowWhen(false)
             // Action 0: Previous track
             .addAction(
-                R.drawable.ic_media_previous,
+                android.R.drawable.ic_media_previous,
                 "Previous",
                 previousIntent
             )
             // Action 1: Seek backward (-10s)
             .addAction(
-                R.drawable.ic_media_rew,
+                android.R.drawable.ic_media_rew,
                 "Rewind 10s",
                 seekBackwardIntent
             )
             // Action 2: Play/Pause
             .addAction(
                 if (_playbackState.value.isPlaying)
-                    R.drawable.ic_media_pause
+                    android.R.drawable.ic_media_pause
                 else
-                    R.drawable.ic_media_play,
+                    android.R.drawable.ic_media_play,
                 if (_playbackState.value.isPlaying) "Pause" else "Play",
                 playPauseIntent
             )
             // Action 3: Seek forward (+10s)
             .addAction(
-                R.drawable.ic_media_ff,
+                android.R.drawable.ic_media_ff,
                 "Fast Forward 10s",
                 seekForwardIntent
             )
             // Action 4: Next track
             .addAction(
-                R.drawable.ic_media_next,
+                android.R.drawable.ic_media_next,
                 "Next",
                 nextIntent
             )
