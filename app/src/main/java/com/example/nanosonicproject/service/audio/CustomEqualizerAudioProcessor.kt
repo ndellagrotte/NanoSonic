@@ -80,6 +80,7 @@ class CustomEqualizerAudioProcessor : AudioProcessor {
     /**
      * Create biquad filters from FixedBandEQ bands
      * Only creates filters for enabled bands below Nyquist frequency
+     * Supports PK (peaking), LSC (low-shelf), and HSC (high-shelf) filter types
      */
     private fun createFilters(bands: List<FixedBandEQBand>) {
         if (sampleRate == 0) {
@@ -94,11 +95,13 @@ class CustomEqualizerAudioProcessor : AudioProcessor {
                 BiquadFilter(
                     sampleRate = sampleRate,
                     frequency = band.frequency,
-                    gain = band.gain
+                    gain = band.gain,
+                    q = band.q,
+                    filterType = band.filterType
                 )
             }
 
-        Log.d(TAG, "Created ${filters.size} biquad filters from ${bands.size} bands")
+        Log.d(TAG, "Created ${filters.size} biquad filters from ${bands.size} bands (PK/LSC/HSC)")
     }
 
     override fun configure(inputAudioFormat: AudioProcessor.AudioFormat): AudioProcessor.AudioFormat {
