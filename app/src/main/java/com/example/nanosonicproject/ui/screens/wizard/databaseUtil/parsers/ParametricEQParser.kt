@@ -188,4 +188,47 @@ object ParametricEQParser {
         }
         return sb.toString()
     }
+
+    /**
+     * Validate a ParametricEQ profile
+     * Returns a list of validation error messages (empty list if valid)
+     */
+    fun validate(eq: ParametricEQ): List<String> {
+        val errors = mutableListOf<String>()
+
+        // Validate preamp
+        if (eq.preamp < -50.0 || eq.preamp > 50.0) {
+            errors.add("Preamp value ${eq.preamp} dB is out of range (-50 to +50 dB)")
+        }
+
+        // Validate bands exist
+        if (eq.bands.isEmpty()) {
+            errors.add("EQ profile must have at least one band")
+        }
+
+        // Validate number of bands
+        if (eq.bands.size > ParametricEQ.MAX_BANDS) {
+            errors.add("EQ profile has ${eq.bands.size} bands, maximum is ${ParametricEQ.MAX_BANDS}")
+        }
+
+        // Validate each band
+        eq.bands.forEachIndexed { index, band ->
+            // Validate frequency
+            if (band.frequency <= 0.0 || band.frequency > 100000.0) {
+                errors.add("Band ${index + 1}: Frequency ${band.frequency} Hz is out of range (1 to 100000 Hz)")
+            }
+
+            // Validate gain
+            if (band.gain < -30.0 || band.gain > 30.0) {
+                errors.add("Band ${index + 1}: Gain ${band.gain} dB is out of range (-30 to +30 dB)")
+            }
+
+            // Validate Q factor
+            if (band.q <= 0.0 || band.q > 20.0) {
+                errors.add("Band ${index + 1}: Q factor ${band.q} is out of range (0.01 to 20)")
+            }
+        }
+
+        return errors
+    }
 }
