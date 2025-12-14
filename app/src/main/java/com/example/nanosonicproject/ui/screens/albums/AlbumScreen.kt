@@ -49,6 +49,8 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import coil.compose.SubcomposeAsyncImage
 import com.example.nanosonicproject.ui.screens.library.LibraryViewModel
 import com.example.nanosonicproject.data.Track
+import com.example.nanosonicproject.ui.screens.about.AboutDialog
+import com.example.nanosonicproject.ui.screens.settings.SettingsDialog
 
 /**
  * Album data class representing a music album with its tracks
@@ -69,8 +71,6 @@ data class Album(
 @Composable
 fun AlbumScreen(
     onPlayTrack: (com.example.nanosonicproject.data.Track, List<com.example.nanosonicproject.data.Track>) -> Unit,
-    onShowSettings: () -> Unit = {},
-    onShowAbout: () -> Unit = {},
     viewModel: LibraryViewModel = hiltViewModel(
         checkNotNull(LocalViewModelStoreOwner.current) {
             "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
@@ -79,6 +79,10 @@ fun AlbumScreen(
     )
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    // Show dialogs
+    var showSettingsDialog by remember { mutableStateOf(false) }
+    var showAboutDialog by remember { mutableStateOf(false) }
 
     // Group tracks by albumId to create Album objects
     val albums = state.tracks
@@ -112,8 +116,8 @@ fun AlbumScreen(
                 },
                 actions = {
                     OverflowMenu(
-                        onShowSettings = onShowSettings,
-                        onShowAbout = onShowAbout
+                        onShowSettings = { showSettingsDialog = true },
+                        onShowAbout = { showAboutDialog = true }
                     )
                 }
             )
@@ -128,6 +132,20 @@ fun AlbumScreen(
                 }
             },
             modifier = Modifier.padding(paddingValues)
+        )
+    }
+
+    // Settings Dialog
+    if (showSettingsDialog) {
+        SettingsDialog(
+            onDismiss = { showSettingsDialog = false }
+        )
+    }
+
+    // About Dialog
+    if (showAboutDialog) {
+        AboutDialog(
+            onDismiss = { showAboutDialog = false }
         )
     }
 }

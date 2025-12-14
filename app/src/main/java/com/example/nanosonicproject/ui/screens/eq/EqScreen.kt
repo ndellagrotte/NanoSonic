@@ -23,6 +23,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.nanosonicproject.data.SavedEQProfile
 import com.example.nanosonicproject.ui.theme.NanoSonicProjectTheme
+import com.example.nanosonicproject.ui.screens.about.AboutDialog
+import com.example.nanosonicproject.ui.screens.settings.SettingsDialog
 
 /**
  * EQ Screen - Manage and select EQ profiles
@@ -37,6 +39,8 @@ fun EqScreen(
 
     var showError by remember { mutableStateOf<String?>(null) }
     var showSuccess by remember { mutableStateOf(false) }
+    var showSettingsDialog by remember { mutableStateOf(false) }
+    var showAboutDialog by remember { mutableStateOf(false) }
 
     // File picker for custom EQ import
     val filePickerLauncher = rememberLauncherForActivityResult(
@@ -79,7 +83,9 @@ fun EqScreen(
             // Launch file picker for .txt files
             filePickerLauncher.launch("text/plain")
         },
-        onDeleteProfile = { viewModel.deleteProfile(it) }
+        onDeleteProfile = { viewModel.deleteProfile(it) },
+        onShowSettings = { showSettingsDialog = true },
+        onShowAbout = { showAboutDialog = true }
     )
 
     // Success Snackbar
@@ -113,8 +119,23 @@ fun EqScreen(
             }
         )
     }
+
+    // Settings Dialog
+    if (showSettingsDialog) {
+        SettingsDialog(
+            onDismiss = { showSettingsDialog = false }
+        )
+    }
+
+    // About Dialog
+    if (showAboutDialog) {
+        AboutDialog(
+            onDismiss = { showAboutDialog = false }
+        )
+    }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun EqScreenContent(
     profiles: List<SavedEQProfile>,
@@ -122,26 +143,46 @@ private fun EqScreenContent(
     onProfileSelected: (String?) -> Unit,
     onImportViaWizard: () -> Unit,
     onImportCustomEQ: () -> Unit,
-    onDeleteProfile: (String) -> Unit
+    onDeleteProfile: (String) -> Unit,
+    onShowSettings: () -> Unit,
+    onShowAbout: () -> Unit
 ) {
     var showMenu by remember { mutableStateOf(false) }
 
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        // Profile list
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(top = 8.dp, bottom = 88.dp)
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Column {
+                        Text("Equalizer")
+                        Text(
+                            text = "${profiles.size} ${if (profiles.size == 1) "profile" else "profiles"}",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                },
+                actions = {
+                    OverflowMenu(
+                        onShowSettings = onShowSettings,
+                        onShowAbout = onShowAbout
+                    )
+                }
+            )
+        }
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
         ) {
-            // Header
-            item {
-                Text(
-                    text = "Equalizer Profiles",
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(16.dp)
-                )
+            // Profile list
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(top = 8.dp, bottom = 88.dp)
+            ) {
+                // Info card
+                item {
 
                 Card(
                     colors = CardDefaults.cardColors(
@@ -320,9 +361,60 @@ private fun EqScreenContent(
             }
         }
     }
+    }
 }
 
 // --- HELPER COMPOSABLES (Moved outside EqScreenContent) ---
+
+@Composable
+private fun OverflowMenu(
+    onShowSettings: () -> Unit,
+    onShowAbout: () -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Box {
+        IconButton(onClick = { expanded = true }) {
+            Icon(
+                imageVector = Icons.Default.MoreVert,
+                contentDescription = "More options"
+            )
+        }
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            DropdownMenuItem(
+                text = { Text("Settings") },
+                onClick = {
+                    expanded = false
+                    onShowSettings()
+                },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Settings,
+                        contentDescription = null
+                    )
+                }
+            )
+
+            DropdownMenuItem(
+                text = { Text("About") },
+                onClick = {
+                    expanded = false
+                    onShowAbout()
+                },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = null
+                    )
+                }
+            )
+        }
+    }
+}
 
 @Composable
 private fun NoEqualizationItem(
@@ -489,7 +581,9 @@ private fun EqScreenPreview() {
             onProfileSelected = {},
             onImportViaWizard = {},
             onImportCustomEQ = {},
-            onDeleteProfile = {}
+            onDeleteProfile = {},
+            onShowSettings = {},
+            onShowAbout = {}
         )
     }
 }

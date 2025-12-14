@@ -33,6 +33,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import com.example.nanosonicproject.ui.screens.about.AboutDialog
+import com.example.nanosonicproject.ui.screens.settings.SettingsDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,11 +42,13 @@ fun PlaylistScreen(
     viewModel: PlaylistViewModel = hiltViewModel(checkNotNull(LocalViewModelStoreOwner.current) {
                     "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
                 }, null),
-    onPlaylistClick: (String) -> Unit,
-    onShowSettings: () -> Unit = {},
-    onShowAbout: () -> Unit = {}
+    onPlaylistClick: (String) -> Unit
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+
+    // Show dialogs
+    var showSettingsDialog by remember { mutableStateOf(false) }
+    var showAboutDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -64,8 +68,8 @@ fun PlaylistScreen(
                 },
                 actions = {
                     OverflowMenu(
-                        onShowSettings = onShowSettings,
-                        onShowAbout = onShowAbout
+                        onShowSettings = { showSettingsDialog = true },
+                        onShowAbout = { showAboutDialog = true }
                     )
                 }
             )
@@ -108,6 +112,20 @@ fun PlaylistScreen(
                 }
             }
         }
+    }
+
+    // Settings Dialog
+    if (showSettingsDialog) {
+        SettingsDialog(
+            onDismiss = { showSettingsDialog = false }
+        )
+    }
+
+    // About Dialog
+    if (showAboutDialog) {
+        AboutDialog(
+            onDismiss = { showAboutDialog = false }
+        )
     }
 }
 
