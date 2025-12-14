@@ -207,11 +207,11 @@ class EQProfileRepository @Inject constructor(
     }
 
     /**
-     * Import a custom EQ profile from FixedBandEQ data
+     * Import a custom EQ profile from ParametricEQ data
      */
-    suspend fun importCustomProfileFromFixedBandEQ(
+    suspend fun importCustomProfile(
         name: String,
-        fixedBandEQ: com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.ParametricEQ
+        parametricEQ: com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.ParametricEQ
     ) = withContext(Dispatchers.IO) {
         // Generate unique ID for custom profile
         val id = "custom_${System.currentTimeMillis()}_${name.hashCode()}"
@@ -222,8 +222,8 @@ class EQProfileRepository @Inject constructor(
             deviceModel = "Custom",
             source = "Custom Import",
             rig = "N/A",
-            bands = fixedBandEQ.bands.map { ParametricEQBand(it.frequency, it.gain) },
-            preamp = fixedBandEQ.preamp,
+            bands = parametricEQ.bands,  // Already ParametricEQBand
+            preamp = parametricEQ.preamp,
             isCustom = true,
             isActive = false
         )

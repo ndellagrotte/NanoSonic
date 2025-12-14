@@ -44,36 +44,36 @@ fun NanoSonicApp() {
                 }
             )
         }
-
-        composable(route = Screen.Register.route) {
-            RegisterScreen(
-                onNavigateToLogin = {
-                    navController.navigate(Screen.Login.route) {
-                        popUpTo(Screen.Register.route) { inclusive = true }
-                    }
-                },
-                onNavigateToWizard = {
-                    navController.navigate(Screen.Wizard.route) {
-                        popUpTo(Screen.Register.route) { inclusive = true }
-                    }
-                }
-            )
-        }
-
-        composable(route = Screen.Login.route) {
-            LoginScreen(
-                onNavigateToRegister = {
-                    navController.navigate(Screen.Register.route) {
-                        popUpTo(Screen.Login.route) { inclusive = true }
-                    }
-                },
-                onNavigateToMain = {
-                    navController.navigate(Screen.Main.route) {
-                        popUpTo(0) { inclusive = true }
-                    }
-                }
-            )
-        }
+//
+//        composable(route = Screen.Register.route) {
+//            RegisterScreen(
+//                onNavigateToLogin = {
+//                    navController.navigate(Screen.Login.route) {
+//                        popUpTo(Screen.Register.route) { inclusive = true }
+//                    }
+//                },
+//                onNavigateToWizard = {
+//                    navController.navigate(Screen.Wizard.route) {
+//                        popUpTo(Screen.Register.route) { inclusive = true }
+//                    }
+//                }
+//            )
+//        }
+//
+//        composable(route = Screen.Login.route) {
+//            LoginScreen(
+//                onNavigateToRegister = {
+//                    navController.navigate(Screen.Register.route) {
+//                        popUpTo(Screen.Login.route) { inclusive = true }
+//                    }
+//                },
+//                onNavigateToMain = {
+//                    navController.navigate(Screen.Main.route) {
+//                        popUpTo(0) { inclusive = true }
+//                    }
+//                }
+//            )
+//        }
 
         composable(route = Screen.Wizard.route) {
             WizardScreen(
