@@ -1,0 +1,383 @@
+url	source_name	name	form	rig
+https://dhrme.squig.link/data/1More%20ComfMini%20ANC%20L.txt	1More ComfoBuds Mini (Codec: AAC, EQ: N/A, ANC: On)	1MORE ComfoBuds Mini	in-ear	711
+https://dhrme.squig.link/data/1More%20ComfMini%20ANC%20R.txt	1More ComfoBuds Mini (Codec: AAC, EQ: N/A, ANC: On)	1MORE ComfoBuds Mini	in-ear	711
+https://dhrme.squig.link/data/1More%20ComfMini%20Norm%20L.txt	1More ComfoBuds Mini (Codec: AAC, EQ: N/A, ANC: Off)	1More ComfoBuds Mini	ignore	711
+https://dhrme.squig.link/data/1More%20ComfMini%20Norm%20R.txt	1More ComfoBuds Mini (Codec: AAC, EQ: N/A, ANC: Off)	1More ComfoBuds Mini (Codec AAC, EQ NA, ANC Off)	ignore	711
+https://dhrme.squig.link/data/L4Pro%20Norm%20L.txt	SoundCore Liberty 4 Pro (Codec: LDAC, EQ: Soundcore Signature, ANC: Normal)	Anker Liberty 4 Pro	in-ear	711
+https://dhrme.squig.link/data/L4Pro%20Norm%20R.txt	SoundCore Liberty 4 Pro (Codec: LDAC, EQ: Soundcore Signature, ANC: Normal)	Anker Liberty 4 Pro	in-ear	711
+https://dhrme.squig.link/data/SC%20L5%20Norm%20SSig%20L.txt	SoundCore Liberty 5 (Codec: AAC, EQ: Soundcore Signature, ANC: Normal)	Anker Liberty 5	in-ear	711
+https://dhrme.squig.link/data/SC%20L5%20Norm%20SSig%20R.txt	SoundCore Liberty 5 (Codec: AAC, EQ: Soundcore Signature, ANC: Normal)	Anker Liberty 5	in-ear	711
+https://dhrme.squig.link/data/SC%20L4NC%20ScSigLDAC%20Norm%20L.txt	SoundCore Liberty 4 NC (Codec: LDAC, EQ: Soundcore Signature, ANC: Normal)	Anker Soundcore Liberty 4 NC	in-ear	711
+https://dhrme.squig.link/data/SC%20L4NC%20ScSigLDAC%20Norm%20R.txt	SoundCore Liberty 4 NC (Codec: LDAC, EQ: Soundcore Signature, ANC: Normal)	Anker Soundcore Liberty 4 NC	in-ear	711
+https://dhrme.squig.link/data/sCore%20SleepA20%20Seal%20L.txt		Anker Soundcore Sleep A20	in-ear	711
+https://dhrme.squig.link/data/sCore%20SleepA20%20Seal%20R.txt		Anker Soundcore Sleep A20	in-ear	711
+https://dhrme.squig.link/data/BeoPlayEx%20ANC%20L.txt	Bang and Olufsen BeoPlay Ex (Codec: APTX Adaptive, EQ: None, ANC: Level: 3)	Bang & Olufsen BeoPlay Ex	in-ear	711
+https://dhrme.squig.link/data/BeoPlayEx%20ANC%20R.txt	Bang and Olufsen BeoPlay Ex (Codec: APTX Adaptive, EQ: None, ANC: Level: 3)	Bang & Olufsen BeoPlay Ex	in-ear	711
+https://dhrme.squig.link/data/BeoPlayEx%20NeutralClear%20L.txt	Bang and Olufsen BeoPlay Ex (Codec: APTX Adaptive, EQ: Clear, ANC: Neutral)	Bang and Olufsen BeoPlay Ex (Codec: APTX Adaptive, EQ: Clear, ANC: Neutral)	ignore	
+https://dhrme.squig.link/data/BeoPlayEx%20NeutralClear%20R.txt	Bang and Olufsen BeoPlay Ex (Codec: APTX Adaptive, EQ: Clear, ANC: Neutral)	Bang and Olufsen BeoPlay Ex (Codec: APTX Adaptive, EQ: Clear, ANC: Neutral)	ignore	
+https://dhrme.squig.link/data/BeoPlayEx%20NeutralOptimal%20L.txt	Bang and Olufsen BeoPlay Ex (Codec: APTX Adaptive, EQ: Optimal, ANC: Neutral)	Bang and Olufsen BeoPlay Ex (Codec: APTX Adaptive, EQ: Optimal, ANC: Neutral)	ignore	
+https://dhrme.squig.link/data/BeoPlayEx%20NeutralOptimal%20R.txt	Bang and Olufsen BeoPlay Ex (Codec: APTX Adaptive, EQ: Optimal, ANC: Neutral)	Bang and Olufsen BeoPlay Ex (Codec: APTX Adaptive, EQ: Optimal, ANC: Neutral)	ignore	
+https://dhrme.squig.link/data/Beats%20PBP2%20ANC%20L.txt	Beats PowerBeats Pro 2 (Codec: AAC, EQ: N/A, ANC: On)	Beats PowerBeats Pro 2	in-ear	711
+https://dhrme.squig.link/data/Beats%20PBP2%20ANC%20R.txt	Beats PowerBeats Pro 2 (Codec: AAC, EQ: N/A, ANC: On)	Beats PowerBeats Pro 2	in-ear	711
+https://dhrme.squig.link/data/Beats%20PBP2%20Norm%20L.txt	Beats PowerBeats Pro 2 (Codec: AAC, EQ: N/A, ANC: Off)	Beats PowerBeats Pro 2 (Codec AAC, EQ NA, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Beats%20PBP2%20Norm%20R.txt	Beats PowerBeats Pro 2 (Codec: AAC, EQ: N/A, ANC: Off)	Beats PowerBeats Pro 2 (Codec AAC, EQ NA, ANC Off)	ignore	711
+https://dhrme.squig.link/data/BD%20Am100%20ANC%20EQOff%20L.txt	beyerdynamic Amiron 100 (Codec: AAC, EQ: Off, ANC: On)	Beyerdynamic Amiron 100 (eq off)	in-ear	711
+https://dhrme.squig.link/data/BD%20Am100%20ANC%20EQOff%20R.txt	beyerdynamic Amiron 100 (Codec: AAC, EQ: Off, ANC: On)	Beyerdynamic Amiron 100 (eq off)	in-ear	711
+https://dhrme.squig.link/data/BD%20Am300%20ANC%20EQOff%20L.txt	beyerdynamic Amiron 300 (Codec: LDAC, EQ: Off, ANC: Max)	Beyerdynamic Amiron 300 (eq off, ANC Max)	in-ear	711
+https://dhrme.squig.link/data/BD%20Am300%20ANC%20EQOff%20R.txt	beyerdynamic Amiron 300 (Codec: LDAC, EQ: Off, ANC: Max)	Beyerdynamic Amiron 300 (eq off, ANC Max)	in-ear	711
+https://dhrme.squig.link/data/Bose%20QC%202024%20Norm%20L.txt	Bose QuietComfort Buds 2024 (Codec: AAC, EQ: Default, ANC: Off)	Bose QuietComfort Buds 2024 (Codec AAC, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Bose%20QC%202024%20Norm%20R.txt	Bose QuietComfort Buds 2024 (Codec: AAC, EQ: Default, ANC: Off)	Bose QuietComfort Buds 2024 (Codec AAC, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Bose%20QC%202024%20ANC%20L.txt	Bose QuietComfort Buds 2024 (Codec: AAC, EQ: Default, ANC: Quiet)	Bose QuietComfort EarBuds 2024	in-ear	711
+https://dhrme.squig.link/data/Bose%20QC%202024%20ANC%20R.txt	Bose QuietComfort Buds 2024 (Codec: AAC, EQ: Default, ANC: Quiet)	Bose QuietComfort EarBuds 2024	in-ear	711
+https://dhrme.squig.link/data/Bose%20QCUltra%20Buds%20L.txt	Bose QuietComfort Ultra Earbuds (Codec: APTX Adaptive, EQ: None, ANC: Quiet)	Bose QuietComfort Ultra Earbuds	in-ear	711
+https://dhrme.squig.link/data/Bose%20QCUltra%20Buds%20R.txt	Bose QuietComfort Ultra Earbuds (Codec: APTX Adaptive, EQ: None, ANC: Quiet)	Bose QuietComfort Ultra Earbuds	in-ear	711
+https://dhrme.squig.link/data/Pi7S2%20ANCOff%20L.txt	Bowers and Wilkins Pi7 S2 (Codec: APTX Adaptive, EQ: N/A, ANC: Off)	Bowers & Wilkins Pi7 S2 (ANC Off)	in-ear	711
+https://dhrme.squig.link/data/Pi7S2%20ANCOff%20R.txt	Bowers and Wilkins Pi7 S2 (Codec: APTX Adaptive, EQ: N/A, ANC: Off)	Bowers & Wilkins Pi7 S2 (ANC Off)	in-ear	711
+https://dhrme.squig.link/data/Pi7S2%20ANCOn%20L.txt	Bowers and Wilkins Pi7 S2 (Codec: APTX Adaptive, EQ: N/A, ANC: On)	Bowers & Wilkins Pi7 S2 (ANC On)	in-ear	711
+https://dhrme.squig.link/data/Pi7S2%20ANCOn%20R.txt	Bowers and Wilkins Pi7 S2 (Codec: APTX Adaptive, EQ: N/A, ANC: On)	Bowers & Wilkins Pi7 S2 (ANC On)	in-ear	711
+https://dhrme.squig.link/data/BW%20Pi8%20ANC%20L.txt	Bowers and Wilkins Pi8 (Codec: aptX, EQ: TrueSound (EQ Off), ANC: On)	Bowers & Wilkins Pi8	in-ear	711
+https://dhrme.squig.link/data/BW%20Pi8%20ANC%20R.txt	Bowers and Wilkins Pi8 (Codec: aptX, EQ: TrueSound (EQ Off), ANC: On)	Bowers & Wilkins Pi8	in-ear	711
+https://dhrme.squig.link/data/CMF%20Buds%20Pro%20L.txt	CMF by Nothing CMF Buds Pro (Codec: AAC, EQ: Balanced, ANC: High)	CMF by Nothing Buds Pro (ANC on, balanced EQ)	in-ear	711
+https://dhrme.squig.link/data/CMF%20Buds%20Pro%20R.txt	CMF by Nothing CMF Buds Pro (Codec: AAC, EQ: Balanced, ANC: High)	CMF by Nothing Buds Pro (ANC on, balanced EQ)	in-ear	711
+https://dhrme.squig.link/data/M100%20Foam%20ANC%20L.txt	Cambridge Melomania M100 (Codec: aptX, EQ: Flat, ANC: Max, Tip: Foam)	Cambridge Audio Melomania M100 (foam eartips)	in-ear	711
+https://dhrme.squig.link/data/M100%20Foam%20ANC%20R.txt	Cambridge Melomania M100 (Codec: aptX, EQ: Flat, ANC: Max, Tip: Foam)	Cambridge Audio Melomania M100 (foam eartips)	in-ear	711
+https://dhrme.squig.link/data/M100%20ANC%20L.txt	Cambridge Melomania M100 (Codec: aptX, EQ: Flat, ANC: Max, Tip: Silicone)	Cambridge Audio Melomania M100 (silicone eartips)	in-ear	711
+https://dhrme.squig.link/data/M100%20ANC%20R.txt	Cambridge Melomania M100 (Codec: aptX, EQ: Flat, ANC: Max, Tip: Silicone)	Cambridge Audio Melomania M100 (silicone eartips)	in-ear	711
+https://dhrme.squig.link/data/M100%20Foam%20Norm%20L.txt	Cambridge Melomania M100 (Codec: aptX, EQ: Flat, ANC: Off, Tip: Foam)	Cambridge Melomania M100 (Codec aptX, EQ Flat, ANC Off, Tip Foam)	ignore	711
+https://dhrme.squig.link/data/M100%20Foam%20Norm%20R.txt	Cambridge Melomania M100 (Codec: aptX, EQ: Flat, ANC: Off, Tip: Foam)	Cambridge Melomania M100 (Codec aptX, EQ Flat, ANC Off, Tip Foam)	ignore	711
+https://dhrme.squig.link/data/M100%20Norm%20L.txt	Cambridge Melomania M100 (Codec: aptX, EQ: Flat, ANC: Off, Tip: Silicone)	Cambridge Melomania M100 (Codec aptX, EQ Flat, ANC Off, Tip Silicone)	ignore	711
+https://dhrme.squig.link/data/M100%20Norm%20R.txt	Cambridge Melomania M100 (Codec: aptX, EQ: Flat, ANC: Off, Tip: Silicone)	Cambridge Melomania M100 (Codec aptX, EQ Flat, ANC Off, Tip Silicone)	ignore	711
+https://dhrme.squig.link/data/Campfire%20Orbit%20L.txt	Campfire Orbit (Codec: APTX, EQ: None)	Campfire Audio Orbit	in-ear	711
+https://dhrme.squig.link/data/Campfire%20Orbit%20R.txt	Campfire Orbit (Codec: APTX, EQ: None)	Campfire Audio Orbit	in-ear	711
+https://dhrme.squig.link/data/AurvanAce2%20noANC%20L.txt	Creative Labs Aurvana Ace 2 (Codec: aptX Adaptive, EQ: Flat, ANC: Off)	Creative Labs Aurvana Ace 2 (ANC off, flat eq)	in-ear	711
+https://dhrme.squig.link/data/AurvanAce2%20noANC%20R.txt	Creative Labs Aurvana Ace 2 (Codec: aptX Adaptive, EQ: Flat, ANC: Off)	Creative Labs Aurvana Ace 2 (ANC off, flat eq)	in-ear	711
+https://dhrme.squig.link/data/AurvanAce2%20ANC%20On%20L.txt	Creative Labs Aurvana Ace 2 (Codec: aptX Adaptive, EQ: Flat, ANC: Adaptive)	Creative Labs Aurvana Ace 2 (ANC on, flat eq)	in-ear	711
+https://dhrme.squig.link/data/AurvanAce2%20ANC%20On%20R.txt	Creative Labs Aurvana Ace 2 (Codec: aptX Adaptive, EQ: Flat, ANC: Adaptive)	Creative Labs Aurvana Ace 2 (ANC on, flat eq)	in-ear	711
+https://dhrme.squig.link/data/DHRME-Test%20ANC%20L.txt		DHRME-Test ANC	ignore	711
+https://dhrme.squig.link/data/DHRME-Test%20ANC%20R.txt		DHRME-Test ANC	ignore	711
+https://dhrme.squig.link/data/DHRME-Test%20Norm%20R.txt		DHRME-Test Norm	ignore	711
+https://dhrme.squig.link/data/DPP%20Stock%20L.txt	Denon Perl Pro (Codec: aptX Adaptive, EQ: Flat, ANC: On)	Denon Perl Pro (ANC On, flat eq)	in-ear	711
+https://dhrme.squig.link/data/DPP%20Stock%20R.txt	Denon Perl Pro (Codec: aptX Adaptive, EQ: Flat, ANC: On)	Denon Perl Pro (ANC On, flat eq)	in-ear	711
+https://dhrme.squig.link/data/EarFun%20A2NC%20ANC%20L.txt	EarFun Air 2 NC (Codec: LDAC, EQ: Default, ANC: On)	EarFun Air 2 NC	in-ear	711
+https://dhrme.squig.link/data/EarFun%20A2NC%20ANC%20R.txt	EarFun Air 2 NC (Codec: LDAC, EQ: Default, ANC: On)	EarFun Air 2 NC	in-ear	711
+https://dhrme.squig.link/data/EarFun%20A2NC%20Norm%20L.txt	EarFun Air 2 NC (Codec: LDAC, EQ: Default, ANC: Off)	EarFun Air 2 NC (Codec LDAC, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/EarFun%20A2NC%20Norm%20R.txt	EarFun Air 2 NC (Codec: LDAC, EQ: Default, ANC: Off)	EarFun Air 2 NC (Codec LDAC, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/EFAPro%202%20Tip%20A%20ANC%20L.txt	EarFun Air Pro 2 (Codec: aptX, EQ: Default, ANC: On, Tip: A)	EarFun Air Pro 2 (A eartips)	in-ear	711
+https://dhrme.squig.link/data/EFAPro%202%20Tip%20A%20ANC%20R.txt	EarFun Air Pro 2 (Codec: aptX, EQ: Default, ANC: On, Tip: A)	EarFun Air Pro 2 (A eartips)	in-ear	711
+https://dhrme.squig.link/data/EFAPro%202%20TipB%20ANC%20L.txt	EarFun Air Pro 2 (Codec: aptX, EQ: Default, ANC: On, Tip: B)	EarFun Air Pro 2 (B eartips)	in-ear	711
+https://dhrme.squig.link/data/EFAPro%202%20TipB%20ANC%20R.txt	EarFun Air Pro 2 (Codec: aptX, EQ: Default, ANC: On, Tip: B)	EarFun Air Pro 2 (B eartips)	in-ear	711
+https://dhrme.squig.link/data/EFAPro%202%20Tip%20A%20Norm%20L.txt	EarFun Air Pro 2 (Codec: aptX, EQ: Default, ANC: Off, Tip: A)	EarFun Air Pro 2 (Codec aptX, EQ Default, ANC Off, Tip A)	ignore	711
+https://dhrme.squig.link/data/EFAPro%202%20Tip%20A%20Norm%20R.txt	EarFun Air Pro 2 (Codec: aptX, EQ: Default, ANC: Off, Tip: A)	EarFun Air Pro 2 (Codec aptX, EQ Default, ANC Off, Tip A)	ignore	711
+https://dhrme.squig.link/data/EFAPro%202%20TipB%20Norm%20L.txt	EarFun Air Pro 2 (Codec: aptX, EQ: Default, ANC: Off, Tip: B)	EarFun Air Pro 2 (Codec aptX, EQ Default, ANC Off, Tip B)	ignore	711
+https://dhrme.squig.link/data/EFAPro%202%20TipB%20Norm%20R.txt	EarFun Air Pro 2 (Codec: aptX, EQ: Default, ANC: Off, Tip: B)	EarFun Air Pro 2 (Codec aptX, EQ Default, ANC Off, Tip B)	ignore	711
+https://dhrme.squig.link/data/EFAP3%20ANC%20aptXad%200.5.1%20L.txt	EarFun Air Pro 3 (0.5.1) (Codec: APTX Adaptive, EQ: Default (EarFun Classic), ANC: Noise Cancelling)	EarFun Air Pro 3	in-ear	711
+https://dhrme.squig.link/data/EFAP3%20ANC%20aptXad%200.5.1%20R.txt	EarFun Air Pro 3 (0.5.1) (Codec: APTX Adaptive, EQ: Default (EarFun Classic), ANC: Noise Cancelling)	EarFun Air Pro 3	in-ear	711
+https://dhrme.squig.link/data/EFAP3%20Norm%20aptXad%200.5.1%20L.txt	EarFun Air Pro 3 (0.5.1) (Codec: APTX Adaptive, EQ: Default (EarFun Classic), ANC: Normal)	EarFun Air Pro 3 (0.5.1) (Codec APTX Adaptive, EQ Default (EarFun Classic), ANC Normal)	ignore	711
+https://dhrme.squig.link/data/EFAP3%20Norm%20aptXad%200.5.1%20R.txt	EarFun Air Pro 3 (0.5.1) (Codec: APTX Adaptive, EQ: Default (EarFun Classic), ANC: Normal)	EarFun Air Pro 3 (0.5.1) (Codec APTX Adaptive, EQ Default (EarFun Classic), ANC Normal)	ignore	711
+https://dhrme.squig.link/data/EarFun%20Air%20Pro%203%20ANC%20L.txt	EarFun Air Pro 3 (Codec: APTX Adaptive, EQ: Default (EarFun Classic), ANC: Noise Cancelling)	EarFun Air Pro 3 (ANC noise cancelling, default EQ)	in-ear	711
+https://dhrme.squig.link/data/EarFun%20Air%20Pro%203%20ANC%20R.txt	EarFun Air Pro 3 (Codec: APTX Adaptive, EQ: Default (EarFun Classic), ANC: Noise Cancelling)	EarFun Air Pro 3 (ANC noise cancelling, default EQ)	in-ear	711
+https://dhrme.squig.link/data/EarFun%20Air%20Pro%203%20Normal%20L.txt	EarFun Air Pro 3 (Codec: APTX Adaptive, EQ: Default (EarFun Classic), ANC: Normal)	EarFun Air Pro 3 (ANC normal, default EQ)	in-ear	711
+https://dhrme.squig.link/data/EarFun%20Air%20Pro%203%20Normal%20R.txt	EarFun Air Pro 3 (Codec: APTX Adaptive, EQ: Default (EarFun Classic), ANC: Normal)	EarFun Air Pro 3 (ANC normal, default EQ)	in-ear	711
+https://dhrme.squig.link/data/EarFunAirPro4%20StrongANC%20L.txt	EarFun Air Pro 4 (Codec: LDAC, EQ: Default (EarFun Classic), ANC: Strong)	EarFun Air Pro 4	in-ear	711
+https://dhrme.squig.link/data/EarFunAirPro4%20StrongANC%20R.txt	EarFun Air Pro 4 (Codec: LDAC, EQ: Default (EarFun Classic), ANC: Strong)	EarFun Air Pro 4	in-ear	711
+https://dhrme.squig.link/data/EarFunAirPro4%20ANCOff%20L.txt	EarFun Air Pro 4 (Codec: LDAC, EQ: Default (EarFun Classic), ANC: Off)	EarFun Air Pro 4 (Codec LDAC, EQ Default (EarFun Classic), ANC Off)	ignore	711
+https://dhrme.squig.link/data/EarFunAirPro4%20ANCOff%20R.txt	EarFun Air Pro 4 (Codec: LDAC, EQ: Default (EarFun Classic), ANC: Off)	EarFun Air Pro 4 (Codec LDAC, EQ Default (EarFun Classic), ANC Off)	ignore	711
+https://dhrme.squig.link/data/EarFun%20EH100%20L.txt		EarFun EH100	ignore	
+https://dhrme.squig.link/data/EarFun%20EH100%20R.txt		EarFun EH100	ignore	
+https://dhrme.squig.link/data/EarFun%20EH100B%20L.txt	EarFun EH100 (Black Ring / Balanced)	EarFun EH100 (black ring)	in-ear	711
+https://dhrme.squig.link/data/EarFun%20EH100B%20R.txt	EarFun EH100 (Black Ring / Balanced)	EarFun EH100 (black ring)	in-ear	711
+https://dhrme.squig.link/data/EarFun%20EH100R%20L.txt	EarFun EH100 (Red Ring / Bass Boosted)	EarFun EH100 (red ring)	in-ear	711
+https://dhrme.squig.link/data/EarFun%20EH100R%20R.txt	EarFun EH100 (Red Ring / Bass Boosted)	EarFun EH100 (red ring)	in-ear	711
+https://dhrme.squig.link/data/EF%20Free%20Pro%20L.txt	EarFun Free Pro (Codec: AAC, EQ: Default)	EarFun Free Pro	in-ear	711
+https://dhrme.squig.link/data/EF%20Free%20Pro%20R.txt	EarFun Free Pro (Codec: AAC, EQ: Default)	EarFun Free Pro	in-ear	711
+https://dhrme.squig.link/data/EarFun%20Free%20Pro%203%20ANC%20L.txt	EarFun Free Pro 3 (Codec: APTX Adaptive, EQ: Default (EarFun Classic), ANC: Off)	EarFun Free Pro 3 (ANC off, default EQ)	in-ear	711
+https://dhrme.squig.link/data/EarFun%20Free%20Pro%203%20ANC%20R.txt	EarFun Free Pro 3 (Codec: APTX Adaptive, EQ: Default (EarFun Classic), ANC: Off)	EarFun Free Pro 3 (ANC off, default EQ)	in-ear	711
+https://dhrme.squig.link/data/EarFun%20Free%20Pro%203%20Normal%20L.txt		EarFun Free Pro 3 Normal	ignore	
+https://dhrme.squig.link/data/EarFun%20Free%20Pro%203%20Normal%20R.txt		EarFun Free Pro 3 Normal	ignore	
+https://dhrme.squig.link/data/Edifier%20NBPlanar%20Dyn%20Norm%20L.txt	Edifier NeoBuds Planar (Codec: LDAC, EQ: Dynamic, ANC: Off)	Edifier NeoBuds Planar (Codec LDAC, EQ Dynamic, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Edifier%20NBPlanar%20Dyn%20Norm%20R.txt	Edifier NeoBuds Planar (Codec: LDAC, EQ: Dynamic, ANC: Off)	Edifier NeoBuds Planar (Codec LDAC, EQ Dynamic, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Edifier%20NBPlanar%20Elec%20Norm%20L.txt	Edifier NeoBuds Planar (Codec: LDAC, EQ: Electrostatic, ANC: Off)	Edifier NeoBuds Planar (Codec LDAC, EQ Electrostatic, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Edifier%20NBPlanar%20Elec%20Norm%20R.txt	Edifier NeoBuds Planar (Codec: LDAC, EQ: Electrostatic, ANC: Off)	Edifier NeoBuds Planar (Codec LDAC, EQ Electrostatic, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Edifier%20NBPlanar%20Orig%20Norm%20L.txt	Edifier NeoBuds Planar (Codec: LDAC, EQ: Original, ANC: Off)	Edifier NeoBuds Planar (Codec LDAC, EQ Original, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Edifier%20NBPlanar%20Orig%20Norm%20R.txt	Edifier NeoBuds Planar (Codec: LDAC, EQ: Original, ANC: Off)	Edifier NeoBuds Planar (Codec LDAC, EQ Original, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Edifier%20NBPlanar%20Orig%20ANC%20L.txt	Edifier NeoBuds Planar (Codec: LDAC, EQ: Original, ANC: On)	Edifier NeoBuds Planar (Codec LDAC, EQ Original, ANC On)	ignore	711
+https://dhrme.squig.link/data/Edifier%20NBPlanar%20Orig%20ANC%20R.txt	Edifier NeoBuds Planar (Codec: LDAC, EQ: Original, ANC: On)	Edifier NeoBuds Planar (Codec LDAC, EQ Original, ANC On)	ignore	711
+https://dhrme.squig.link/data/NeoBudsPro2%20HighANC%20L.txt	Edifier NeoBuds Pro 2 (Codec: LDAC, EQ: Classic, ANC: High NC)	Edifier NeoBuds Pro 2 (ANC high, classic EQ)	in-ear	711
+https://dhrme.squig.link/data/NeoBudsPro2%20HighANC%20R.txt	Edifier NeoBuds Pro 2 (Codec: LDAC, EQ: Classic, ANC: High NC)	Edifier NeoBuds Pro 2 (ANC high, classic EQ)	in-ear	711
+https://dhrme.squig.link/data/NeoBudsPro2%20ANCOff%20L.txt	Edifier NeoBuds Pro 2 (Codec: LDAC, EQ: Classic, ANC: Off)	Edifier NeoBuds Pro 2 (ANC off, classic EQ)	in-ear	711
+https://dhrme.squig.link/data/NeoBudsPro2%20ANCOff%20R.txt	Edifier NeoBuds Pro 2 (Codec: LDAC, EQ: Classic, ANC: Off)	Edifier NeoBuds Pro 2 (ANC off, classic EQ)	in-ear	711
+https://dhrme.squig.link/data/EdStaxS10%20Dynamic%20ANC%20L.txt	Edifier Stax Spirit S10 (Codec: LDAC, EQ: Dynamic, ANC: Strong)	Edifier Stax Spirit S10 (Codec LDAC, EQ Dynamic, ANC Strong)	ignore	711
+https://dhrme.squig.link/data/EdStaxS10%20Dynamic%20ANC%20R.txt	Edifier Stax Spirit S10 (Codec: LDAC, EQ: Dynamic, ANC: Strong)	Edifier Stax Spirit S10 (Codec LDAC, EQ Dynamic, ANC Strong)	ignore	711
+https://dhrme.squig.link/data/EdStaxS10%20ElStatic%20ANC%20L.txt	Edifier Stax Spirit S10 (Codec: LDAC, EQ: Electrostatic, ANC: Strong)	Edifier Stax Spirit S10 (Codec LDAC, EQ Electrostatic, ANC Strong)	ignore	711
+https://dhrme.squig.link/data/EdStaxS10%20ElStatic%20ANC%20R.txt	Edifier Stax Spirit S10 (Codec: LDAC, EQ: Electrostatic, ANC: Strong)	Edifier Stax Spirit S10 (Codec LDAC, EQ Electrostatic, ANC Strong)	ignore	711
+https://dhrme.squig.link/data/EdStaxS10%20OG%20Norm%20L.txt	Edifier Stax Spirit S10 (Codec: LDAC, EQ: Original, ANC: Off)	Edifier Stax Spirit S10 (Codec LDAC, EQ Original, ANC Off)	ignore	711
+https://dhrme.squig.link/data/EdStaxS10%20OG%20Norm%20R.txt	Edifier Stax Spirit S10 (Codec: LDAC, EQ: Original, ANC: Off)	Edifier Stax Spirit S10 (Codec LDAC, EQ Original, ANC Off)	ignore	711
+https://dhrme.squig.link/data/EdStaxS10%20OG%20ANC%20L.txt	Edifier Stax Spirit S10 (Codec: LDAC, EQ: Original, ANC: Strong)	Edifier Stax Spirit S10 (original eq)	in-ear	711
+https://dhrme.squig.link/data/EdStaxS10%20OG%20ANC%20R.txt	Edifier Stax Spirit S10 (Codec: LDAC, EQ: Original, ANC: Strong)	Edifier Stax Spirit S10 (original eq)	in-ear	711
+https://dhrme.squig.link/data/FairBuds%20ANC%20BassEQ%20L.txt	Fairphone Fairbuds (Codec: AAC, EQ: Bass Boost, ANC: On)	Fairphone Fairbuds (Codec: AAC, EQ: Bass Boost, ANC: On)	ignore	711
+https://dhrme.squig.link/data/FairBuds%20ANC%20BassEQ%20R.txt	Fairphone Fairbuds (Codec: AAC, EQ: Bass Boost, ANC: On)	Fairphone Fairbuds (Codec: AAC, EQ: Bass Boost, ANC: On)	ignore	711
+https://dhrme.squig.link/data/FairBuds%20ANC%20MainEQ%20L.txt	Fairphone Fairbuds (Codec: AAC, EQ: Main, ANC: On)	Fairphone Fairbuds (Codec: AAC, EQ: Main, ANC: On)	ignore	711
+https://dhrme.squig.link/data/FairBuds%20ANC%20MainEQ%20R.txt	Fairphone Fairbuds (Codec: AAC, EQ: Main, ANC: On)	Fairphone Fairbuds (Codec: AAC, EQ: Main, ANC: On)	ignore	711
+https://dhrme.squig.link/data/FairBuds%20Studio%20Norm%20L.txt	Fairphone Fairbuds (Codec: AAC, EQ: Studio, ANC: Off)	Fairphone Fairbuds (Codec: AAC, EQ: Studio, ANC: Off)	ignore	711
+https://dhrme.squig.link/data/FairBuds%20Studio%20Norm%20R.txt	Fairphone Fairbuds (Codec: AAC, EQ: Studio, ANC: Off)	Fairphone Fairbuds (Codec: AAC, EQ: Studio, ANC: Off)	ignore	711
+https://dhrme.squig.link/data/FairBuds%20Studio%20ANC%20L.txt	Fairphone Fairbuds (Codec: AAC, EQ: Studio, ANC: On)	Fairphone Fairbuds (Codec: AAC, EQ: Studio, ANC: On)	ignore	711
+https://dhrme.squig.link/data/FairBuds%20Studio%20ANC%20R.txt	Fairphone Fairbuds (Codec: AAC, EQ: Studio, ANC: On)	Fairphone Fairbuds (Codec: AAC, EQ: Studio, ANC: On)	ignore	711
+https://dhrme.squig.link/data/FairBuds%20Norm%20FlatEQ%20L.txt	Fairphone Fairbuds (Codec: AAC, EQ: Flat, ANC: Off)	Fairphone Fairbuds (flat eq, ANC Off)	in-ear	711
+https://dhrme.squig.link/data/FairBuds%20Norm%20FlatEQ%20R.txt	Fairphone Fairbuds (Codec: AAC, EQ: Flat, ANC: Off)	Fairphone Fairbuds (flat eq, ANC Off)	in-ear	711
+https://dhrme.squig.link/data/FairBuds%20ANC%20FlatEQ%20L.txt	Fairphone Fairbuds (Codec: AAC, EQ: Flat, ANC: On)	Fairphone Fairbuds (flat eq, ANC On)	in-ear	711
+https://dhrme.squig.link/data/FairBuds%20ANC%20FlatEQ%20R.txt	Fairphone Fairbuds (Codec: AAC, EQ: Flat, ANC: On)	Fairphone Fairbuds (flat eq, ANC On)	in-ear	711
+https://dhrme.squig.link/data/Goog%20PBudsPro2%20ANC%20L.txt	Google Pixel Buds Pro 2 (Codec: AAC, EQ: Default, ANC: On)	Google Pixel Buds Pro 2	in-ear	711
+https://dhrme.squig.link/data/Goog%20PBudsPro2%20ANC%20R.txt	Google Pixel Buds Pro 2 (Codec: AAC, EQ: Default, ANC: On)	Google Pixel Buds Pro 2	in-ear	711
+https://dhrme.squig.link/data/Goog%20PBudsPro2%20Norm%20L.txt	Google Pixel Buds Pro 2 (Codec: AAC, EQ: Default, ANC: Off)	Google Pixel Buds Pro 2 (Codec AAC, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Goog%20PBudsPro2%20Norm%20R.txt	Google Pixel Buds Pro 2 (Codec: AAC, EQ: Default, ANC: Off)	Google Pixel Buds Pro 2 (Codec AAC, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Svanar%20Hifi%20L.txt	Hifiman Svanar (Codec: LDAC, EQ: None, ANC: Hifi)	HIFIMAN Svanar (ANC Hifi)	in-ear	711
+https://dhrme.squig.link/data/Svanar%20Hifi%20R.txt	Hifiman Svanar (Codec: LDAC, EQ: None, ANC: Hifi)	HIFIMAN Svanar (ANC Hifi)	in-ear	711
+https://dhrme.squig.link/data/Svanar%20ANC%20L.txt	Hifiman Svanar (Codec: LDAC, EQ: None, ANC: ANC)	HIFIMAN Svanar (ANC)	in-ear	711
+https://dhrme.squig.link/data/Svanar%20ANC%20R.txt	Hifiman Svanar (Codec: LDAC, EQ: None, ANC: ANC)	HIFIMAN Svanar (ANC)	in-ear	711
+https://dhrme.squig.link/data/Huawei%20Free%20Buds%20Pro%203%20ANC%20L.txt	Huawei Free Buds Pro 3 (Codec: LDAC, EQ: Default, ANC: Max (Ultra))	Huawei Free Buds Pro 3 (ANC max)	in-ear	711
+https://dhrme.squig.link/data/Huawei%20Free%20Buds%20Pro%203%20ANC%20R.txt	Huawei Free Buds Pro 3 (Codec: LDAC, EQ: Default, ANC: Max (Ultra))	Huawei Free Buds Pro 3 (ANC max)	in-ear	711
+https://dhrme.squig.link/data/HFBP4%20Bal%20ANC%20L.txt	Huawei Free Buds Pro 4 (Codec: LDAC, EQ: Balanced, ANC: Max (Ultra), Tip: Silicone)	Huawei Free Buds Pro 4 (Codec LDAC, EQ Balanced, ANC Max (Ultra), Tip Silicone)	ignore	711
+https://dhrme.squig.link/data/HFBP4%20Bal%20ANC%20R.txt	Huawei Free Buds Pro 4 (Codec: LDAC, EQ: Balanced, ANC: Max (Ultra), Tip: Silicone)	Huawei Free Buds Pro 4 (Codec LDAC, EQ Balanced, ANC Max (Ultra), Tip Silicone)	ignore	711
+https://dhrme.squig.link/data/HFBP4%20Def%20Norm%20L.txt	Huawei Free Buds Pro 4 (Codec: LDAC, EQ: Default, ANC: Off)	Huawei Free Buds Pro 4 (Codec LDAC, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/HFBP4%20Def%20Norm%20R.txt	Huawei Free Buds Pro 4 (Codec: LDAC, EQ: Default, ANC: Off)	Huawei Free Buds Pro 4 (Codec LDAC, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/HFBP4%20Def%20ANC%20L.txt	Huawei Free Buds Pro 4 (Codec: LDAC, EQ: Default, ANC: Max (Ultra), Tip: Silicone)	Huawei Free Buds Pro 4 (default eq)	in-ear	711
+https://dhrme.squig.link/data/HFBP4%20Def%20ANC%20R.txt	Huawei Free Buds Pro 4 (Codec: LDAC, EQ: Default, ANC: Max (Ultra), Tip: Silicone)	Huawei Free Buds Pro 4 (default eq)	in-ear	711
+https://dhrme.squig.link/data/JBL%20TP3%20SiliNoEQ%20Norm%20L.txt	JBL Tour Pro 3 (Codec: LDAC, EQ: Off, ANC: Off, Tip: Default - Silicone)	JBL Tour Pro 3 (Codec LDAC, EQ Off, ANC Off, Tip Default - Silicone)	ignore	711
+https://dhrme.squig.link/data/JBL%20TP3%20SiliNoEQ%20Norm%20R.txt	JBL Tour Pro 3 (Codec: LDAC, EQ: Off, ANC: Off, Tip: Default - Silicone)	JBL Tour Pro 3 (Codec LDAC, EQ Off, ANC Off, Tip Default - Silicone)	ignore	711
+https://dhrme.squig.link/data/JBL%20TP3%20Sili-StuEQ%20Norm%20L.txt	JBL Tour Pro 3 (Codec: LDAC, EQ: Studio, ANC: Off, Tip: Default - Silicone)	JBL Tour Pro 3 (Codec LDAC, EQ Studio, ANC Off, Tip Default - Silicone)	ignore	711
+https://dhrme.squig.link/data/JBL%20TP3%20Sili-StuEQ%20Norm%20R.txt	JBL Tour Pro 3 (Codec: LDAC, EQ: Studio, ANC: Off, Tip: Default - Silicone)	JBL Tour Pro 3 (Codec LDAC, EQ Studio, ANC Off, Tip Default - Silicone)	ignore	711
+https://dhrme.squig.link/data/JBL%20TP3%20Sili-StuEQ%20ANC%20L.txt	JBL Tour Pro 3 (Codec: LDAC, EQ: Studio, ANC: On, Tip: Default - Silicone)	JBL Tour Pro 3 (Codec LDAC, EQ Studio, ANC On, Tip Default - Silicone)	ignore	711
+https://dhrme.squig.link/data/JBL%20TP3%20Sili-StuEQ%20ANC%20R.txt	JBL Tour Pro 3 (Codec: LDAC, EQ: Studio, ANC: On, Tip: Default - Silicone)	JBL Tour Pro 3 (Codec LDAC, EQ Studio, ANC On, Tip Default - Silicone)	ignore	711
+https://dhrme.squig.link/data/JBL%20TP3%20SiliNoEQ%20ANC%20L.txt	JBL Tour Pro 3 (Codec: LDAC, EQ: Off, ANC: On, Tip: Default - Silicone)	JBL Tour Pro 3 (eq off)	in-ear	711
+https://dhrme.squig.link/data/JBL%20TP3%20SiliNoEQ%20ANC%20R.txt	JBL Tour Pro 3 (Codec: LDAC, EQ: Off, ANC: On, Tip: Default - Silicone)	JBL Tour Pro 3 (eq off)	in-ear	711
+https://dhrme.squig.link/data/JlabELE%20Jlabsig%20ANC%20L.txt	JLab Epic Lab Edition (Codec: LDAC, EQ: JLab Signature, ANC: Max)	JLab Audio Epic Lab Edition (JLab Signature eq)	in-ear	711
+https://dhrme.squig.link/data/JlabELE%20Jlabsig%20ANC%20R.txt	JLab Epic Lab Edition (Codec: LDAC, EQ: JLab Signature, ANC: Max)	JLab Audio Epic Lab Edition (JLab Signature eq)	in-ear	711
+https://dhrme.squig.link/data/JlabELE%20KnpSig%20ANC%20L.txt	JLab Epic Lab Edition (Codec: LDAC, EQ: Knowles Preferred, ANC: Max)	JLab Epic Lab Edition (Codec LDAC, EQ Knowles Preferred, ANC Max)	ignore	711
+https://dhrme.squig.link/data/JlabELE%20KnpSig%20ANC%20R.txt	JLab Epic Lab Edition (Codec: LDAC, EQ: Knowles Preferred, ANC: Max)	JLab Epic Lab Edition (Codec LDAC, EQ Knowles Preferred, ANC Max)	ignore	711
+https://dhrme.squig.link/data/Jabra%20Elite%2010%20ANC%20L.txt	Jabra Elite 10 (Codec: AAC, EQ: Default, ANC: On)	Jabra Elite 10	in-ear	711
+https://dhrme.squig.link/data/Jabra%20Elite%2010%20ANC%20R.txt	Jabra Elite 10 (Codec: AAC, EQ: Default, ANC: On)	Jabra Elite 10	in-ear	711
+https://dhrme.squig.link/data/Jabra%20Elite%2010%20Norm%20L.txt	Jabra Elite 10 (Codec: AAC, EQ: Default, ANC: Off)	Jabra Elite 10 (Codec AAC, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Jabra%20Elite%2010%20Norm%20R.txt	Jabra Elite 10 (Codec: AAC, EQ: Default, ANC: Off)	Jabra Elite 10 (Codec AAC, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Jabra%20Elite%2010%202%20Norm%20L.txt	Jabra Elite 10 2 (Codec: AAC, EQ: Default)	Jabra Elite 10 2 (Codec AAC, EQ Default)	ignore	711
+https://dhrme.squig.link/data/Jabra%20Elite%2010%202%20Norm%20R.txt	Jabra Elite 10 2 (Codec: AAC, EQ: Default)	Jabra Elite 10 2 (Codec AAC, EQ Default)	ignore	711
+https://dhrme.squig.link/data/Jabra%20Elite%2010%202%20ANC%20L.txt	Jabra Elite 10 2 (Codec: AAC, EQ: Default)	Jabra Elite 10 Gen 2	in-ear	711
+https://dhrme.squig.link/data/Jabra%20Elite%2010%202%20ANC%20R.txt	Jabra Elite 10 2 (Codec: AAC, EQ: Default)	Jabra Elite 10 Gen 2	in-ear	711
+https://dhrme.squig.link/data/Jabra%20Elite%204%20ANC%20Flat%20aptX%20L.txt	Jabra Elite 4 (Codec: aptX, EQ: Default, ANC: On)	Jabra Elite 4	in-ear	711
+https://dhrme.squig.link/data/Jabra%20Elite%204%20ANC%20Flat%20aptX%20R.txt	Jabra Elite 4 (Codec: aptX, EQ: Default, ANC: On)	Jabra Elite 4	in-ear	711
+https://dhrme.squig.link/data/Jabra%20Elite%204%20Norm%20Flat%20aptX%20L.txt	Jabra Elite 4 (Codec: aptX, EQ: Default, ANC: Off)	Jabra Elite 4 (Codec aptX, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Jabra%20Elite%204%20Norm%20Flat%20aptX%20R.txt	Jabra Elite 4 (Codec: aptX, EQ: Default, ANC: Off)	Jabra Elite 4 (Codec aptX, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Jabra%20Elite%205%20ANC%20L.txt	Jabra Elite 5 (Codec: aptX, EQ: Default, ANC: On)	Jabra Elite 5	in-ear	711
+https://dhrme.squig.link/data/Jabra%20Elite%205%20ANC%20R.txt	Jabra Elite 5 (Codec: aptX, EQ: Default, ANC: On)	Jabra Elite 5	in-ear	711
+https://dhrme.squig.link/data/Jabra%20Elite%205%20Normal%20L.txt	Jabra Elite 5 (Codec: aptX, EQ: Default, ANC: Off)	Jabra Elite 5 (Codec aptX, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Jabra%20Elite%205%20Normal%20R.txt	Jabra Elite 5 (Codec: aptX, EQ: Default, ANC: Off)	Jabra Elite 5 (Codec aptX, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Jabra%20E8Act%20ANC%20L.txt	Jabra Elite 8 Active (Codec: AAC, EQ: Default, ANC: On)	Jabra Elite 8 Active	in-ear	711
+https://dhrme.squig.link/data/Jabra%20E8Act%20ANC%20R.txt	Jabra Elite 8 Active (Codec: AAC, EQ: Default, ANC: On)	Jabra Elite 8 Active	in-ear	711
+https://dhrme.squig.link/data/Jabra%20E8Act%20Norm%20L.txt	Jabra Elite 8 Active (Codec: AAC, EQ: Default, ANC: Off)	Jabra Elite 8 Active (Codec AAC, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Jabra%20E8Act%20Norm%20R.txt	Jabra Elite 8 Active (Codec: AAC, EQ: Default, ANC: Off)	Jabra Elite 8 Active (Codec AAC, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Jabra%20E%208%20Act%202%20ANC%20L.txt	Jabra Elite 8 Active 2 (Codec: AAC, EQ: Default, ANC: On)	Jabra Elite 8 Active 2	in-ear	711
+https://dhrme.squig.link/data/Jabra%20E%208%20Act%202%20ANC%20R.txt	Jabra Elite 8 Active 2 (Codec: AAC, EQ: Default, ANC: On)	Jabra Elite 8 Active 2	in-ear	711
+https://dhrme.squig.link/data/Jabra%20E%208%20Act%202%20Norm%20L.txt	Jabra Elite 8 Active 2 (Codec: AAC, EQ: Default, ANC: Off)	Jabra Elite 8 Active 2 (Codec AAC, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Jabra%20E%208%20Act%202%20Norm%20R.txt	Jabra Elite 8 Active 2 (Codec: AAC, EQ: Default, ANC: Off)	Jabra Elite 8 Active 2 (Codec AAC, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/KZC%20ANC%20L.txt	KZ Carol (Codec: AAC, EQ: Default, ANC: On)	KZ Carol	in-ear	711
+https://dhrme.squig.link/data/KZC%20ANC%20R.txt	KZ Carol (Codec: AAC, EQ: Default, ANC: On)	KZ Carol	in-ear	711
+https://dhrme.squig.link/data/KZC%20Norm%20L.txt	KZ Carol (Codec: AAC, EQ: Default, ANC: Off)	KZ Carol (Codec AAC, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/KZC%20Norm%20R.txt	KZ Carol (Codec: AAC, EQ: Default, ANC: Off)	KZ Carol (Codec AAC, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/KZ%20VXS%20APTX%20L.txt	KZ VXS (Codec: aptX, EQ: Default)	KZ VXS	in-ear	711
+https://dhrme.squig.link/data/KZ%20VXS%20APTX%20R.txt	KZ VXS (Codec: aptX, EQ: Default)	KZ VXS	in-ear	711
+https://dhrme.squig.link/data/KZ%20VXS%20Pro%20L.txt	KZ VXS Pro (Codec: APTX Adaptive, EQ: None, ANC: N/A)	KZ VXS Pro	in-ear	711
+https://dhrme.squig.link/data/KZ%20VXS%20Pro%20R.txt	KZ VXS Pro (Codec: APTX Adaptive, EQ: None, ANC: N/A)	KZ VXS Pro	in-ear	711
+https://dhrme.squig.link/data/KZ%20Xtra%20ANC%20L.txt	KZ Xtra (Codec: APTX Adaptive, EQ: None, ANC: On)	KZ Xtra	ignore	711
+https://dhrme.squig.link/data/KZ%20Xtra%20ANC%20R.txt	KZ Xtra (Codec: APTX Adaptive, EQ: None, ANC: On)	KZ Xtra	in-ear	711
+https://dhrme.squig.link/data/KZ%20Xtra%20ANCOff%20L.txt	KZ Xtra (Codec: APTX Adaptive, EQ: None, ANC: Off)	KZ Xtra (Codec APTX Adaptive, EQ None, ANC Off)	ignore	711
+https://dhrme.squig.link/data/KZ%20Xtra%20ANCOff%20R.txt	KZ Xtra (Codec: APTX Adaptive, EQ: None, ANC: Off)	KZ Xtra (Codec APTX Adaptive, EQ None, ANC Off)	ignore	711
+https://dhrme.squig.link/data/M100%20Norm%20Foam%20R.txt		M100 Norm Foam	ignore	711
+https://dhrme.squig.link/data/MD%20ST%20Norm%20Bas%20Ref%20L.txt		MD ST Norm Bas Ref	ignore	711
+https://dhrme.squig.link/data/MD%20MW08%20ANC%20L.txt	Master & Dynamic MW08 (Codec: aptX, EQ: Default, ANC: Max)	Master & Dynamic MW08	in-ear	711
+https://dhrme.squig.link/data/MD%20MW08%20ANC%20R.txt	Master & Dynamic MW08 (Codec: aptX, EQ: Default, ANC: Max)	Master & Dynamic MW08	in-ear	711
+https://dhrme.squig.link/data/MD%20MW08%20Norm%20L.txt	Master & Dynamic MW08 (Codec: aptX, EQ: Default, ANC: Off)	Master & Dynamic MW08 (Codec aptX, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/MD%20MW08%20Norm%20R.txt	Master & Dynamic MW08 (Codec: aptX, EQ: Default, ANC: Off)	Master & Dynamic MW08 (Codec aptX, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/MDGA%20Basshead%20Norm%20L.txt	Moondrop Golden Ages (Codec: LDAC, EQ: Basshead, ANC: Off)	Moondrop Golden Ages (Codec: LDAC, EQ: Basshead, ANC: Off)	ignore	711
+https://dhrme.squig.link/data/MDGA%20Basshead%20Norm%20R.txt	Moondrop Golden Ages (Codec: LDAC, EQ: Basshead, ANC: Off)	Moondrop Golden Ages (Codec: LDAC, EQ: Basshead, ANC: Off)	ignore	711
+https://dhrme.squig.link/data/MDGA%20Basshead%20ANC%20L.txt	Moondrop Golden Ages (Codec: LDAC, EQ: Basshead, ANC: On)	Moondrop Golden Ages (Codec: LDAC, EQ: Basshead, ANC: On)	ignore	711
+https://dhrme.squig.link/data/MDGA%20Basshead%20ANC%20R.txt	Moondrop Golden Ages (Codec: LDAC, EQ: Basshead, ANC: On)	Moondrop Golden Ages (Codec: LDAC, EQ: Basshead, ANC: On)	ignore	711
+https://dhrme.squig.link/data/MDGA%20Monitor%20ANC%20L.txt	Moondrop Golden Ages (Codec: LDAC, EQ: Monitor, ANC: On)	Moondrop Golden Ages (Codec: LDAC, EQ: Monitor, ANC: On)	ignore	711
+https://dhrme.squig.link/data/MDGA%20Monitor%20ANC%20R.txt	Moondrop Golden Ages (Codec: LDAC, EQ: Monitor, ANC: On)	Moondrop Golden Ages (Codec: LDAC, EQ: Monitor, ANC: On)	ignore	711
+https://dhrme.squig.link/data/MDGA%20Reference%20Norm%20L.txt	Moondrop Golden Ages (Codec: LDAC, EQ: Reference, ANC: Off)	Moondrop Golden Ages (Codec: LDAC, EQ: Reference, ANC: Off)	ignore	711
+https://dhrme.squig.link/data/MDGA%20Reference%20Norm%20R.txt	Moondrop Golden Ages (Codec: LDAC, EQ: Reference, ANC: Off)	Moondrop Golden Ages (Codec: LDAC, EQ: Reference, ANC: Off)	ignore	711
+https://dhrme.squig.link/data/MDGA%20Reference%20ANC%20L.txt	Moondrop Golden Ages (Codec: LDAC, EQ: Reference, ANC: On)	Moondrop Golden Ages (Codec: LDAC, EQ: Reference, ANC: On)	ignore	711
+https://dhrme.squig.link/data/MDGA%20Reference%20ANC%20R.txt	Moondrop Golden Ages (Codec: LDAC, EQ: Reference, ANC: On)	Moondrop Golden Ages (Codec: LDAC, EQ: Reference, ANC: On)	ignore	711
+https://dhrme.squig.link/data/MDGA%20Monitor%20Norm%20L.txt	Moondrop Golden Ages (Codec: LDAC, EQ: Monitor, ANC: Off)	Moondrop Golden Ages (monitor eq)	in-ear	711
+https://dhrme.squig.link/data/MDGA%20Monitor%20Norm%20R.txt	Moondrop Golden Ages (Codec: LDAC, EQ: Monitor, ANC: Off)	Moondrop Golden Ages (monitor eq)	in-ear	711
+https://dhrme.squig.link/data/MD%20ST%20Norm%20Bas%20L.txt	Moondrop Space Travel (Codec: AAC, EQ: Basshead, ANC: Off)	Moondrop Space Travel (Codec AAC, EQ Basshead, ANC Off)	ignore	711
+https://dhrme.squig.link/data/MD%20ST%20Norm%20Bas%20R.txt	Moondrop Space Travel (Codec: AAC, EQ: Basshead, ANC: Off)	Moondrop Space Travel (Codec AAC, EQ Basshead, ANC Off)	ignore	711
+https://dhrme.squig.link/data/MD%20ST%20Norm%20Mon%20L.txt	Moondrop Space Travel (Codec: AAC, EQ: Monitor, ANC: Off)	Moondrop Space Travel (Codec AAC, EQ Monitor, ANC Off)	ignore	711
+https://dhrme.squig.link/data/MD%20ST%20Norm%20Mon%20R.txt	Moondrop Space Travel (Codec: AAC, EQ: Monitor, ANC: Off)	Moondrop Space Travel (Codec AAC, EQ Monitor, ANC Off)	ignore	711
+https://dhrme.squig.link/data/MD%20ST%20Norm%20Ref%20L.txt	Moondrop Space Travel (Codec: AAC, EQ: Reference, ANC: Off)	Moondrop Space Travel (Codec AAC, EQ Reference, ANC Off)	ignore	711
+https://dhrme.squig.link/data/MD%20ST%20Norm%20Ref%20R.txt	Moondrop Space Travel (Codec: AAC, EQ: Reference, ANC: Off)	Moondrop Space Travel (Codec AAC, EQ Reference, ANC Off)	ignore	711
+https://dhrme.squig.link/data/MD%20ST%20ANC%20Bas%20L.txt	Moondrop Space Travel (Codec: AAC, EQ: Basshead, ANC: On)	Moondrop Space Travel (basshead mode)	in-ear	711
+https://dhrme.squig.link/data/MD%20ST%20ANC%20Bas%20R.txt	Moondrop Space Travel (Codec: AAC, EQ: Basshead, ANC: On)	Moondrop Space Travel (basshead mode)	in-ear	711
+https://dhrme.squig.link/data/MD%20ST%20ANC%20Mon%20L.txt	Moondrop Space Travel (Codec: AAC, EQ: Monitor, ANC: On)	Moondrop Space Travel (monitor mode)	in-ear	711
+https://dhrme.squig.link/data/MD%20ST%20ANC%20Mon%20R.txt	Moondrop Space Travel (Codec: AAC, EQ: Monitor, ANC: On)	Moondrop Space Travel (monitor mode)	in-ear	711
+https://dhrme.squig.link/data/MD%20ST%20ANC%20Ref%20L.txt	Moondrop Space Travel (Codec: AAC, EQ: Reference, ANC: On)	Moondrop Space Travel (reference mode)	in-ear	711
+https://dhrme.squig.link/data/MD%20ST%20ANC%20Ref%20R.txt	Moondrop Space Travel (Codec: AAC, EQ: Reference, ANC: On)	Moondrop Space Travel (reference mode)	in-ear	711
+https://dhrme.squig.link/data/MD%20x%20CrinDusk%20Bass%20L.txt	Moondrop x Crinacle Dusk (USB Bass+)	Moondrop x Crinacle DUSK (Bass+ DSP)	in-ear	711
+https://dhrme.squig.link/data/MD%20x%20CrinDusk%20Bass%20R.txt	Moondrop x Crinacle Dusk (USB Bass+)	Moondrop x Crinacle DUSK (Bass+ DSP)	in-ear	711
+https://dhrme.squig.link/data/MD%20x%20CrinDusk%20USB%20Def%20L.txt	Moondrop x Crinacle Dusk (USB Default)	Moondrop x Crinacle DUSK (Default DSP)	in-ear	711
+https://dhrme.squig.link/data/MD%20x%20CrinDusk%20USB%20Def%20R.txt	Moondrop x Crinacle Dusk (USB Default)	Moondrop x Crinacle DUSK (Default DSP)	in-ear	711
+https://dhrme.squig.link/data/MD%20x%20CrinDusk%20DiffTilt%20L.txt	Moondrop x Crinacle Dusk (USB Diffuse Tilted)	Moondrop x Crinacle DUSK (Diffuse-tilted DSP)	in-ear	711
+https://dhrme.squig.link/data/MD%20x%20CrinDusk%20DiffTilt%20R.txt	Moondrop x Crinacle Dusk (USB Diffuse Tilted)	Moondrop x Crinacle DUSK (Diffuse-tilted DSP)	in-ear	711
+https://dhrme.squig.link/data/MD%20x%20CrinDusk%20Hrmn%20L.txt	Moondrop x Crinacle Dusk (USB Harman)	Moondrop x Crinacle DUSK (Harman DSP)	in-ear	711
+https://dhrme.squig.link/data/MD%20x%20CrinDusk%20Hrmn%20R.txt	Moondrop x Crinacle Dusk (USB Harman)	Moondrop x Crinacle DUSK (Harman DSP)	in-ear	711
+https://dhrme.squig.link/data/MD%20x%20CrinDusk%20V%20L.txt	Moondrop x Crinacle Dusk (USB V)	Moondrop x Crinacle DUSK (V DSP)	in-ear	711
+https://dhrme.squig.link/data/MD%20x%20CrinDusk%20V%20R.txt	Moondrop x Crinacle Dusk (USB V)	Moondrop x Crinacle DUSK (V DSP)	in-ear	711
+https://dhrme.squig.link/data/MD%20x%20CrinDusk%203.5%20L.txt	Moondrop x Crinacle Dusk (3.5mm)	Moondrop x Crinacle DUSK (analog)	in-ear	711
+https://dhrme.squig.link/data/MD%20x%20CrinDusk%203.5%20R.txt	Moondrop x Crinacle Dusk (3.5mm)	Moondrop x Crinacle DUSK (analog)	in-ear	711
+https://dhrme.squig.link/data/Moto%20Buds%20Plus%20ANC%20L.txt	Motorola Moto Buds Plus (Codec: LHDC v5, EQ: Flat, ANC: On)	Motorola Moto Buds Plus	in-ear	711
+https://dhrme.squig.link/data/Moto%20Buds%20Plus%20ANC%20R.txt	Motorola Moto Buds Plus (Codec: LHDC v5, EQ: Flat, ANC: On)	Motorola Moto Buds Plus	in-ear	711
+https://dhrme.squig.link/data/Moto%20Buds%20Plus%20Normal%20L.txt	Motorola Moto Buds Plus (Codec: LHDC v5, EQ: Flat, ANC: Off)	Motorola Moto Buds Plus (Codec LHDC v5, EQ Flat, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Moto%20Buds%20Plus%20Normal%20R.txt	Motorola Moto Buds Plus (Codec: LHDC v5, EQ: Flat, ANC: Off)	Motorola Moto Buds Plus (Codec LHDC v5, EQ Flat, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Nobel%20Fokus%20Mystique%20L.txt	Noble Audio Fokus Mystique (Codec: APTX Adaptive, EQ: None, ANC: N/A)	Noble Audio Fokus Mystique	in-ear	711
+https://dhrme.squig.link/data/Nobel%20Fokus%20Mystique%20R.txt	Noble Audio Fokus Mystique (Codec: APTX Adaptive, EQ: None, ANC: N/A)	Noble Audio Fokus Mystique	in-ear	711
+https://dhrme.squig.link/data/NobleFMystique%202flange%20L.txt	Noble Audio Fokus Mystique (double flange) (Codec: APTX Adaptive, EQ: None, ANC: N/A)	Noble Audio Fokus Mystique (double flange)	in-ear	711
+https://dhrme.squig.link/data/NobleFMystique%202flange%20R.txt	Noble Audio Fokus Mystique (double flange) (Codec: APTX Adaptive, EQ: None, ANC: N/A)	Noble Audio Fokus Mystique (double flange)	in-ear	711
+https://dhrme.squig.link/data/NobleFMystique%201flange%20L.txt	Noble Audio Fokus Mystique (single flange) (Codec: APTX Adaptive, EQ: None, ANC: N/A)	Noble Audio Fokus Mystique (single flange)	in-ear	711
+https://dhrme.squig.link/data/NobleFMystique%201flange%20R.txt	Noble Audio Fokus Mystique (single flange) (Codec: APTX Adaptive, EQ: None, ANC: N/A)	Noble Audio Fokus Mystique (single flange)	in-ear	711
+https://dhrme.squig.link/data/Nothing%20Ear%20ANC%20L.txt	Nothing Ear (2024) (Codec: LDAC, EQ: None, ANC: Off)	Nothing Ear (2024) (Codec LDAC, EQ None, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Nothing%20Ear%20ANC%20R.txt	Nothing Ear (2024) (Codec: LDAC, EQ: None, ANC: Off)	Nothing Ear (2024) (Codec LDAC, EQ None, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Nothing%20Ear%20ANC%20Sim-Bal%20L.txt	Nothing Ear (2024) (Codec: LDAC, EQ: Simple - Balanced, ANC: Max)	Nothing Ear (2024) (Codec LDAC, EQ Simple - Balanced, ANC Max)	ignore	711
+https://dhrme.squig.link/data/Nothing%20Ear%20ANC%20Sim-Bal%20R.txt	Nothing Ear (2024) (Codec: LDAC, EQ: Simple - Balanced, ANC: Max)	Nothing Ear (2024) (Codec LDAC, EQ Simple - Balanced, ANC Max)	ignore	711
+https://dhrme.squig.link/data/Nothing%20Ear%20ANC%20MoreBass%20L.txt	Nothing Ear (2024) (Codec: LDAC, EQ: Simple - More Bass, ANC: Max)	Nothing Ear (2024) (Codec LDAC, EQ Simple - More Bass, ANC Max)	ignore	711
+https://dhrme.squig.link/data/Nothing%20Ear%20ANC%20MoreBass%20R.txt	Nothing Ear (2024) (Codec: LDAC, EQ: Simple - More Bass, ANC: Max)	Nothing Ear (2024) (Codec LDAC, EQ Simple - More Bass, ANC Max)	ignore	711
+https://dhrme.squig.link/data/Nothing%20Ear%20(a)%20Normal%20L.txt	Nothing Ear (a) (Codec: LDAC, EQ: Balanced, ANC: Off)	Nothing Ear (a) (Codec LDAC, EQ Balanced, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Nothing%20Ear%20(a)%20Normal%20R.txt	Nothing Ear (a) (Codec: LDAC, EQ: Balanced, ANC: Off)	Nothing Ear (a) (Codec LDAC, EQ Balanced, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Nothing%20Ear%202024.mdat		Nothing Ear 2024.mdat	ignore	711
+https://dhrme.squig.link/data/Nothing%20Ear%20Normal%20L.txt	Nothing Ear (2024) (Codec: LDAC, EQ: None, ANC: Max)	Nothing ear	in-ear	711
+https://dhrme.squig.link/data/Nothing%20Ear%20Normal%20R.txt	Nothing Ear (2024) (Codec: LDAC, EQ: None, ANC: Max)	Nothing ear	in-ear	711
+https://dhrme.squig.link/data/NothingEar1%20ANC%20High%20L.txt	Nothing Ear (1) (Codec: AAC, EQ: Balanced, ANC: High)	Nothing ear (1)	in-ear	711
+https://dhrme.squig.link/data/NothingEar1%20ANC%20High%20R.txt	Nothing Ear (1) (Codec: AAC, EQ: Balanced, ANC: High)	Nothing ear (1)	in-ear	711
+https://dhrme.squig.link/data/Nothing%20Ear%20(a)%20ANC%20L.txt	Nothing Ear (a) (Codec: LDAC, EQ: Balanced, ANC: ANC)	Nothing ear (a)	in-ear	711
+https://dhrme.squig.link/data/Nothing%20Ear%20(a)%20ANC%20R.txt	Nothing Ear (a) (Codec: LDAC, EQ: Balanced, ANC: ANC)	Nothing ear (a)	in-ear	711
+https://dhrme.squig.link/data/OP%20Buds3%20LHDC%20ANC%20L.txt	OnePlus Buds 3 (Codec: LHDC v5, EQ: Balanced, ANC: Max)	OnePlus Buds 3	in-ear	711
+https://dhrme.squig.link/data/OP%20Buds3%20LHDC%20ANC%20R.txt	OnePlus Buds 3 (Codec: LHDC v5, EQ: Balanced, ANC: Max)	OnePlus Buds 3	in-ear	711
+https://dhrme.squig.link/data/OP%20Buds3%20LHDC%20Norm%20L.txt	OnePlus Buds 3 (Codec: LHDC v5, EQ: Balanced, ANC: Off)	OnePlus Buds 3 (Codec LHDC v5, EQ Balanced, ANC Off)	ignore	711
+https://dhrme.squig.link/data/OP%20Buds3%20LHDC%20Norm%20R.txt	OnePlus Buds 3 (Codec: LHDC v5, EQ: Balanced, ANC: Off)	OnePlus Buds 3 (Codec LHDC v5, EQ Balanced, ANC Off)	ignore	711
+https://dhrme.squig.link/data/OPBuds3Pro%20ANC%20L.txt	OnePlus Buds Pro 3 (Codec: AAC, EQ: Balanced, ANC: Max)	OnePlus Buds Pro 3 (Codec AAC, EQ Balanced, ANC Max)	ignore	711
+https://dhrme.squig.link/data/OPBuds3Pro%20ANC%20R.txt	OnePlus Buds Pro 3 (Codec: AAC, EQ: Balanced, ANC: Max)	OnePlus Buds Pro 3 (Codec AAC, EQ Balanced, ANC Max)	ignore	711
+https://dhrme.squig.link/data/OPBuds3Pro%20Norm%20L.txt	OnePlus Buds Pro 3 (Codec: AAC, EQ: Balanced, ANC: Off)	OnePlus Buds Pro 3 (Codec AAC, EQ Balanced, ANC Off)	ignore	711
+https://dhrme.squig.link/data/OPBuds3Pro%20Norm%20R.txt	OnePlus Buds Pro 3 (Codec: AAC, EQ: Balanced, ANC: Off)	OnePlus Buds Pro 3 (Codec AAC, EQ Balanced, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Oppo%20Enco%20X2%20Punchy%20L.txt	Oppo Enco X2 (Codec: LDAC, EQ: Dynaudio Punchy, ANC: Max)	Oppo Enco X2 (Codec: LDAC, EQ: Dynaudio Punchy, ANC: Max)	ignore	
+https://dhrme.squig.link/data/Oppo%20Enco%20X2%20Real%20L.txt	Oppo Enco X2 (Codec: LDAC, EQ: Dynaudio Real, ANC: Max)	Oppo Enco X2 (Codec: LDAC, EQ: Dynaudio Real, ANC: Max)	ignore	
+https://dhrme.squig.link/data/Oppo%20Enco%20X2%20SC%20L.txt	Oppo Enco X2 (Codec: LDAC, EQ: Dynaudio Simple and Clear, ANC: Max)	Oppo Enco X2 (Codec: LDAC, EQ: Dynaudio Simple and Clear, ANC: Max)	ignore	
+https://dhrme.squig.link/data/Oppo%20Enco%20X2%20Classic%20L.txt	Oppo Enco X2 (Codec: LDAC, EQ: Enco Classic Preset, ANC: Max)	Oppo Enco X2 (Enco classic preset)	in-ear	711
+https://dhrme.squig.link/data/Oppo%20Enco%20X2%20Classic%20R.txt	Oppo Enco X2 (Codec: LDAC, EQ: Enco Classic Preset, ANC: Max)	Oppo Enco X2 (Enco classic preset)	in-ear	711
+https://dhrme.squig.link/data/OpEn%20X3i%20anc%20L.txt	Oppo Enco X3i (Codec: LHDC v5, EQ: Original Sound, Basswave 0, ANC: Max)	Oppo Enco X3i	in-ear	711
+https://dhrme.squig.link/data/OpEn%20X3i%20anc%20R.txt	Oppo Enco X3i (Codec: LHDC v5, EQ: Original Sound, Basswave 0, ANC: Max)	Oppo Enco X3i	in-ear	711
+https://dhrme.squig.link/data/OpEn%20X3i%20Norm%20L.txt	Oppo Enco X3i (Codec: LHDC v5, EQ: Original Sound, Basswave 0, ANC: Off)	Oppo Enco X3i (Codec LHDC v5, EQ Original Sound, Basswave 0, ANC Off)	ignore	711
+https://dhrme.squig.link/data/OpEn%20X3i%20Norm%20R.txt	Oppo Enco X3i (Codec: LHDC v5, EQ: Original Sound, Basswave 0, ANC: Off)	Oppo Enco X3i (Codec LHDC v5, EQ Original Sound, Basswave 0, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Project%20HRP%20L.txt		Project HRP	ignore	
+https://dhrme.squig.link/data/Project%20HRP%20R.txt		Project HRP	ignore	
+https://dhrme.squig.link/data/QCYMelo%20ANC%20Default%20L.txt	QCY MeloBuds Pro (Codec: LDAC, EQ: Default, ANC: Max)	QCY MeloBuds Pro	in-ear	711
+https://dhrme.squig.link/data/QCYMelo%20ANC%20Default%20R.txt	QCY MeloBuds Pro (Codec: LDAC, EQ: Default, ANC: Max)	QCY MeloBuds Pro	in-ear	711
+https://dhrme.squig.link/data/QCYMelo%20Normal%20L.txt	QCY MeloBuds Pro (Codec: LDAC, EQ: Default, ANC: Off)	QCY MeloBuds Pro (Codec LDAC, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/QCYMelo%20Normal%20R.txt	QCY MeloBuds Pro (Codec: LDAC, EQ: Default, ANC: Off)	QCY MeloBuds Pro (Codec LDAC, EQ Default, ANC Off)	ignore	711
+https://dhrme.squig.link/data/RealMe%20BA6Pro%20ANC%20CB%20L.txt	RealMe Buds Air6 Pro (Codec: LDAC, EQ: Clear Bass, ANC: Max)	RealMe Buds Air6 Pro (Codec LDAC, EQ Clear Bass, ANC Max)	ignore	711
+https://dhrme.squig.link/data/RealMe%20BA6Pro%20ANC%20CB%20R.txt	RealMe Buds Air6 Pro (Codec: LDAC, EQ: Clear Bass, ANC: Max)	RealMe Buds Air6 Pro (Codec LDAC, EQ Clear Bass, ANC Max)	ignore	711
+https://dhrme.squig.link/data/RealMe%20BA6Pro%20Norm%20CB%20L.txt	RealMe Buds Air6 Pro (Codec: LDAC, EQ: Clear Bass, ANC: Off)	RealMe Buds Air6 Pro (Codec LDAC, EQ Clear Bass, ANC Off)	ignore	711
+https://dhrme.squig.link/data/RealMe%20BA6Pro%20Norm%20CB%20R.txt	RealMe Buds Air6 Pro (Codec: LDAC, EQ: Clear Bass, ANC: Off)	RealMe Buds Air6 Pro (Codec LDAC, EQ Clear Bass, ANC Off)	ignore	711
+https://dhrme.squig.link/data/RealMe%20BA6Pro%20Norm%20NB%20L.txt	RealMe Buds Air6 Pro (Codec: LDAC, EQ: Nature Balance, ANC: Off)	RealMe Buds Air6 Pro (Codec LDAC, EQ Nature Balance, ANC Off)	ignore	711
+https://dhrme.squig.link/data/RealMe%20BA6Pro%20Norm%20NB%20R.txt	RealMe Buds Air6 Pro (Codec: LDAC, EQ: Nature Balance, ANC: Off)	RealMe Buds Air6 Pro (Codec LDAC, EQ Nature Balance, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Samsung%20Buds%20FE%20Norm%20L.txt	Samsung Buds FE (Codec: SSC, EQ: Normal, ANC: Off)	Samsung Buds FE (Codec SSC, EQ Normal, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Samsung%20Buds%20FE%20Norm%20R.txt	Samsung Buds FE (Codec: SSC, EQ: Normal, ANC: Off)	Samsung Buds FE (Codec SSC, EQ Normal, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Sam%20GB3%20Pro%20Norm%20L.txt	Samsung Galaxy Buds 3 Pro (Codec: SSC, EQ: Normal, ANC: Off)	Samsung Galaxy Buds 3 Pro (Codec SSC, EQ Normal, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Sam%20GB3%20Pro%20Norm%20R.txt	Samsung Galaxy Buds 3 Pro (Codec: SSC, EQ: Normal, ANC: Off)	Samsung Galaxy Buds 3 Pro (Codec SSC, EQ Normal, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Samsung%20Buds%20FE%20ANC%20L.txt	Samsung Buds FE (Codec: SSC, EQ: Normal, ANC: On)	Samsung Galaxy Buds FE	in-ear	711
+https://dhrme.squig.link/data/Samsung%20Buds%20FE%20ANC%20R.txt	Samsung Buds FE (Codec: SSC, EQ: Normal, ANC: On)	Samsung Galaxy Buds FE	in-ear	711
+https://dhrme.squig.link/data/Sam%20GB3%20Pro%20ANC%20L.txt	Samsung Galaxy Buds 3 Pro (Codec: SSC, EQ: Normal, ANC: On)	Samsung Galaxy Buds3 Pro	in-ear	711
+https://dhrme.squig.link/data/Sam%20GB3%20Pro%20ANC%20R.txt	Samsung Galaxy Buds 3 Pro (Codec: SSC, EQ: Normal, ANC: On)	Samsung Galaxy Buds3 Pro	in-ear	711
+https://dhrme.squig.link/data/SennAccTWS%20ANC%20L.txt	Sennheiser Accentum TWS (Codec: aptX, EQ: None, ANC: Max)	Sennheiser Accentum TWS	in-ear	711
+https://dhrme.squig.link/data/SennAccTWS%20ANC%20R.txt	Sennheiser Accentum TWS (Codec: aptX, EQ: None, ANC: Max)	Sennheiser Accentum TWS	in-ear	711
+https://dhrme.squig.link/data/SennAccTWS%20Norm%20L.txt	Sennheiser Accentum TWS (Codec: aptX, EQ: None, ANC: Off)	Sennheiser Accentum TWS (Codec aptX, EQ None, ANC Off)	ignore	711
+https://dhrme.squig.link/data/SennAccTWS%20Norm%20R.txt	Sennheiser Accentum TWS (Codec: aptX, EQ: None, ANC: Off)	Sennheiser Accentum TWS (Codec aptX, EQ None, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Senn%20CXPlus%20ANC%20L.txt	Sennheiser CX Plus True Wireless (Codec: aptX, EQ: None, ANC: On)	Sennheiser CX Plus True Wireless	in-ear	711
+https://dhrme.squig.link/data/Senn%20CXPlus%20ANC%20R.txt	Sennheiser CX Plus True Wireless (Codec: aptX, EQ: None, ANC: On)	Sennheiser CX Plus True Wireless	in-ear	711
+https://dhrme.squig.link/data/Senn%20CXPlus%20Norm%20L.txt	Sennheiser CX Plus True Wireless (Codec: aptX, EQ: None, ANC: Off)	Sennheiser CX Plus True Wireless (Codec aptX, EQ None, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Senn%20CXPlus%20Norm%20R.txt	Sennheiser CX Plus True Wireless (Codec: aptX, EQ: None, ANC: Off)	Sennheiser CX Plus True Wireless (Codec aptX, EQ None, ANC Off)	ignore	711
+https://dhrme.squig.link/data/IE200%20L.txt	Sennheiser IE 200 (Standard position / Reference Listening)	Sennheiser IE 200 (Standard position / Reference Listening)	ignore	
+https://dhrme.squig.link/data/IE200%20R.txt	Sennheiser IE 200 (Standard position / Reference Listening)	Sennheiser IE 200 (Standard position / Reference Listening)	ignore	
+https://dhrme.squig.link/data/Momentum%20TWS3%20ANCOff%20L.txt	Sennheiser Momentum True Wireless 3 (Codec: APTX Adaptive, EQ: Off, ANC: Off)	Sennheiser Momentum True Wireless 3 (ANC off)	in-ear	711
+https://dhrme.squig.link/data/Momentum%20TWS3%20ANCOff%20R.txt	Sennheiser Momentum True Wireless 3 (Codec: APTX Adaptive, EQ: Off, ANC: Off)	Sennheiser Momentum True Wireless 3 (ANC off)	in-ear	711
+https://dhrme.squig.link/data/Momentum%20TWS3%20ANCOn%20L.txt	Sennheiser Momentum True Wireless 3 (Codec: APTX Adaptive, EQ: Off, ANC: On)	Sennheiser Momentum True Wireless 3 (ANC on)	in-ear	711
+https://dhrme.squig.link/data/Momentum%20TWS3%20ANCOn%20R.txt	Sennheiser Momentum True Wireless 3 (Codec: APTX Adaptive, EQ: Off, ANC: On)	Sennheiser Momentum True Wireless 3 (ANC on)	in-ear	711
+https://dhrme.squig.link/data/SennMTW4%20ANCOff%20noEQ%20L.txt	Sennheiser Momentum True Wireless 4 (Codec: aptX Adaptive, EQ: None, ANC: Off)	Sennheiser Momentum True Wireless 4 (ANC Off)	in-ear	711
+https://dhrme.squig.link/data/SennMTW4%20ANCOff%20noEQ%20R.txt	Sennheiser Momentum True Wireless 4 (Codec: aptX Adaptive, EQ: None, ANC: Off)	Sennheiser Momentum True Wireless 4 (ANC Off)	in-ear	711
+https://dhrme.squig.link/data/SennMTW4%20ANCOn%20noEQ%20L.txt	Sennheiser Momentum True Wireless 4 (Codec: aptX Adaptive, EQ: None, ANC: On)	Sennheiser Momentum True Wireless 4 (ANC On)	in-ear	711
+https://dhrme.squig.link/data/SennMTW4%20ANCOn%20noEQ%20R.txt	Sennheiser Momentum True Wireless 4 (Codec: aptX Adaptive, EQ: None, ANC: On)	Sennheiser Momentum True Wireless 4 (ANC On)	in-ear	711
+https://dhrme.squig.link/data/SkCa%20M360%20Music%20ANC%20L.txt		SkCa M360 Music ANC	ignore	711
+https://dhrme.squig.link/data/SkCa%20M360%20Music%20ANC%20R.txt		SkCa M360 Music ANC	ignore	711
+https://dhrme.squig.link/data/SkCa%20M360%20Music%20Norm%20R.txt		SkCa M360 Music Norm	ignore	711
+https://dhrme.squig.link/data/Sony-LFit%20ANC%20L.txt	Sony LinkBuds Fit (Codec: LDAC, EQ: None, ANC: On)	Sony LinkBuds Fit	in-ear	711
+https://dhrme.squig.link/data/Sony-LFit%20ANC%20R.txt	Sony LinkBuds Fit (Codec: LDAC, EQ: None, ANC: On)	Sony LinkBuds Fit	in-ear	711
+https://dhrme.squig.link/data/Sony-LFit%20Norm%20L.txt	Sony LinkBuds Fit (Codec: LDAC, EQ: None, ANC: Off)	Sony LinkBuds Fit (Codec LDAC, EQ None, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Sony-LFit%20Norm%20R.txt	Sony LinkBuds Fit (Codec: LDAC, EQ: None, ANC: Off)	Sony LinkBuds Fit (Codec LDAC, EQ None, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Sony%20LinkBuds%20S%20ANCOff%20L.txt	Sony LinkBuds S (Codec: LDAC, EQ: None, ANC: ANC Off)	Sony LinkBuds S (ANC Off)	in-ear	711
+https://dhrme.squig.link/data/Sony%20LinkBuds%20S%20ANCOff%20R.txt	Sony LinkBuds S (Codec: LDAC, EQ: None, ANC: ANC Off)	Sony LinkBuds S (ANC Off)	in-ear	711
+https://dhrme.squig.link/data/Sony%20LinkBuds%20S%20ANC%20L.txt	Sony LinkBuds S (Codec: LDAC, EQ: None, ANC: ANC Max)	Sony LinkBuds S (ANC on)	in-ear	711
+https://dhrme.squig.link/data/Sony%20LinkBuds%20S%20ANC%20R.txt	Sony LinkBuds S (Codec: LDAC, EQ: None, ANC: ANC Max)	Sony LinkBuds S (ANC on)	in-ear	711
+https://dhrme.squig.link/data/Sony%20WF%20XM5%20Norm%20L.txt	Sony WF-1000 XM5 (Codec: LDAC, EQ: None, ANC: Off)	Sony WF-1000 XM5 (Codec LDAC, EQ None, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Sony%20WF%20XM5%20Norm%20R.txt	Sony WF-1000 XM5 (Codec: LDAC, EQ: None, ANC: Off)	Sony WF-1000 XM5 (Codec LDAC, EQ None, ANC Off)	ignore	711
+https://dhrme.squig.link/data/Sony%20WF%20XM5%20ANC%20L.txt	Sony WF-1000 XM5 (Codec: LDAC, EQ: None, ANC: On)	Sony WF-1000XM5	in-ear	711
+https://dhrme.squig.link/data/Sony%20WF%20XM5%20ANC%20R.txt	Sony WF-1000 XM5 (Codec: LDAC, EQ: None, ANC: On)	Sony WF-1000XM5	in-ear	711
+https://dhrme.squig.link/data/WFC710N%20Norm%20L.txt	Sony WF-C710N (Codec: AAC, EQ: None, ANC: Off)	Sony WF-C710N (Codec AAC, EQ None, ANC Off)	ignore	711
+https://dhrme.squig.link/data/WFC710N%20Norm%20R.txt	Sony WF-C710N (Codec: AAC, EQ: None, ANC: Off)	Sony WF-C710N (Codec AAC, EQ None, ANC Off)	ignore	711
+https://dhrme.squig.link/data/WFC710N%20ANC%20L.txt	Sony WF-C710N (Codec: AAC, EQ: None, ANC: Max)	Sony WH-CH710N	over-ear	711
+https://dhrme.squig.link/data/WFC710N%20ANC%20R.txt	Sony WF-C710N (Codec: AAC, EQ: None, ANC: Max)	Sony WH-CH710N	over-ear	711
+https://dhrme.squig.link/data/SC%20L4NC%20ScSigLDAC%20ANC%20L.txt	SoundCore Liberty 4 NC (Codec: LDAC, EQ: Soundcore Signature, ANC: Max)	SoundCore Liberty 4 NC (Codec LDAC, EQ Soundcore Signature, ANC Max)	ignore	711
+https://dhrme.squig.link/data/SC%20L4NC%20ScSigLDAC%20ANC%20R.txt	SoundCore Liberty 4 NC (Codec: LDAC, EQ: Soundcore Signature, ANC: Max)	SoundCore Liberty 4 NC (Codec LDAC, EQ Soundcore Signature, ANC Max)	ignore	711
+https://dhrme.squig.link/data/L4Pro%20ANC%20L.txt	SoundCore Liberty 4 Pro (Codec: LDAC, EQ: Soundcore Signature, ANC: Max)	SoundCore Liberty 4 Pro (Codec LDAC, EQ Soundcore Signature, ANC Max)	ignore	711
+https://dhrme.squig.link/data/L4Pro%20ANC%20R.txt	SoundCore Liberty 4 Pro (Codec: LDAC, EQ: Soundcore Signature, ANC: Max)	SoundCore Liberty 4 Pro (Codec LDAC, EQ Soundcore Signature, ANC Max)	ignore	711
+https://dhrme.squig.link/data/SC%20L5%20ANC%20SSig%20L.txt	SoundCore Liberty 5 (Codec: AAC, EQ: Soundcore Signature, ANC: Max)	SoundCore Liberty 5 (Codec AAC, EQ Soundcore Signature, ANC Max)	ignore	711
+https://dhrme.squig.link/data/SC%20L5%20ANC%20SSig%20R.txt	SoundCore Liberty 5 (Codec: AAC, EQ: Soundcore Signature, ANC: Max)	SoundCore Liberty 5 (Codec AAC, EQ Soundcore Signature, ANC Max)	ignore	711
+https://dhrme.squig.link/data/SoundPeats%20Air%204%20Pro%20Normal%20L.txt	SoundPeats Air 4 Pro (Codec: AAC, EQ: Default, ANC: Off)	SoundPeats Air4 Pro (ANC Off)	in-ear	711
+https://dhrme.squig.link/data/SoundPeats%20Air%204%20Pro%20Normal%20R.txt	SoundPeats Air 4 Pro (Codec: AAC, EQ: Default, ANC: Off)	SoundPeats Air4 Pro (ANC Off)	in-ear	711
+https://dhrme.squig.link/data/SoundPeats%20Air%204%20Pro%20ANC%20L.txt	SoundPeats Air 4 Pro (Codec: AAC, EQ: Default, ANC: ANC)	SoundPeats Air4 Pro (ANC on)	in-ear	711
+https://dhrme.squig.link/data/SoundPeats%20Air%204%20Pro%20ANC%20R.txt	SoundPeats Air 4 Pro (Codec: AAC, EQ: Default, ANC: ANC)	SoundPeats Air4 Pro (ANC on)	in-ear	711
+https://dhrme.squig.link/data/SoundPeats%20Engine%20ClassicEQ%20L.txt	SoundPeats Engine (Codec: AAC, EQ: Classic)	SoundPeats Engine	in-ear	711
+https://dhrme.squig.link/data/SoundPeats%20Engine%20ClassicEQ%20R.txt	SoundPeats Engine (Codec: AAC, EQ: Classic)	SoundPeats Engine	in-ear	711
+https://dhrme.squig.link/data/SPeats%20Free2%20Classic%20L.txt	SoundPeats Free 2 Classic (Codec: AAC, EQ: Default)	SoundPeats Free 2 Classic	in-ear	711
+https://dhrme.squig.link/data/SPeats%20Free2%20Classic%20R.txt	SoundPeats Free 2 Classic (Codec: AAC, EQ: Default)	SoundPeats Free 2 Classic	in-ear	711
+https://dhrme.squig.link/data/SPeats%20Mini%20Pro%20aptX%20L.txt	SoundPeats Mini Pro (Codec: aptX, EQ: Default)	SoundPeats Mini Pro	in-ear	711
+https://dhrme.squig.link/data/SPeats%20Mini%20Pro%20aptX%20R.txt	SoundPeats Mini Pro (Codec: aptX, EQ: Default)	SoundPeats Mini Pro	in-ear	711
+https://dhrme.squig.link/data/StatusAudiophile%20ANCOff%20L.txt	Status Audio Between 3 ANC (Codec: AAC, EQ: Status Audiophile, ANC: Off)	Status Audio Between 3 ANC (Codec: AAC, EQ: Status Audiophile, ANC: Off)	ignore	
+https://dhrme.squig.link/data/StatusAudiophile%20ANCOff%20R.txt	Status Audio Between 3 ANC (Codec: AAC, EQ: Status Audiophile, ANC: Off)	Status Audio Between 3 ANC (Codec: AAC, EQ: Status Audiophile, ANC: Off)	ignore	
+https://dhrme.squig.link/data/StatusAudiophile%20ANCOn%20L.txt	Status Audio Between 3 ANC (Codec: AAC, EQ: Status Audiophile, ANC: On)	Status Audio Between 3 ANC (Codec: AAC, EQ: Status Audiophile, ANC: On)	ignore	
+https://dhrme.squig.link/data/StatusAudiophile%20ANCOn%20R.txt	Status Audio Between 3 ANC (Codec: AAC, EQ: Status Audiophile, ANC: On)	Status Audio Between 3 ANC (Codec: AAC, EQ: Status Audiophile, ANC: On)	ignore	
+https://dhrme.squig.link/data/StatusSignature%20ANCOff%20L.txt	Status Audio Between 3 ANC (Codec: AAC, EQ: Status Signature, ANC: Off)	Status Audio Between 3 ANC (Codec: AAC, EQ: Status Signature, ANC: Off)	ignore	
+https://dhrme.squig.link/data/StatusSignature%20ANCOff%20R.txt	Status Audio Between 3 ANC (Codec: AAC, EQ: Status Signature, ANC: Off)	Status Audio Between 3 ANC (Codec: AAC, EQ: Status Signature, ANC: Off)	ignore	
+https://dhrme.squig.link/data/StatusSignature%20ANCOn%20L.txt	Status Audio Between 3 ANC (Codec: AAC, EQ: Status Signature, ANC: On)	Status Audio Between 3 ANC (Codec: AAC, EQ: Status Signature, ANC: On)	ignore	
+https://dhrme.squig.link/data/StatusSignature%20ANCOn%20R.txt	Status Audio Between 3 ANC (Codec: AAC, EQ: Status Signature, ANC: On)	Status Audio Between 3 ANC (Codec: AAC, EQ: Status Signature, ANC: On)	ignore	
+https://dhrme.squig.link/data/OriginalBetweenPro%20ANCOff%20L.txt	Status Audio Between 3 ANC (Codec: AAC, EQ: Original Between Pro, ANC: Off)	Status Audio Between 3ANC (ANC Off)	in-ear	711
+https://dhrme.squig.link/data/OriginalBetweenPro%20ANCOff%20R.txt	Status Audio Between 3 ANC (Codec: AAC, EQ: Original Between Pro, ANC: Off)	Status Audio Between 3ANC (ANC Off)	in-ear	711
+https://dhrme.squig.link/data/OriginalBetweenPro%20ANCOn%20L.txt	Status Audio Between 3 ANC (Codec: AAC, EQ: Original Between Pro, ANC: On)	Status Audio Between 3ANC (ANC on)	in-ear	711
+https://dhrme.squig.link/data/OriginalBetweenPro%20ANCOn%20R.txt	Status Audio Between 3 ANC (Codec: AAC, EQ: Original Between Pro, ANC: On)	Status Audio Between 3ANC (ANC on)	in-ear	711
+https://dhrme.squig.link/data/Technics%20AZ100%20Def%20Norm%20L.txt	Technics AZ100 (Codec: LDAC, EQ: DIRECT (Default), ANC: Off)	Technics AZ100 (Codec LDAC, EQ DIRECT (Default), ANC Off)	ignore	711
+https://dhrme.squig.link/data/Technics%20AZ100%20Def%20Norm%20R.txt	Technics AZ100 (Codec: LDAC, EQ: DIRECT (Default), ANC: Off)	Technics AZ100 (Codec LDAC, EQ DIRECT (Default), ANC Off)	ignore	711
+https://dhrme.squig.link/data/Technics%20AZ80%20ANCOff%20Flat%20L.txt	Technics AZ80 (Codec: LDAC, EQ: Flat, ANC: Off)	Technics AZ80 (Codec: LDAC, EQ: Flat, ANC: Off)	ignore	711
+https://dhrme.squig.link/data/Technics%20AZ80%20ANCOff%20Flat%20R.txt	Technics AZ80 (Codec: LDAC, EQ: Flat, ANC: Off)	Technics AZ80 (Codec: LDAC, EQ: Flat, ANC: Off)	ignore	711
+https://dhrme.squig.link/data/Technics%20AZ100%20Def%20ANC%20L.txt	Technics AZ100 (Codec: LDAC, EQ: DIRECT (Default), ANC: Max)	Technics EAH-AZ100	in-ear	711
+https://dhrme.squig.link/data/Technics%20AZ100%20Def%20ANC%20R.txt	Technics AZ100 (Codec: LDAC, EQ: DIRECT (Default), ANC: Max)	Technics EAH-AZ100	in-ear	711
+https://dhrme.squig.link/data/Technics%20AZ80%20ANCMax%20Flat%20L.txt	Technics AZ80 (Codec: LDAC, EQ: Flat, ANC: Max)	Technics EAH-AZ80	in-ear	711
+https://dhrme.squig.link/data/Technics%20AZ80%20ANCMax%20Flat%20R.txt	Technics AZ80 (Codec: LDAC, EQ: Flat, ANC: Max)	Technics EAH-AZ80	in-ear	711
+https://dhrme.squig.link/data/TinHifi%20TinBuds%203%20aptx%20L.txt	TinHifi TinBuds 3 (Codec: aptX)	Tin HiFi Tin Buds 3	in-ear	711
+https://dhrme.squig.link/data/TinHifi%20TinBuds%203%20aptx%20R.txt	TinHifi TinBuds 3 (Codec: aptX)	Tin HiFi Tin Buds 3	in-ear	711
+https://dhrme.squig.link/data/TruthEar%20Crinacle%20Zero%20Red%20L.txt	TruthEar  x Crinacle Zero: Red 	Truthear x Crinacle Zero RED	in-ear	711
+https://dhrme.squig.link/data/TruthEar%20Crinacle%20Zero%20Red%20R.txt	TruthEar  x Crinacle Zero: Red 	Truthear x Crinacle Zero RED	in-ear	711
+https://dhrme.squig.link/data/BD%20Am100%20ANC%20EQNeu%20L.txt	beyerdynamic Amiron 100 (Codec: AAC, EQ: Neutral, ANC: On)	beyerdynamic Amiron 100 (Codec AAC, EQ Neutral, ANC On)	ignore	711
+https://dhrme.squig.link/data/BD%20Am100%20ANC%20EQNeu%20R.txt	beyerdynamic Amiron 100 (Codec: AAC, EQ: Neutral, ANC: On)	beyerdynamic Amiron 100 (Codec AAC, EQ Neutral, ANC On)	ignore	711
+https://dhrme.squig.link/data/BD%20Am100%20Norm%20EQOff%20L.txt	beyerdynamic Amiron 100 (Codec: AAC, EQ: Off, ANC: Off)	beyerdynamic Amiron 100 (Codec AAC, EQ Off, ANC Off)	ignore	711
+https://dhrme.squig.link/data/BD%20Am100%20Norm%20EQOff%20R.txt	beyerdynamic Amiron 100 (Codec: AAC, EQ: Off, ANC: Off)	beyerdynamic Amiron 100 (Codec AAC, EQ Off, ANC Off)	ignore	711
+https://dhrme.squig.link/data/BD%20Am300%20ANC%20EQNeu%20L.txt	beyerdynamic Amiron 300 (Codec: LDAC, EQ: Neutral, ANC: Max)	beyerdynamic Amiron 300 (Codec LDAC, EQ Neutral, ANC Max)	ignore	711
+https://dhrme.squig.link/data/BD%20Am300%20ANC%20EQNeu%20R.txt	beyerdynamic Amiron 300 (Codec: LDAC, EQ: Neutral, ANC: Max)	beyerdynamic Amiron 300 (Codec LDAC, EQ Neutral, ANC Max)	ignore	711
+https://dhrme.squig.link/data/BD%20Am300%20Norm%20EQOff%20L.txt	beyerdynamic Amiron 300 (Codec: LDAC, EQ: Off, ANC: Off)	beyerdynamic Amiron 300 (Codec LDAC, EQ Off, ANC Off)	ignore	711
+https://dhrme.squig.link/data/BD%20Am300%20Norm%20EQOff%20R.txt	beyerdynamic Amiron 300 (Codec: LDAC, EQ: Off, ANC: Off)	beyerdynamic Amiron 300 (Codec LDAC, EQ Off, ANC Off)	ignore	711
+https://dhrme.squig.link/data/RealMe%20BA6Pro%20ANC%20NB%20L.txt	RealMe Buds Air6 Pro (Codec: LDAC, EQ: Nature Balance, ANC: Max)	realme Buds Air6 Pro (Nature Balance eq)	in-ear	711
+https://dhrme.squig.link/data/RealMe%20BA6Pro%20ANC%20NB%20R.txt	RealMe Buds Air6 Pro (Codec: LDAC, EQ: Nature Balance, ANC: Max)	realme Buds Air6 Pro (Nature Balance eq)	in-ear	711

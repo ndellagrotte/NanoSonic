@@ -331,23 +331,18 @@ class WizardViewModel @Inject constructor(
                         }
 
                         if (matchingEntry != null) {
-                            // Load the FixedBandEQ data
-                            val fixedBandEQ = autoEqSearch.loadEQ(matchingEntry)
+                            // Load the ParametricEQ data
+                            val parametricEQ = autoEqSearch.loadEQ(matchingEntry)
 
-                            if (fixedBandEQ != null) {
+                            if (parametricEQ != null) {
                                 val profile = SavedEQProfile(
                                     id = variant.id,
                                     name = variant.name,  // Use original name, not displayName
                                     deviceModel = modelName,
                                     source = variant.source,
                                     rig = variant.rig,
-                                    bands = fixedBandEQ.bands.map {
-                                        com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.GraphicEQBand(
-                                            frequency = it.frequency,
-                                            gain = it.gain
-                                        )
-                                    },
-                                    preamp = fixedBandEQ.preamp,
+                                    bands = parametricEQ.bands,  // Already ParametricEQBand
+                                    preamp = parametricEQ.preamp,
                                     isActive = false
                                 )
                                 profiles.add(profile)

@@ -75,11 +75,11 @@ fun SplashScreen(
     LaunchedEffect(state.navigationEvent) {
         when (state.navigationEvent) {
             NavigationEvent.NavigateToLogin -> {
-                onNavigateToLogin()
+                onNavigateAsGuest()
                 viewModel.onNavigationHandled()
             }
             NavigationEvent.NavigateToRegister -> {
-                onNavigateToRegister()
+                onNavigateAsGuest()
                 viewModel.onNavigationHandled()
             }
             NavigationEvent.NavigateAsGuest -> {
@@ -258,27 +258,6 @@ private fun ButtonsSection(
         }
 
         Spacer(modifier = Modifier.height(12.dp))
-
-        // Login Button (Outlined)
-        OutlinedButton(
-            onClick = onLoginClick,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            enabled = !isLoading,
-            shape = RoundedCornerShape(16.dp),
-            colors = ButtonDefaults.outlinedButtonColors(
-                contentColor = MaterialTheme.colorScheme.primary
-            )
-        ) {
-            Text(
-                text = "Login",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Medium
-            )
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
 
         // Divider with "OR"
         Row(

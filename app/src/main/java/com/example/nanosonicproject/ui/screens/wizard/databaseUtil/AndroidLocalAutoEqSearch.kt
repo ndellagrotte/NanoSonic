@@ -2,8 +2,8 @@ package com.example.nanosonicproject.ui.screens.wizard.databaseUtil
 
 import android.content.Context
 import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.Entry
-import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.FixedBandEQ
-import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.parsers.FixedBandEQParser
+import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.ParametricEQ
+import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.parsers.ParametricEQParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -148,9 +148,9 @@ class AndroidLocalAutoEqSearch(private val context: Context) {
                 // Check if entry label starts with or contains the brand name
                 val labelLower = entry.label.lowercase()
                 val matchesBrand = labelLower.startsWith(lowerBrand) ||
-                                  labelLower.startsWith("$lowerBrand ") ||
-                                  labelLower.contains(" $lowerBrand ") ||
-                                  labelLower.contains("-$lowerBrand-")
+                        labelLower.startsWith("$lowerBrand ") ||
+                        labelLower.contains(" $lowerBrand ") ||
+                        labelLower.contains("-$lowerBrand-")
 
                 // If model query is provided, also filter by model (using normalized name)
                 val matchesModel = if (lowerModelQuery.isNotEmpty()) {
@@ -199,8 +199,8 @@ class AndroidLocalAutoEqSearch(private val context: Context) {
         return entries
             .filter { entry ->
                 entry.label.lowercase().contains(lowerQuery) ||
-                entry.source.lowercase().contains(lowerQuery) ||
-                entry.rig.lowercase().contains(lowerQuery)
+                        entry.source.lowercase().contains(lowerQuery) ||
+                        entry.rig.lowercase().contains(lowerQuery)
             }
             .sortedWith(compareByDescending<Entry> { entry ->
                 // Prioritize exact matches
@@ -234,13 +234,13 @@ class AndroidLocalAutoEqSearch(private val context: Context) {
     }
 
     /**
-     * Load the fixed band EQ for a selected entry
+     * Load the parametric EQ for a selected entry
      */
-    suspend fun loadEQ(entry: Entry): FixedBandEQ? = withContext(Dispatchers.IO) {
+    suspend fun loadEQ(entry: Entry): ParametricEQ? = withContext(Dispatchers.IO) {
         try {
             val eqPath = getEQPath(entry)
             val content = context.assets.open(eqPath).bufferedReader().use { it.readText() }
-            FixedBandEQParser.parseText(content)
+            ParametricEQParser.parseText(content)
         } catch (e: Exception) {
             println("Failed to load EQ for ${entry.label}: ${e.message}")
             null

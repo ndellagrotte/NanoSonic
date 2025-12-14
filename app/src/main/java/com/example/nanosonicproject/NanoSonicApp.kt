@@ -5,8 +5,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.nanosonicproject.ui.screens.splash.SplashScreen
-import com.example.nanosonicproject.ui.screens.auth.register.RegisterScreen
-import com.example.nanosonicproject.ui.screens.auth.login.LoginScreen
 import com.example.nanosonicproject.ui.screens.wizard.WizardScreen
 import com.example.nanosonicproject.ui.screens.main.MainScreen
 
@@ -46,36 +44,36 @@ fun NanoSonicApp() {
                 }
             )
         }
-
-        composable(route = Screen.Register.route) {
-            RegisterScreen(
-                onNavigateToLogin = {
-                    navController.navigate(Screen.Login.route) {
-                        popUpTo(Screen.Register.route) { inclusive = true }
-                    }
-                },
-                onNavigateToWizard = {
-                    navController.navigate(Screen.Wizard.route) {
-                        popUpTo(Screen.Register.route) { inclusive = true }
-                    }
-                }
-            )
-        }
-
-        composable(route = Screen.Login.route) {
-            LoginScreen(
-                onNavigateToRegister = {
-                    navController.navigate(Screen.Register.route) {
-                        popUpTo(Screen.Login.route) { inclusive = true }
-                    }
-                },
-                onNavigateToMain = {
-                    navController.navigate(Screen.Main.route) {
-                        popUpTo(0) { inclusive = true }
-                    }
-                }
-            )
-        }
+//
+//        composable(route = Screen.Register.route) {
+//            RegisterScreen(
+//                onNavigateToLogin = {
+//                    navController.navigate(Screen.Login.route) {
+//                        popUpTo(Screen.Register.route) { inclusive = true }
+//                    }
+//                },
+//                onNavigateToWizard = {
+//                    navController.navigate(Screen.Wizard.route) {
+//                        popUpTo(Screen.Register.route) { inclusive = true }
+//                    }
+//                }
+//            )
+//        }
+//
+//        composable(route = Screen.Login.route) {
+//            LoginScreen(
+//                onNavigateToRegister = {
+//                    navController.navigate(Screen.Register.route) {
+//                        popUpTo(Screen.Login.route) { inclusive = true }
+//                    }
+//                },
+//                onNavigateToMain = {
+//                    navController.navigate(Screen.Main.route) {
+//                        popUpTo(0) { inclusive = true }
+//                    }
+//                }
+//            )
+//        }
 
         composable(route = Screen.Wizard.route) {
             WizardScreen(

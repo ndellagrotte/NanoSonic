@@ -6,7 +6,7 @@ import androidx.annotation.OptIn
 import androidx.media3.common.util.UnstableApi
 import com.example.nanosonicproject.data.SavedEQProfile
 import com.example.nanosonicproject.service.audio.CustomEqualizerAudioProcessor
-import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.FixedBandEQ
+import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.ParametricEQ
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -67,44 +67,17 @@ class EqualizerService @Inject constructor() {
             pendingProfile = null
             shouldDisable = false
 
-            // Convert SavedEQProfile to FixedBandEQ
-            val fixedBandEQ = FixedBandEQ(
+            // Convert SavedEQProfile to ParametricEQ
+            val parametricEQ = ParametricEQ(
                 preamp = profile.preamp,
-                bands = profile.bands.map { band ->
-                    com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.FixedBandEQBand(
-                        frequency = band.frequency,
-                        gain = band.gain,
-                        enabled = true
-                    )
-                }
+                bands = profile.bands
             )
 
-            processor.applyProfile(fixedBandEQ)
+            processor.applyProfile(parametricEQ)
             Log.d(TAG, "Applied EQ profile: ${profile.name} with ${profile.bands.size} bands and ${profile.preamp} dB preamp")
             return true
         } catch (e: Exception) {
             Log.e(TAG, "Failed to apply profile: ${e.message}")
-            return false
-        }
-    }
-
-    /**
-     * Apply a FixedBandEQ configuration directly
-     */
-    @OptIn(UnstableApi::class)
-    fun applyFixedBandEQ(fixedBandEQ: FixedBandEQ): Boolean {
-        val processor = audioProcessor
-        if (processor == null) {
-            Log.w(TAG, "Audio processor not set yet")
-            return false
-        }
-
-        try {
-            processor.applyProfile(fixedBandEQ)
-            Log.d(TAG, "Applied FixedBandEQ with ${fixedBandEQ.bands.size} bands and ${fixedBandEQ.preamp} dB preamp")
-            return true
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to apply FixedBandEQ: ${e.message}")
             return false
         }
     }
