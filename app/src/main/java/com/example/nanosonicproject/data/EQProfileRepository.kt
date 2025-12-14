@@ -2,8 +2,7 @@ package com.example.nanosonicproject.data
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.GraphicEQ
-import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.GraphicEQBand
+import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.ParametricEQBand
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,7 +10,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -22,15 +20,15 @@ import androidx.core.content.edit
  */
 @Serializable
 data class SavedEQProfile(
-    val id: String,                    // Unique identifier
-    val name: String,                  // Display name
-    val deviceModel: String,           // e.g., "Sony WH-1000XM4" or "Custom"
-    val source: String,                // e.g., "oratory1990" or "Custom Import"
-    val rig: String,                   // e.g., "HMS II.3" or "N/A"
-    val bands: List<GraphicEQBand>,    // EQ bands
-    val preamp: Double = 0.0,          // Preamp gain in dB
-    val isCustom: Boolean = false,     // Whether this is a custom imported profile
-    val isActive: Boolean = false,     // Whether this profile is currently active
+    val id: String,                       // Unique identifier
+    val name: String,                     // Display name
+    val deviceModel: String,              // e.g., "Sony WH-1000XM4" or "Custom"
+    val source: String,                   // e.g., "oratory1990" or "Custom Import"
+    val rig: String,                      // e.g., "HMS II.3" or "N/A"
+    val bands: List<ParametricEQBand>,    // EQ bands
+    val preamp: Double = 0.0,             // Preamp gain in dB
+    val isCustom: Boolean = false,        // Whether this is a custom imported profile
+    val isActive: Boolean = false,        // Whether this profile is currently active
     val addedTimestamp: Long = System.currentTimeMillis()
 )
 
@@ -209,62 +207,11 @@ class EQProfileRepository @Inject constructor(
     }
 
     /**
-     * Convert GraphicEQ to SavedEQProfile
-     */
-    fun createSavedProfile(
-        id: String,
-        name: String,
-        deviceModel: String,
-        source: String,
-        rig: String,
-        graphicEQ: GraphicEQ,
-        preamp: Double = 0.0,
-        isCustom: Boolean = false
-    ): SavedEQProfile {
-        return SavedEQProfile(
-            id = id,
-            name = name,
-            deviceModel = deviceModel,
-            source = source,
-            rig = rig,
-            bands = graphicEQ.bands,
-            preamp = preamp,
-            isCustom = isCustom,
-            isActive = false
-        )
-    }
-
-    /**
-     * Import a custom EQ profile from GraphicEQ data (legacy)
-     */
-    suspend fun importCustomProfile(
-        name: String,
-        graphicEQ: GraphicEQ
-    ) = withContext(Dispatchers.IO) {
-        // Generate unique ID for custom profile
-        val id = "custom_${System.currentTimeMillis()}_${name.hashCode()}"
-
-        val customProfile = SavedEQProfile(
-            id = id,
-            name = name,
-            deviceModel = "Custom",
-            source = "Custom Import",
-            rig = "N/A",
-            bands = graphicEQ.bands,
-            preamp = 0.0,
-            isCustom = true,
-            isActive = false
-        )
-
-        saveProfile(customProfile)
-    }
-
-    /**
      * Import a custom EQ profile from FixedBandEQ data
      */
     suspend fun importCustomProfileFromFixedBandEQ(
         name: String,
-        fixedBandEQ: com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.FixedBandEQ
+        fixedBandEQ: com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.ParametricEQ
     ) = withContext(Dispatchers.IO) {
         // Generate unique ID for custom profile
         val id = "custom_${System.currentTimeMillis()}_${name.hashCode()}"
@@ -275,7 +222,7 @@ class EQProfileRepository @Inject constructor(
             deviceModel = "Custom",
             source = "Custom Import",
             rig = "N/A",
-            bands = fixedBandEQ.bands.map { GraphicEQBand(it.frequency, it.gain) },
+            bands = fixedBandEQ.bands.map { ParametricEQBand(it.frequency, it.gain) },
             preamp = fixedBandEQ.preamp,
             isCustom = true,
             isActive = false
