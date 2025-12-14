@@ -18,7 +18,7 @@ class BiquadFilter(
     private val frequency: Double,
     private val gain: Double,
     private val q: Double = 1.41,
-    private val filterType: ParametricEQBand.FilterType = ParametricEQBand.FilterType.PK
+    private val filterType: FilterType = FilterType.PK
 ) {
     // Filter coefficients
     private var a0 = 0.0
@@ -49,9 +49,13 @@ class BiquadFilter(
      */
     private fun calculateCoefficients() {
         when (filterType) {
-            ParametricEQBand.FilterType.PK -> calculatePeakingCoefficients()
-            ParametricEQBand.FilterType.LSC -> calculateLowShelfCoefficients()
-            ParametricEQBand.FilterType.HSC -> calculateHighShelfCoefficients()
+            FilterType.PK -> calculatePeakingCoefficients()
+            FilterType.LSC -> calculateLowShelfCoefficients()
+            FilterType.HSC -> calculateHighShelfCoefficients()
+            else -> {
+                // Handle any unexpected filter type
+                calculatePeakingCoefficients()
+            }
         }
     }
 

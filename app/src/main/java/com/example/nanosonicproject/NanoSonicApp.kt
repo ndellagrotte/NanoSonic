@@ -5,8 +5,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.nanosonicproject.ui.screens.splash.SplashScreen
-import com.example.nanosonicproject.ui.screens.auth.register.RegisterScreen
-import com.example.nanosonicproject.ui.screens.auth.login.LoginScreen
 import com.example.nanosonicproject.ui.screens.wizard.WizardScreen
 import com.example.nanosonicproject.ui.screens.main.MainScreen
 

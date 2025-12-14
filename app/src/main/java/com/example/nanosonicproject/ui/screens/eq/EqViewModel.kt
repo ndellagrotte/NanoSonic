@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.nanosonicproject.data.EQProfileRepository
 import com.example.nanosonicproject.data.SavedEQProfile
 import com.example.nanosonicproject.service.EqualizerService
-import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.parsers.FixedBandEQParser
+import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.parsers.ParametricEQParser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -107,10 +107,10 @@ class EQViewModel @Inject constructor(
                 inputStream.close()
 
                 // Parse the FixedBandEQ format
-                val fixedBandEQ = FixedBandEQParser.parseText(content)
+                val fixedBandEQ = ParametricEQParser.parseText(content)
 
                 // Validate the parsed EQ
-                val validationErrors = FixedBandEQParser.validate(fixedBandEQ)
+                val validationErrors = ParametricEQParser.validate(fixedBandEQ)
                 if (validationErrors.isNotEmpty()) {
                     onError("Invalid EQ file: ${validationErrors.first()}")
                     return@launch
