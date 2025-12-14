@@ -354,7 +354,7 @@ private fun PermissionsDialog(
 
                 // Network Access Permission (Cosmetic only)
                 PermissionToggleItem(
-                    icon = Icons.Default.Wifi,
+                    icon = Icons.Default.Adjust,
                     title = "Sicko Mode",
                     subtitle = if (hasNetworkAccess) "Enabled" else "Disabled",
                     checked = hasNetworkAccess,
