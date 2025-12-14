@@ -1,7 +1,6 @@
 package com.example.nanosonicproject.service
 
 import android.Manifest
-import android.R
 import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
@@ -1003,7 +1002,7 @@ class MusicPlayerService : MediaLibraryService(), MusicPlayerController {
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(track.title)
             .setContentText(track.artist)
-            .setSmallIcon(R.drawable.ic_media_play)
+            .setSmallIcon(android.R.drawable.ic_media_play)
             .setLargeIcon(albumArt)
             .setContentIntent(contentIntent)
             .setOngoing(true)
@@ -1011,34 +1010,34 @@ class MusicPlayerService : MediaLibraryService(), MusicPlayerController {
             .setShowWhen(false)
             // Action 0: Previous track
             .addAction(
-                R.drawable.ic_media_previous,
+                android.R.drawable.ic_media_previous,
                 "Previous",
                 previousIntent
             )
             // Action 1: Seek backward (-10s)
             .addAction(
-                R.drawable.ic_media_rew,
+                android.R.drawable.ic_media_rew,
                 "Rewind 10s",
                 seekBackwardIntent
             )
             // Action 2: Play/Pause
             .addAction(
                 if (_playbackState.value.isPlaying)
-                    R.drawable.ic_media_pause
+                    android.R.drawable.ic_media_pause
                 else
-                    R.drawable.ic_media_play,
+                    android.R.drawable.ic_media_play,
                 if (_playbackState.value.isPlaying) "Pause" else "Play",
                 playPauseIntent
             )
             // Action 3: Seek forward (+10s)
             .addAction(
-                R.drawable.ic_media_ff,
+                android.R.drawable.ic_media_ff,
                 "Fast Forward 10s",
                 seekForwardIntent
             )
             // Action 4: Next track
             .addAction(
-                R.drawable.ic_media_next,
+                android.R.drawable.ic_media_next,
                 "Next",
                 nextIntent
             )
