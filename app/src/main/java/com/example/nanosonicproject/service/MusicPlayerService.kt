@@ -63,7 +63,7 @@ import javax.inject.Inject
  */
 @UnstableApi
 @AndroidEntryPoint
-class MusicPlayerService : MediaLibraryService() {
+class MusicPlayerService : MediaLibraryService(), MusicPlayerController {
 
     @Inject
     lateinit var equalizerService: EqualizerService
@@ -78,7 +78,7 @@ class MusicPlayerService : MediaLibraryService() {
     private val equalizerProcessor = CustomEqualizerAudioProcessor()
 
     private val _playbackState = MutableStateFlow(PlaybackState())
-    val playbackState: StateFlow<PlaybackState> = _playbackState.asStateFlow()
+    override val playbackState: StateFlow<PlaybackState> = _playbackState.asStateFlow()
 
     private var currentQueue: List<Track> = listOf()
     private var currentTrackIndex = -1
@@ -556,7 +556,7 @@ class MusicPlayerService : MediaLibraryService() {
     /**
      * Play a specific track with a queue
      */
-    fun playTrack(track: Track, queue: List<Track>) {
+    override fun playTrack(track: Track, queue: List<Track>) {
         currentQueue = queue
         currentTrackIndex = queue.indexOfFirst { it.id == track.id }
 
@@ -626,7 +626,7 @@ class MusicPlayerService : MediaLibraryService() {
     /**
      * Play/Resume playback
      */
-    fun play() {
+    override fun play() {
         // Request audio focus
         val audioFocusRequestBuilder = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
             .setOnAudioFocusChangeListener(audioFocusChangeListener)
@@ -653,7 +653,7 @@ class MusicPlayerService : MediaLibraryService() {
     /**
      * Pause playback
      */
-    fun pause() {
+    override fun pause() {
         exoPlayer?.pause()
         _playbackState.value = _playbackState.value.copy(isPlaying = false)
         _playbackState.value.currentTrack?.let { track ->
@@ -667,7 +667,7 @@ class MusicPlayerService : MediaLibraryService() {
     /**
      * Skip to next track
      */
-    fun next() {
+    override fun next() {
         if (currentQueue.isEmpty()) return
 
         currentTrackIndex = (currentTrackIndex + 1) % currentQueue.size
@@ -677,7 +677,7 @@ class MusicPlayerService : MediaLibraryService() {
     /**
      * Skip to previous track
      */
-    fun previous() {
+    override fun previous() {
         if (currentQueue.isEmpty()) return
 
         // If we're more than 3 seconds into the song, restart it
@@ -717,14 +717,14 @@ class MusicPlayerService : MediaLibraryService() {
     /**
      * Seek to a specific position
      */
-    fun seekTo(positionMs: Long) {
+    override fun seekTo(positionMs: Long) {
         exoPlayer?.seekTo(positionMs)
     }
 
     /**
      * Get current playback position
      */
-    fun getCurrentPosition(): Long = exoPlayer?.currentPosition ?: 0L
+    override fun getCurrentPosition(): Long = exoPlayer?.currentPosition ?: 0L
 
     /**
      * Get total duration
