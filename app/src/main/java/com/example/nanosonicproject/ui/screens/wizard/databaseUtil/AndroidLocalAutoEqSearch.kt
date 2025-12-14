@@ -51,8 +51,8 @@ class AndroidLocalAutoEqSearch(private val context: Context) {
 
                     headphones.forEach { headphoneName ->
                         try {
-                            // Check if FixedBandEQ.txt exists for this headphone
-                            val eqPath = "$formPath/$headphoneName/$headphoneName FixedBandEQ.txt"
+                            // Check if ParametricEQ.txt exists for this headphone
+                            val eqPath = "$formPath/$headphoneName/$headphoneName ParametricEQ.txt"
 
                             // Try to open the file to verify it exists
                             context.assets.open(eqPath).use { }
@@ -76,7 +76,7 @@ class AndroidLocalAutoEqSearch(private val context: Context) {
                             )
                             entries.add(entry)
                         } catch (e: Exception) {
-                            // Skip entries that don't have FixedBandEQ.txt
+                            // Skip entries that don't have ParametricEQ.txt
                         }
                     }
                 }
@@ -400,6 +400,6 @@ class AndroidLocalAutoEqSearch(private val context: Context) {
     private fun getEQPath(entry: Entry): String {
         // Use the actual directory name stored during indexing
         // This ensures we match the exact filesystem structure
-        return "$AUTOEQ_DB_PATH/${entry.source}/${entry.formDirectory}/${entry.label}/${entry.label} FixedBandEQ.txt"
+        return "$AUTOEQ_DB_PATH/${entry.source}/${entry.formDirectory}/${entry.label}/${entry.label} ParametricEQ.txt"
     }
 }
