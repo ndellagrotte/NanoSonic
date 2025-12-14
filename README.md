@@ -1,5 +1,5 @@
 # NanoSonic
-Next-gen Android Music Player with Integrated 10-Band Graphic EQ
+Next-gen Android music player with integrated parametric EQ
 
 ## License
 

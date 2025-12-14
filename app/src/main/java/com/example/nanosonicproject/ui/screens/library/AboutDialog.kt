@@ -54,7 +54,7 @@ fun AboutDialog(
                 )
 
                 Text(
-                    text = "Version 1.0.0",
+                    text = "Version 1.1.0",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -76,7 +76,7 @@ fun AboutDialog(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "NanoSonic provides high-quality audio equalization with device-specific profiles for the best listening experience.",
+                    text = "NanoSonic provides professional-grade parametric EQ and an integrated database of device-specific EQ profiles.",
                     style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -99,11 +99,9 @@ fun AboutDialog(
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.padding(bottom = 8.dp)
                         )
-
+                        FeatureItem("🎛️", "Custom Parametric EQ support")
                         FeatureItem("🎧", "Device-specific EQ profiles")
-                        FeatureItem("☁️", "Cloud sync for registered users")
                         FeatureItem("📱", "Works 100% offline")
-                        FeatureItem("🎛️", "Custom Fixed-Band EQ support")
                     }
                 }
 
