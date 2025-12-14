@@ -2,6 +2,7 @@ package com.example.nanosonicproject.ui.screens.wizard.databaseUtil.parsers
 
 import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.ParametricEQ
 import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.ParametricEQBand
+import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.models.FilterType
 import java.io.File
 
 /**
@@ -134,13 +135,13 @@ object ParametricEQParser {
     /**
      * Parse filter type from line
      */
-    private fun parseFilterType(line: String): ParametricEQBand.FilterType? {
+    private fun parseFilterType(line: String): FilterType? {
         return when {
-            line.contains("LSC", ignoreCase = true) -> ParametricEQBand.FilterType.LSC
-            line.contains("HSC", ignoreCase = true) -> ParametricEQBand.FilterType.HSC
-            line.contains("PK", ignoreCase = true) -> ParametricEQBand.FilterType.PK
-            line.contains("LPQ", ignoreCase = true) -> ParametricEQBand.FilterType.LPQ
-            line.contains("HPQ", ignoreCase = true) -> ParametricEQBand.FilterType.HPQ
+            line.contains("LSC", ignoreCase = true) -> FilterType.LSC
+            line.contains("HSC", ignoreCase = true) -> FilterType.HSC
+            line.contains("PK", ignoreCase = true) -> FilterType.PK
+            line.contains("LPQ", ignoreCase = true) -> FilterType.LPQ
+            line.contains("HPQ", ignoreCase = true) -> FilterType.HPQ
             else -> null
         }
     }
@@ -165,7 +166,7 @@ object ParametricEQParser {
         eq.bands.forEachIndexed { index, band ->
             sb.appendLine(
                 "Filter ${index + 1}: ${band.filterType} Fc ${band.frequency} Hz " +
-                "Gain ${band.gain} dB Q ${band.q}"
+                        "Gain ${band.gain} dB Q ${band.q}"
             )
         }
         return sb.toString()
@@ -180,9 +181,9 @@ object ParametricEQParser {
         eq.bands.forEachIndexed { index, band ->
             sb.appendLine(
                 "Filter ${index + 1}: ON ${band.filterType} " +
-                "Fc ${band.frequency.toInt()} Hz " +
-                "Gain ${band.gain} dB " +
-                "Q ${String.format("%.2f", band.q)}"
+                        "Fc ${band.frequency.toInt()} Hz " +
+                        "Gain ${band.gain} dB " +
+                        "Q ${String.format("%.2f", band.q)}"
             )
         }
         return sb.toString()
