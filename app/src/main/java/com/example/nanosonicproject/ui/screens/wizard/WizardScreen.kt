@@ -279,7 +279,7 @@ private fun BrandSelectionStep(
             .padding(16.dp)
     ) {
         Text(
-            text = "Search for your headphone brand",
+            text = "Search for your headphone or earphone brand",
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(bottom = 16.dp)
         )
@@ -288,7 +288,7 @@ private fun BrandSelectionStep(
             value = searchQuery,
             onValueChange = onSearchQueryChanged,
             label = "Brand Name",
-            placeholder = "e.g., Sony, Bose, Sennheiser",
+            placeholder = "e.g., Sony, Bose, Beats",
             leadingIcon = Icons.Default.Search,
             modifier = Modifier.fillMaxWidth()
         )
@@ -395,7 +395,7 @@ private fun ModelSelectionStep(
             value = searchQuery,
             onValueChange = onSearchQueryChanged,
             label = "Model Name",
-            placeholder = "e.g., WH-1000XM4, QuietComfort 45",
+            placeholder = "e.g., Galaxy Buds, QuietComfort 45, WH-1000XM4",
             leadingIcon = Icons.Default.Search,
             modifier = Modifier.fillMaxWidth()
         )
@@ -520,21 +520,25 @@ private fun VariantSelectionStep(
                 ) {
                     Column(modifier = Modifier.padding(12.dp)) {
                         Text(
-                            text = "About EQ Profiles",
+                            text = "About EQ (Equalizer) Profiles",
                             style = MaterialTheme.typography.labelLarge,
                             fontWeight = FontWeight.Bold
                         )
+                        Text(
+                            text = "• Each profile provides device-specific sound quality enhancement to your music",
+                            style = MaterialTheme.typography.bodySmall
+                        )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = "• Multiple profiles may be available from different sources and measurement rigs",
+                            text = "• Multiple profiles for your device may be available from different sources and measured with different rigs",
                             style = MaterialTheme.typography.bodySmall
                         )
                         Text(
-                            text = "• Each profile is measured with precise equipment",
+                            text = "• If unsure, select the topmost item and continue",
                             style = MaterialTheme.typography.bodySmall
                         )
                         Text(
-                            text = "• Select one or more profiles to import",
+                            text = "• After the setup is complete, custom EQ profiles may be imported through the 'EQ' screen",
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
