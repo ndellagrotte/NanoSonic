@@ -13,7 +13,8 @@ data class Track(
     val artworkUri: String?,
     val dateAdded: Long?,
     val size: Long?, // file size in bytes
-    val albumArtUri: String? // Kept for backward compatibility
+    val albumArtUri: String?, // Kept for backward compatibility
+    val trackNumber: Int? = null // Track number from metadata or filename
 )
 
 /**

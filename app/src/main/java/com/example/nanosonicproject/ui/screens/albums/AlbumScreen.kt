@@ -70,7 +70,7 @@ data class Album(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AlbumScreen(
-    onPlayTrack: (com.example.nanosonicproject.data.Track, List<com.example.nanosonicproject.data.Track>) -> Unit,
+    onPlayTrack: (com.example.nanosonicproject.data.Track, List<com.example.nanosonicproject.data.Track>, com.example.nanosonicproject.service.PlaybackMode) -> Unit,
     viewModel: LibraryViewModel = hiltViewModel(
         checkNotNull(LocalViewModelStoreOwner.current) {
             "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
@@ -88,15 +88,23 @@ fun AlbumScreen(
     val albums = state.tracks
         .groupBy { it.albumId }
         .map { (albumId, tracks) ->
+            // Sort tracks by track number (with fallback to title for tracks without track numbers)
+            val sortedTracks = tracks.sortedWith(
+                compareBy(
+                    { it.trackNumber ?: Int.MAX_VALUE }, // Tracks without numbers go to the end
+                    { it.title } // Secondary sort by title for tracks without track numbers
+                )
+            )
+
             // Use the first track's album info for the album card
-            val firstTrack = tracks.first()
+            val firstTrack = sortedTracks.first()
             Album(
                 albumId = albumId,
                 albumName = firstTrack.album ?: "Unknown Album",
                 artist = firstTrack.artist,
                 artworkUri = firstTrack.artworkUri,
-                trackCount = tracks.size,
-                tracks = tracks // <-- This is the complete list of tracks for the album
+                trackCount = sortedTracks.size,
+                tracks = sortedTracks // Sorted list of tracks for the album
             )
         }
         .sortedBy { it.albumName }
@@ -128,7 +136,7 @@ fun AlbumScreen(
             onAlbumClick = { album ->
                 // When an album is clicked, play the first track with all album tracks as queue
                 if (album.tracks.isNotEmpty()) {
-                    onPlayTrack(album.tracks.first(), album.tracks)
+                    onPlayTrack(album.tracks.first(), album.tracks, com.example.nanosonicproject.service.PlaybackMode.ALBUM)
                 }
             },
             modifier = Modifier.padding(paddingValues)
