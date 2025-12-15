@@ -130,12 +130,3 @@ class EQViewModel @Inject constructor(
         }
     }
 }
-
-/**
- * UI State for EQ Screen
- */
-data class EQState(
-    val profiles: List<SavedEQProfile> = emptyList(),
-    val activeProfileId: String? = null,
-    val importStatus: String? = null
-)
