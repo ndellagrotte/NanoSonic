@@ -48,7 +48,7 @@ fun MainScreen(
         onNextClick = { musicPlayerViewModel.next() },
         onPreviousClick = { musicPlayerViewModel.previous() },
         onSeek = { musicPlayerViewModel.seekTo(it) },
-        onPlayTrack = { track, queue -> musicPlayerViewModel.playTrack(track, queue) },
+        onPlayTrack = { track, queue, mode -> musicPlayerViewModel.playTrack(track, queue, mode) },
         onNavigateToWizard = onNavigateToWizard
     )
 }
@@ -63,7 +63,7 @@ private fun MainScreenContent(
     onNextClick: () -> Unit,
     onPreviousClick: () -> Unit,
     onSeek: (Long) -> Unit,
-    onPlayTrack: (Track, List<Track>) -> Unit,
+    onPlayTrack: (Track, List<Track>, com.example.nanosonicproject.service.PlaybackMode) -> Unit,
     onNavigateToWizard: () -> Unit
 ) {
     // Create pager state with 3 pages (one for each tab)
@@ -149,7 +149,7 @@ private fun MainScreenPreview() {
             onNextClick = {},
             onPreviousClick = {},
             onSeek = {},
-            onPlayTrack = { _, _ -> },
+            onPlayTrack = { _, _, _ -> },
             onNavigateToWizard = {}
         )
     }
@@ -167,7 +167,7 @@ private fun MainScreenEQPreview() {
             onNextClick = {},
             onPreviousClick = {},
             onSeek = {},
-            onPlayTrack = { _, _ -> },
+            onPlayTrack = { _, _, _ -> },
             onNavigateToWizard = {}
         )
     }
@@ -185,7 +185,7 @@ private fun MainScreenPreviewDark() {
             onNextClick = {},
             onPreviousClick = {},
             onSeek = {},
-            onPlayTrack = { _, _ -> },
+            onPlayTrack = { _, _, _ -> },
             onNavigateToWizard = {}
         )
     }

@@ -82,7 +82,7 @@ fun LibraryScreen(
     viewModel: LibraryViewModel = hiltViewModel(checkNotNull(LocalViewModelStoreOwner.current) {
         "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
     }, null),
-    onPlayTrack: (Track, List<Track>) -> Unit
+    onPlayTrack: (Track, List<Track>, com.example.nanosonicproject.service.PlaybackMode) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -131,7 +131,7 @@ fun LibraryScreen(
         },
 
         onRefresh = { viewModel.onRefresh() },
-        onPlayTrack = { track -> onPlayTrack(track, state.tracks) },
+        onPlayTrack = { track -> onPlayTrack(track, state.tracks, com.example.nanosonicproject.service.PlaybackMode.CONTINUOUS) },
         onErrorDismissed = { viewModel.onErrorDismissed() },
         onShowSettings = { showSettingsDialog = true },
         onShowAbout = { showAboutDialog = true }

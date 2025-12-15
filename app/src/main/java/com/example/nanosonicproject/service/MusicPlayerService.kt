@@ -75,6 +75,7 @@ class MusicPlayerService : MediaSessionService(), MusicPlayerController {
 
     private var currentQueue: List<Track> = listOf()
     private var currentTrackIndex = -1
+    private var currentPlaybackMode: PlaybackMode = PlaybackMode.CONTINUOUS
 
     // Audio focus handling
     private lateinit var audioManager: AudioManager
@@ -309,9 +310,10 @@ class MusicPlayerService : MediaSessionService(), MusicPlayerController {
     /**
      * Play a specific track with a queue
      */
-    override fun playTrack(track: Track, queue: List<Track>) {
+    override fun playTrack(track: Track, queue: List<Track>, mode: PlaybackMode) {
         currentQueue = queue
         currentTrackIndex = queue.indexOfFirst { it.id == track.id }
+        currentPlaybackMode = mode
 
         if (currentTrackIndex == -1) {
             // Track not in queue, play as single track
@@ -423,7 +425,21 @@ class MusicPlayerService : MediaSessionService(), MusicPlayerController {
     override fun next() {
         if (currentQueue.isEmpty()) return
 
-        currentTrackIndex = (currentTrackIndex + 1) % currentQueue.size
+        val nextIndex = currentTrackIndex + 1
+
+        // Check if we're at the end of the queue
+        if (nextIndex >= currentQueue.size) {
+            // For album playback, stop at the end
+            if (currentPlaybackMode == PlaybackMode.ALBUM) {
+                pause()
+                return
+            }
+            // For continuous playback, loop back to the beginning
+            currentTrackIndex = 0
+        } else {
+            currentTrackIndex = nextIndex
+        }
+
         playCurrentTrack()
     }
 
