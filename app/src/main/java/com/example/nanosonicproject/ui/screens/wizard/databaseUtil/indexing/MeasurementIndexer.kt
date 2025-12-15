@@ -1,6 +1,5 @@
 package com.example.nanosonicproject.ui.screens.wizard.databaseUtil.indexing
 
-
 import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.crawlers.HeadphonecomCrawler
 import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.crawlers.InnerfidelityCrawler
 import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.crawlers.RtingsCrawler

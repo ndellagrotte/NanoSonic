@@ -27,7 +27,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -145,7 +144,6 @@ private fun SplashScreenContent(
                 // Buttons Section
                 ButtonsSection(
                     isLoading = isLoading,
-                    onLoginClick = onLoginClick,
                     onRegisterClick = onRegisterClick,
                     onGuestClick = onGuestClick
                 )
@@ -225,7 +223,6 @@ private fun LogoSection() {
 @Composable
 private fun ButtonsSection(
     isLoading: Boolean,
-    onLoginClick: () -> Unit,
     onRegisterClick: () -> Unit,
     onGuestClick: () -> Unit
 ) {

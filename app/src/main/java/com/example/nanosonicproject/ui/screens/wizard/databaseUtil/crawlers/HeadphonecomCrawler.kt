@@ -17,11 +17,6 @@ class HeadphonecomCrawler(
 ) : AbstractCrawler(measurementsPath, "Headphone.com Legacy") {
 
     /**
-     * Secondary constructor accepting a string path
-     */
-    constructor(measurementsPathStr: String) : this(File(measurementsPathStr))
-
-    /**
      * Read the name index by scanning the data directory
      * All measurements use the hardcoded rig "HMS II.3"
      */
@@ -64,9 +59,5 @@ class HeadphonecomCrawler(
 
         println("HeadphonecomCrawler: Loaded ${nameIndex.size()} measurements")
         return nameIndex
-    }
-
-    companion object {
-        const val DEFAULT_RIG = "HMS II.3"
     }
 }
