@@ -1,5 +1,7 @@
 package com.example.nanosonicproject.data
 
+import java.util.Locale
+
 data class Track(
     val id: String,
     val title: String,
@@ -24,5 +26,5 @@ val Track.formattedDuration: String
         val totalSeconds = duration / 1000
         val minutes = totalSeconds / 60
         val seconds = totalSeconds % 60
-        return String.format("%d:%02d", minutes, seconds)
+        return String.format(Locale.US, "%d:%02d", minutes, seconds)
     }
