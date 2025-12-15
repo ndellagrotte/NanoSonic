@@ -6,7 +6,6 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
@@ -17,7 +16,6 @@ import android.graphics.BitmapFactory
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.Binder
-import android.os.Bundle
 import android.os.IBinder
 import android.provider.MediaStore
 import android.support.v4.media.session.MediaSessionCompat.Token.fromBundle
@@ -32,15 +30,12 @@ import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.audio.AudioSink
 import androidx.media3.exoplayer.audio.DefaultAudioSink
-import androidx.media3.session.LibraryResult
-import androidx.media3.session.MediaLibraryService
 import androidx.media3.session.MediaSession
-import androidx.media3.session.SessionError
+import androidx.media3.session.MediaSessionService
 import com.example.nanosonicproject.MainActivity
 import com.example.nanosonicproject.data.EQProfileRepository
 import com.example.nanosonicproject.data.Track
 import com.example.nanosonicproject.service.audio.CustomEqualizerAudioProcessor
-import com.google.common.collect.ImmutableList
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,13 +51,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * MediaLibraryService for music playback with Android Auto support
+ * MediaSessionService for music playback
  * Integrates with CustomEqualizerAudioProcessor for multi-band EQ
- * automatically disables EQ during Android Auto sessions
  */
 @UnstableApi
 @AndroidEntryPoint
-class MusicPlayerService : MediaLibraryService(), MusicPlayerController {
+class MusicPlayerService : MediaSessionService(), MusicPlayerController {
 
     @Inject
     lateinit var equalizerService: EqualizerService
@@ -71,7 +65,7 @@ class MusicPlayerService : MediaLibraryService(), MusicPlayerController {
     lateinit var eqProfileRepository: EQProfileRepository
 
     private var exoPlayer: ExoPlayer? = null
-    private var mediaSession: MediaLibrarySession? = null
+    private var mediaSession: MediaSession? = null
     private val binder = MusicPlayerBinder()
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private val equalizerProcessor = CustomEqualizerAudioProcessor()
@@ -81,10 +75,6 @@ class MusicPlayerService : MediaLibraryService(), MusicPlayerController {
 
     private var currentQueue: List<Track> = listOf()
     private var currentTrackIndex = -1
-
-    // Android Auto EQ state management
-    private var isAndroidAutoConnected = false
-    private var savedProfileIdBeforeAuto: String? = null
 
     // Audio focus handling
     private lateinit var audioManager: AudioManager
@@ -110,7 +100,6 @@ class MusicPlayerService : MediaLibraryService(), MusicPlayerController {
         private const val NOTIFICATION_ID = 1001
         private const val CHANNEL_ID = "music_playback_channel"
         private const val CHANNEL_NAME = "Music Playback"
-        private const val ROOT_ID = "root"
         private const val SEEK_INTERVAL_MS = 10000L // 10 seconds
 
         const val ACTION_PLAY = "com.example.nanosonicproject.action.PLAY"
@@ -153,7 +142,7 @@ class MusicPlayerService : MediaLibraryService(), MusicPlayerController {
                 addListener(playerListener)
             }
 
-        // Create MediaLibrarySession for Android Auto and media controls
+        // Create MediaSession for media controls
         val sessionActivityIntent = packageManager.getLaunchIntentForPackage(packageName)
         val sessionActivityPendingIntent = PendingIntent.getActivity(
             this,
@@ -161,43 +150,41 @@ class MusicPlayerService : MediaLibraryService(), MusicPlayerController {
             sessionActivityIntent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
-        mediaSession = MediaLibrarySession.Builder(
+        mediaSession = MediaSession.Builder(
             this,
-            exoPlayer!!,
-            MediaLibrarySessionCallback())
-                .setSessionActivity(sessionActivityPendingIntent)
-                .build()
+            exoPlayer!!
+        )
+            .setCallback(MediaSessionCallback())
+            .setSessionActivity(sessionActivityPendingIntent)
+            .build()
 
         // Set the audio processor in EqualizerService
         equalizerService.setAudioProcessor(equalizerProcessor)
 
         // Observe changes to the active EQ profile
-        // Skip EQ changes when Android Auto is connected
         serviceScope.launch {
             eqProfileRepository.activeProfile.collect { profile ->
-                if (!isAndroidAutoConnected) {
-                    if (profile != null) {
-                        equalizerService.applyProfile(profile)
-                    } else {
-                        equalizerService.disable()
-                    }
+                if (profile != null) {
+                    equalizerService.applyProfile(profile)
+                } else {
+                    equalizerService.disable()
+                }
 
-                    // Force audio pipeline flush by seeking to current position
-                    // This ensures EQ changes (enable/disable/switch) take effect immediately
-                    exoPlayer?.let { player ->
-                        if (player.playbackState == Player.STATE_READY ||
-                            player.playbackState == Player.STATE_BUFFERING) {
+                // Force audio pipeline flush by seeking to current position
+                // This ensures EQ changes (enable/disable/switch) take effect immediately
+                exoPlayer?.let { player ->
+                    if (player.playbackState == Player.STATE_READY ||
+                        player.playbackState == Player.STATE_BUFFERING) {
 
-                            // Flush the audio processor to clear old buffers
-                            equalizerProcessor.flush()
+                        // Flush the audio processor to clear old buffers
+                        equalizerProcessor.flush()
 
-                            // Small delay to ensure state is fully propagated
-                            delay(50)
+                        // Small delay to ensure state is fully propagated
+                        delay(50)
 
-                            // Seek to current position forces ExoPlayer to re-queue audio
-                            val currentPos = player.currentPosition
-                            player.seekTo(currentPos)
-                        }
+                        // Seek to current position forces ExoPlayer to re-queue audio
+                        val currentPos = player.currentPosition
+                        player.seekTo(currentPos)
                     }
                 }
             }
@@ -206,13 +193,13 @@ class MusicPlayerService : MediaLibraryService(), MusicPlayerController {
         createNotificationChannel()
     }
 
-    // MediaLibraryService callbacks for Android Auto
-    override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaLibrarySession? {
+    // MediaSessionService callbacks
+    override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? {
         return mediaSession
     }
 
     override fun onBind(intent: Intent?): IBinder? {
-        // For MediaBrowserService connections (Android Auto)
+        // For MediaSessionService connections
         if (intent?.action == SERVICE_INTERFACE) {
             return super.onBind(intent)
         }
@@ -221,200 +208,14 @@ class MusicPlayerService : MediaLibraryService(), MusicPlayerController {
     }
 
     /**
-     * Check if controller is Android Auto
+     * MediaSession callback for handling playback commands
      */
-    private fun isAndroidAutoController(controller: MediaSession.ControllerInfo): Boolean {
-        val packageName = controller.packageName
-        return packageName.contains("android.car") ||
-                packageName.contains("androidauto") ||
-                packageName.contains("projection.gearhead")
-    }
-
-    /**
-     * Handle Android Auto connection
-     */
-    private fun handleAndroidAutoConnected() {
-        if (isAndroidAutoConnected) return // Already connected
-
-        isAndroidAutoConnected = true
-        serviceScope.launch {
-            val currentProfile = eqProfileRepository.activeProfile.value
-            savedProfileIdBeforeAuto = currentProfile?.id
-            // Disable EQ for Android Auto
-            equalizerService.disable()
-        }
-    }
-
-    /**
-     * Handle Android Auto disconnection
-     */
-    private fun handleAndroidAutoDisconnected() {
-        // Check if any other Android Auto controllers are still connected
-        val hasRemainingAaControllers = mediaSession?.connectedControllers?.any { controller ->
-            isAndroidAutoController(controller)
-        } ?: false
-
-        if (isAndroidAutoConnected && !hasRemainingAaControllers) {
-            isAndroidAutoConnected = false
-            serviceScope.launch {
-                savedProfileIdBeforeAuto?.let { profileId ->
-                    eqProfileRepository.setActiveProfile(profileId)
-                }
-                savedProfileIdBeforeAuto = null
-            }
-        }
-    }
-
-
-    /**
-     * MediaLibrarySession callback for handling playback commands and browsing
-     */
-    private inner class MediaLibrarySessionCallback : MediaLibrarySession.Callback {
+    private inner class MediaSessionCallback : MediaSession.Callback {
         override fun onConnect(
             session: MediaSession,
             controller: MediaSession.ControllerInfo
         ): MediaSession.ConnectionResult {
-            if (isAndroidAutoController(controller)) {
-                handleAndroidAutoConnected()
-            }
             return MediaSession.ConnectionResult.AcceptedResultBuilder(session).build()
-        }
-
-        override fun onDisconnected(session: MediaSession, controller: MediaSession.ControllerInfo) {
-            if (isAndroidAutoController(controller)) {
-                handleAndroidAutoDisconnected()
-            }
-            super.onDisconnected(session, controller)
-        }
-
-
-        // Browsing methods required for Android Auto
-        override fun onGetLibraryRoot(
-            session: MediaLibrarySession,
-            browser: MediaSession.ControllerInfo,
-            params: LibraryParams?
-        ): ListenableFuture<LibraryResult<MediaItem>> {
-            return Futures.immediateFuture(
-                LibraryResult.ofItem(
-                    MediaItem.Builder()
-                        .setMediaId(ROOT_ID)
-                        .setMediaMetadata(
-                            MediaMetadata.Builder()
-                                .setIsPlayable(false)
-                                .setIsBrowsable(true)
-                                .setMediaType(MediaMetadata.MEDIA_TYPE_FOLDER_MIXED)
-                                .setTitle("NanoSonic")
-                                .build()
-                        )
-                        .build(),
-                    params
-                )
-            )
-        }
-
-        override fun onGetChildren(
-            session: MediaLibrarySession,
-            browser: MediaSession.ControllerInfo,
-            parentId: String,
-            page: Int,
-            pageSize: Int,
-            params: LibraryParams?
-        ): ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> {
-            // Check if we have permission to read audio files
-            if (!hasAudioPermission()) {
-                // Return error item prompting user to grant permissions
-                val errorItem = MediaItem.Builder()
-                    .setMediaId("error_no_permission")
-                    .setMediaMetadata(
-                        MediaMetadata.Builder()
-                            .setTitle("Permission Required")
-                            .setArtist("Please grant audio access in the app")
-                            .setIsPlayable(false)
-                            .setMediaType(MediaMetadata.MEDIA_TYPE_FOLDER_MIXED)
-                            .build()
-                    )
-                    .build()
-
-                return Futures.immediateFuture(
-                    LibraryResult.ofItemList(ImmutableList.of(errorItem), params)
-                )
-            }
-
-            // Load tracks with pagination
-            val tracks = loadTracksFromMediaStore(page, pageSize)
-
-            if (tracks.isEmpty() && page == 0) {
-                // Return error item if no music found on the first page
-                val errorItem = MediaItem.Builder()
-                    .setMediaId("error_no_music")
-                    .setMediaMetadata(
-                        MediaMetadata.Builder()
-                            .setTitle("No Music Found")
-                            .setArtist("Add music to your device to get started")
-                            .setIsPlayable(false)
-                            .setMediaType(MediaMetadata.MEDIA_TYPE_FOLDER_MIXED)
-                            .build()
-                    )
-                    .build()
-
-                return Futures.immediateFuture(
-                    LibraryResult.ofItemList(ImmutableList.of(errorItem), params)
-                )
-            }
-
-            // Convert tracks to MediaItems for Android Auto browsing
-            val mediaItems = tracks.map { track ->
-                MediaItem.Builder()
-                    .setMediaId(track.id)
-                    .setUri(track.filePath.toUri())
-                    .setMediaMetadata(
-                        MediaMetadata.Builder()
-                            .setTitle(track.title)
-                            .setArtist(track.artist)
-                            .setArtworkUri(track.albumArtUri?.toUri())
-                            .setIsPlayable(true)
-                            .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
-                            .build()
-                    )
-                    .build()
-            }
-
-            return Futures.immediateFuture(
-                LibraryResult.ofItemList(ImmutableList.copyOf(mediaItems), params)
-            )
-        }
-
-        override fun onGetItem(
-            session: MediaLibrarySession,
-            browser: MediaSession.ControllerInfo,
-            mediaId: String
-        ): ListenableFuture<LibraryResult<MediaItem>> {
-            // Skip for error items
-            if (mediaId.startsWith("error_")) {
-                return Futures.immediateFuture(LibraryResult.ofError(SessionError.ERROR_BAD_VALUE))
-            }
-
-            // Load the specific track by its ID
-            val track = loadTrackById(mediaId)
-
-            return if (track != null) {
-                val mediaItem = MediaItem.Builder()
-                    .setMediaId(track.id)
-                    .setUri(track.filePath.toUri())
-                    .setMediaMetadata(
-                        MediaMetadata.Builder()
-                            .setTitle(track.title)
-                            .setArtist(track.artist)
-                            .setArtworkUri(track.albumArtUri?.toUri())
-                            .setIsPlayable(true)
-                            .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
-                            .build()
-                    )
-                    .build()
-                Futures.immediateFuture(LibraryResult.ofItem(mediaItem, null))
-            } else {
-                Futures.immediateFuture(LibraryResult.ofError(SessionError.ERROR_BAD_VALUE))
-            }
         }
 
         override fun onAddMediaItems(
@@ -454,58 +255,11 @@ class MusicPlayerService : MediaLibraryService(), MusicPlayerController {
             return Futures.immediateFuture(updatedMediaItems)
         }
 
-        override fun onSubscribe(
-            session: MediaLibrarySession,
-            browser: MediaSession.ControllerInfo,
-            parentId: String,
-            params: LibraryParams?
-        ): ListenableFuture<LibraryResult<Void>> {
-            // Android Auto subscribes to get updates when library changes
-            // We accept all subscriptions
-            return Futures.immediateFuture(LibraryResult.ofVoid())
-        }
-
-        override fun onUnsubscribe(
-            session: MediaLibrarySession,
-            browser: MediaSession.ControllerInfo,
-            parentId: String
-        ): ListenableFuture<LibraryResult<Void>> {
-            // Handle unsubscribe requests
-            return Futures.immediateFuture(LibraryResult.ofVoid())
-        }
-
-        override fun onSearch(
-            session: MediaLibrarySession,
-            browser: MediaSession.ControllerInfo,
-            query: String,
-            params: LibraryParams?
-        ): ListenableFuture<LibraryResult<Void>> {
-            // Android Auto might try to search the library
-            // We accept the search request (results would be returned via onGetSearchResult)
-            return Futures.immediateFuture(LibraryResult.ofVoid())
-        }
-
-        override fun onGetSearchResult(
-            session: MediaLibrarySession,
-            browser: MediaSession.ControllerInfo,
-            query: String,
-            page: Int,
-            pageSize: Int,
-            params: LibraryParams?
-        ): ListenableFuture<LibraryResult<ImmutableList<MediaItem>>> {
-            // Return search results (for now, just return empty list)
-            // Could implement actual search functionality here in the future
-            return Futures.immediateFuture(
-                LibraryResult.ofItemList(ImmutableList.of(), params)
-            )
-        }
-
-        // Playback resumption callback for Android Auto
+        // Playback resumption callback
         override fun onPlaybackResumption(
             mediaSession: MediaSession,
             controller: MediaSession.ControllerInfo
         ): ListenableFuture<MediaSession.MediaItemsWithStartPosition> {
-            // Return empty playlist - Android Auto will request tracks via onAddMediaItems
             return Futures.immediateFuture(
                 MediaSession.MediaItemsWithStartPosition(emptyList(), 0, 0L)
             )
@@ -577,7 +331,7 @@ class MusicPlayerService : MediaLibraryService(), MusicPlayerController {
         val track = currentQueue[currentTrackIndex]
 
         exoPlayer?.let { player ->
-            // Create MediaItem with metadata for Android Auto
+            // Create MediaItem with metadata
             val mediaItem = MediaItem.Builder()
                 .setMediaId(track.id)
                 .setUri(track.filePath.toUri())
@@ -825,52 +579,6 @@ class MusicPlayerService : MediaLibraryService(), MusicPlayerController {
         }
         return null
     }
-
-    /**
-     * Load tracks from MediaStore with pagination.
-     */
-    private fun loadTracksFromMediaStore(page: Int = 0, pageSize: Int = Int.MAX_VALUE): List<Track> {
-        val tracks = mutableListOf<Track>()
-
-        val projection = arrayOf(
-            MediaStore.Audio.Media._ID,
-            MediaStore.Audio.Media.TITLE,
-            MediaStore.Audio.Media.ARTIST,
-            MediaStore.Audio.Media.ALBUM,
-            MediaStore.Audio.Media.ALBUM_ID,
-            MediaStore.Audio.Media.DURATION,
-            MediaStore.Audio.Media.DATA,
-            MediaStore.Audio.Media.DATE_ADDED,
-            MediaStore.Audio.Media.SIZE
-        )
-
-        val selection = "${MediaStore.Audio.Media.IS_MUSIC} != 0"
-
-        try {
-            contentResolver.query(
-                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                projection,
-                Bundle().apply {
-                    putString(ContentResolver.QUERY_ARG_SQL_SELECTION, selection)
-                    putStringArray(ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS, null)
-                    putStringArray(ContentResolver.QUERY_ARG_SORT_COLUMNS, arrayOf(MediaStore.Audio.Media.DATE_ADDED))
-                    putInt(ContentResolver.QUERY_ARG_SORT_DIRECTION, ContentResolver.QUERY_SORT_DIRECTION_DESCENDING)
-                    putInt(ContentResolver.QUERY_ARG_LIMIT, pageSize)
-                    putInt(ContentResolver.QUERY_ARG_OFFSET, page * pageSize)
-                },
-                null
-            )?.use { cursor ->
-                while (cursor.moveToNext()) {
-                    tracks.add(createTrackFromCursor(cursor))
-                }
-            }
-        } catch (_: Exception) {
-            // Handle errors silently - will return empty list
-        }
-
-        return tracks
-    }
-
 
     /**
      * Stop service and release resources
