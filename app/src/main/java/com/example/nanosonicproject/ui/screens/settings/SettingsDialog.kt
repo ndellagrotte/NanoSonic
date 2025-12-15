@@ -1,6 +1,5 @@
 package com.example.nanosonicproject.ui.screens.settings
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
@@ -22,51 +21,24 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.nanosonicproject.ui.theme.NanoSonicProjectTheme
 import com.example.nanosonicproject.util.PermissionUtil
-import androidx.core.content.edit
-
-/**
- * Theme mode options
- */
-enum class ThemeMode(val displayName: String) {
-    SYSTEM("System default"),
-    LIGHT("Light"),
-    DARK("Dark")
-}
-
-/**
- * Helper functions for theme preferences
- */
-private const val PREFS_NAME = "settings_prefs"
-private const val KEY_THEME_MODE = "theme_mode"
-
-private fun getThemeMode(context: Context): ThemeMode {
-    val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    val themeName = prefs.getString(KEY_THEME_MODE, ThemeMode.SYSTEM.name) ?: ThemeMode.SYSTEM.name
-    return try {
-        ThemeMode.valueOf(themeName)
-    } catch (e: IllegalArgumentException) {
-        ThemeMode.SYSTEM
-    }
-}
-
-private fun setThemeMode(context: Context, mode: ThemeMode) {
-    val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    prefs.edit { putString(KEY_THEME_MODE, mode.name) }
-}
 
 /**
  * Settings Dialog - Main settings interface
  */
 @Composable
 fun SettingsDialog(
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     var showThemeDialog by remember { mutableStateOf(false) }
     var showPermissionsDialog by remember { mutableStateOf(false) }
-    var currentTheme by remember { mutableStateOf(getThemeMode(context)) }
+    
+    val currentTheme by viewModel.themeMode.collectAsStateWithLifecycle()
     var hasAudioPermission by remember { mutableStateOf(PermissionUtil.hasAudioPermission(context)) }
 
     // Permission launcher for requesting audio permission
@@ -143,8 +115,7 @@ fun SettingsDialog(
         ThemeSelectionDialog(
             currentTheme = currentTheme,
             onThemeSelected = { newTheme ->
-                currentTheme = newTheme
-                setThemeMode(context, newTheme)
+                viewModel.setThemeMode(newTheme)
                 showThemeDialog = false
             },
             onDismiss = { showThemeDialog = false }

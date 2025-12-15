@@ -10,12 +10,18 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.nanosonicproject.ui.theme.NanoSonicProjectTheme
-
+import androidx.compose.ui.platform.LocalUriHandler
 
 /**
  * About Dialog - Placeholder implementation
@@ -24,6 +30,8 @@ import com.example.nanosonicproject.ui.theme.NanoSonicProjectTheme
 fun AboutDialog(
     onDismiss: () -> Unit
 ) {
+    LocalUriHandler.current
+
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
@@ -54,7 +62,7 @@ fun AboutDialog(
                 )
 
                 Text(
-                    text = "Version 1.1.0",
+                    text = "Version 1.1.1",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -66,21 +74,21 @@ fun AboutDialog(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Next-gen music player with \n smart EQ",
+                    text = "The most sonically-pleasing music player for Android.",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium,
                     textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.primary
                 )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = "NanoSonic provides professional-grade parametric EQ and an integrated database of device-specific EQ profiles.",
-                    style = MaterialTheme.typography.bodyMedium,
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+//
+//                Spacer(modifier = Modifier.height(16.dp))
+//
+//                Text(
+//                    text = "NanoSonic provides professional-grade parametric EQ and an integrated database of device-specific EQ profiles.",
+//                    style = MaterialTheme.typography.bodyMedium,
+//                    textAlign = TextAlign.Center,
+//                    color = MaterialTheme.colorScheme.onSurfaceVariant
+//                )
 
                 Spacer(modifier = Modifier.height(24.dp))
 
@@ -116,22 +124,66 @@ fun AboutDialog(
                     Column(
                         modifier = Modifier.padding(16.dp)
                     ) {
-                        Text(
-                            text = "Credits",
-                            style = MaterialTheme.typography.titleSmall,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(bottom = 8.dp),
-                            color = MaterialTheme.colorScheme.onSecondaryContainer
-                        )
+                        // AutoEQ attribution
+                        val autoEqLink = buildAnnotatedString {
+                            append("- EQ profiles provided by ")
+                            pushLink(
+                                LinkAnnotation.Url(
+                                    url = "https://github.com/jaakkopasanen/AutoEq",
+                                    styles = TextLinkStyles(
+                                        style = SpanStyle(textDecoration = TextDecoration.Underline)
+                                    )
+                                )
+                            )
+                            append("AutoEQ project")
+                            pop()
+                        }
 
                         Text(
-                            text = "EQ profiles provided by AutoEQ project",
+                            text = autoEqLink,
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSecondaryContainer
                         )
 
+// Jetpack Compose attribution
+                        val jetpackComposeLink = buildAnnotatedString {
+                            append("- Built with ")
+                            pushLink(
+                                LinkAnnotation.Url(
+                                    url = "https://developer.android.com/jetpack/compose",
+                                    styles = TextLinkStyles(
+                                        style = SpanStyle(textDecoration = TextDecoration.Underline)
+                                    )
+                                )
+                            )
+                            append("Android Jetpack Compose")
+                            pop()
+                        }
+
                         Text(
-                            text = "Built with Android Jetpack Compose",
+                            text = jetpackComposeLink,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+
+// Audio EQ Cookbook attribution
+                        val eqCookbookLink = buildAnnotatedString {
+                            append("- Biquad filter equations from ")
+                            pushLink(
+                                LinkAnnotation.Url(
+                                    url = "https://webaudio.github.io/Audio-EQ-Cookbook/audio-eq-cookbook.html",
+                                    styles = TextLinkStyles(
+                                        style = SpanStyle(textDecoration = TextDecoration.Underline)
+                                    )
+                                )
+                            )
+                            append("Audio EQ Cookbook")
+                            pop()
+                            append(" by Robert Bristow-Johnson")
+                        }
+
+                        Text(
+                            text = eqCookbookLink,
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSecondaryContainer
                         )

@@ -338,7 +338,7 @@ class WizardViewModel @Inject constructor(
                                 val profile = SavedEQProfile(
                                     id = variant.id,
                                     name = variant.name,  // Use original name, not displayName
-                                    deviceModel = modelName,
+                                    deviceModel = variant.name, // Use variant name to include details like (ANC ON)
                                     source = variant.source,
                                     rig = variant.rig,
                                     bands = parametricEQ.bands,  // Already ParametricEQBand

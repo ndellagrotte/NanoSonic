@@ -25,6 +25,7 @@ import com.example.nanosonicproject.data.SavedEQProfile
 import com.example.nanosonicproject.ui.theme.NanoSonicProjectTheme
 import com.example.nanosonicproject.ui.screens.about.AboutDialog
 import com.example.nanosonicproject.ui.screens.settings.SettingsDialog
+import android.provider.OpenableColumns
 
 /**
  * EQ Screen - Manage and select EQ profiles
@@ -49,12 +50,24 @@ fun EqScreen(
         if (uri != null) {
             try {
                 val contentResolver = context.contentResolver
+                
+                // Extract file name from URI
+                var fileName = "custom_eq.txt"
+                contentResolver.query(uri, null, null, null, null)?.use { cursor ->
+                    if (cursor.moveToFirst()) {
+                        val displayNameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                        if (displayNameIndex >= 0) {
+                            val name = cursor.getString(displayNameIndex)
+                            if (!name.isNullOrBlank()) {
+                                fileName = name
+                            }
+                        }
+                    }
+                }
+
                 val inputStream = contentResolver.openInputStream(uri)
 
                 if (inputStream != null) {
-                    // Extract file name from URI
-                    val fileName = uri.lastPathSegment ?: "custom_eq.txt"
-
                     viewModel.importCustomProfile(
                         fileName = fileName,
                         inputStream = inputStream,
@@ -182,30 +195,30 @@ private fun EqScreenContent(
                 contentPadding = PaddingValues(top = 8.dp, bottom = 88.dp)
             ) {
                 // Info card
-                item {
-
-                Card(
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer
-                    ),
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-                ) {
-                    Column(modifier = Modifier.padding(12.dp)) {
-                        Text(
-                            text = "Select an EQ Profile",
-                            style = MaterialTheme.typography.labelLarge,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = "Choose one profile to apply to your music. Select \"No Equalization\" to disable EQ.",
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(8.dp))
-            }
+//                item {
+//
+//                Card(
+//                    colors = CardDefaults.cardColors(
+//                        containerColor = MaterialTheme.colorScheme.primaryContainer
+//                    ),
+//                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+//                ) {
+//                    Column(modifier = Modifier.padding(12.dp)) {
+//                        Text(
+//                            text = "Select an EQ Profile",
+//                            style = MaterialTheme.typography.labelLarge,
+//                            fontWeight = FontWeight.Bold
+//                        )
+//                        Spacer(modifier = Modifier.height(4.dp))
+//                        Text(
+//                            text = "Choose one profile to apply to your music. Select \"No Equalization\" to disable EQ.",
+//                            style = MaterialTheme.typography.bodySmall
+//                        )
+//                    }
+//                }
+//
+//                Spacer(modifier = Modifier.height(8.dp))
+//            }
 
             // "No Equalization" option (always first)
             item {
@@ -447,13 +460,13 @@ private fun NoEqualizationItem(
             Spacer(modifier = Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "No Equalization",
+                    text = "Equalizer Disabled",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = "Flat frequency response (no EQ applied)",
+                    text = "Select a different profile to apply equalization to your music. AutoEQ profiles are recommended and may be imported through the NanoSonic wizard.",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

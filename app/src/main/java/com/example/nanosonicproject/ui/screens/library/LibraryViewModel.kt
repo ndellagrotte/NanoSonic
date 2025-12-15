@@ -241,27 +241,4 @@ class LibraryViewModel @Inject constructor(
     fun onErrorDismissed() {
         _state.update { it.copy(error = null) }
     }
-
-    // Selection Mode functionality (e.g. for creating playlists) has been removed.
-    // If we need multi-select for other features in the future, we can add it back here.
-    // Stub methods to keep UI compilation if needed, but we cleaned up LibraryScreen so these shouldn't be called.
-    
-    // For now we assume LibraryScreen won't call these because we removed the UI triggers.
-    // If compilation fails, we will remove the calls in LibraryScreen.
-    
-    // The previous implementation had:
-    // onTrackLongPress
-    // onTrackSelected
-    // onExitSelectionMode
-    // getSelectedTracks
-    // createPlaylist
-    // addSelectedTracksToPlaylist
-    // createPlaylistAndAddSelectedTracks
-    
-    // All removed.
-    
-    // Stub functions to avoid breaking LibraryScreen if I missed something there
-    fun onTrackLongPress(trackId: String) { /* No-op */ }
-    fun onTrackSelected(trackId: String) { /* No-op */ }
-    fun onExitSelectionMode() { /* No-op */ }
 }

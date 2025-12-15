@@ -219,7 +219,7 @@ class EQProfileRepository @Inject constructor(
         val customProfile = SavedEQProfile(
             id = id,
             name = name,
-            deviceModel = "Custom",
+            deviceModel = name,
             source = "Custom Import",
             rig = "N/A",
             bands = parametricEQ.bands,  // Already ParametricEQBand
