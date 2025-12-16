@@ -21,15 +21,15 @@ class SplashViewModel @Inject constructor(
     val state: StateFlow<SplashState> = _state.asStateFlow()
 
     init {
-        checkAuthenticationStatus()
+        checkWizardStatus()
     }
 
-    private fun checkAuthenticationStatus() {
+    private fun checkWizardStatus() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             delay(500)
 
-            // Check if wizard has been completed (guest or registered user)
+            // Check if wizard has been completed
             val wizardCompleted = eqProfileRepository.isWizardCompleted()
 
             if (wizardCompleted) {
@@ -41,32 +41,20 @@ class SplashViewModel @Inject constructor(
                     )
                 }
             } else {
-                // Show splash screen options
+                // Show splash screen with Get Started button
                 _state.update { it.copy(isLoading = false) }
             }
         }
     }
 
-    fun onLoginClicked() {
-        _state.update {
-            it.copy(navigationEvent = NavigationEvent.NavigateToLogin)
-        }
-    }
-
-    fun onRegisterClicked() {
-        _state.update {
-            it.copy(navigationEvent = NavigationEvent.NavigateToRegister)
-        }
-    }
-// this doesn't really work sometimes
-    fun onGuestClicked() {
+    fun onGetStartedClicked() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            delay(500)
+            delay(300)
             _state.update {
                 it.copy(
                     isLoading = false,
-                    navigationEvent = NavigationEvent.NavigateAsGuest
+                    navigationEvent = NavigationEvent.NavigateToWizard
                 )
             }
         }
@@ -85,8 +73,6 @@ data class SplashState(
 
 sealed class NavigationEvent {
     object None : NavigationEvent()
-    object NavigateToLogin : NavigationEvent()
-    object NavigateToRegister : NavigationEvent()
-    object NavigateAsGuest : NavigationEvent()
+    object NavigateToWizard : NavigationEvent()
     object NavigateToMain : NavigationEvent()
 }
