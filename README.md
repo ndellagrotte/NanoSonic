@@ -24,15 +24,14 @@ This local music player is ideal for users who want studio-quality EQ without th
 - Support for peaking, low-shelf, high-shelf, lowpass, and highpass filters
 
 ### 🎧 AutoEQ Profile Support
-- **Integrated AutoEQ database** with profiles for thousands of headphones and IEMs
+- **Integrated AutoEQ database** for offline access of profiles supporting thousands of headphones and IEMs
 - **User-friendly import wizard** for quick EQ profile setup
 - **Custom profile import** supporting industry-standard parametric EQ profile format
-  "AutoEQ profiles included in the app—works completely offline from day one
 
 ### 🎵 Gapless Playback
 - Seamless transitions between tracks
 - Configurable gapless modes:
-    - **Enabled for Albums** (default) - Perfect for concept albums and live recordings
+    - **Enabled for Albums** (default)
     - **Enabled** - Gapless playback everywhere
     - **Disabled** - Traditional playback with gaps
 
