@@ -1,6 +1,6 @@
 # NanoSonic
 
-**A minimalist, offline-first Android music player with accessible professional-grade parametric equalization**
+**A minimalist, offline-first Android music player with accessible professional-grade parametric EQ**
 
 [![Android](https://img.shields.io/badge/Platform-Android-green.svg)](https://www.android.com/)
 [![Material You](https://img.shields.io/badge/Design-Material%20You-blue.svg)](https://m3.material.io/)
@@ -64,13 +64,11 @@ NanoSonic is intentionally minimal and offline-focused. The following features a
 
 ❌ **Social Features** 
 
-
 ---
 
 ## 🛠️ Technical Details
 
 ### Audio Processing
-- **Engine**: Custom implementation using MWEngine DSP library
 - **Sample Rate**: Adaptive (matches device/file sample rate)
 - **Bit Depth**: 16-bit PCM processing
 - **Latency**: Optimized for real-time playback with minimal delay
@@ -93,12 +91,11 @@ NanoSonic's parametric EQ profiles are sourced from the [AutoEQ project](https:/
 - oratory1990 (Reddit)
 - crinacle
 - Rtings
-- Innerfidelity
+- Super Review
 - And many other contributors
 
 ### Audio DSP
 Built with components from:
-- **MWEngine** - Low-latency audio engine for Android
 - **Audio EQ Cookbook** - Robert Bristow-Johnson's biquad filter formulas
 - **ExoPlayer** - Google's media player library for Android
 
