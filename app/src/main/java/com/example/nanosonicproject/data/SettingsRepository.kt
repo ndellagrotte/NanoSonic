@@ -17,6 +17,7 @@ import androidx.core.content.edit
 private const val PREFS_NAME = "settings_prefs"
 private const val KEY_THEME_MODE = "theme_mode"
 private const val KEY_GAPLESS_MODE = "gapless_mode"
+private const val KEY_APP_INITIALIZED = "app_initialized"
 
 @Singleton
 class SettingsRepository @Inject constructor(
@@ -70,5 +71,19 @@ class SettingsRepository @Inject constructor(
 
     fun setGaplessMode(mode: GaplessMode) {
         prefs.edit { putString(KEY_GAPLESS_MODE, mode.name) }
+    }
+
+    /**
+     * Check if the app has been initialized (user has completed initial setup)
+     */
+    fun isAppInitialized(): Boolean {
+        return prefs.getBoolean(KEY_APP_INITIALIZED, false)
+    }
+
+    /**
+     * Mark the app as initialized (called after wizard completion)
+     */
+    fun setAppInitialized(initialized: Boolean) {
+        prefs.edit { putBoolean(KEY_APP_INITIALIZED, initialized) }
     }
 }

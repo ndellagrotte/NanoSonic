@@ -2,7 +2,7 @@ package com.example.nanosonicproject.ui.screens.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.nanosonicproject.data.EQProfileRepository
+import com.example.nanosonicproject.data.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,26 +14,26 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val eqProfileRepository: EQProfileRepository
+    private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SplashState())
     val state: StateFlow<SplashState> = _state.asStateFlow()
 
     init {
-        checkWizardStatus()
+        checkInitializationStatus()
     }
 
-    private fun checkWizardStatus() {
+    private fun checkInitializationStatus() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             delay(500)
 
-            // Check if wizard has been completed
-            val wizardCompleted = eqProfileRepository.isWizardCompleted()
+            // Check if app has been initialized (user completed setup)
+            val isInitialized = settingsRepository.isAppInitialized()
 
-            if (wizardCompleted) {
-                // Skip splash/wizard and go directly to main
+            if (isInitialized) {
+                // Skip splash and go directly to main screen
                 _state.update {
                     it.copy(
                         isLoading = false,
