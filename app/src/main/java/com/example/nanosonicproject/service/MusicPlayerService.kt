@@ -34,8 +34,10 @@ import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
 import com.example.nanosonicproject.MainActivity
 import com.example.nanosonicproject.data.EQProfileRepository
+import com.example.nanosonicproject.data.SettingsRepository
 import com.example.nanosonicproject.data.Track
 import com.example.nanosonicproject.service.audio.CustomEqualizerAudioProcessor
+import com.example.nanosonicproject.ui.screens.settings.GaplessMode
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import dagger.hilt.android.AndroidEntryPoint
@@ -64,6 +66,9 @@ class MusicPlayerService : MediaSessionService(), MusicPlayerController {
     @Inject
     lateinit var eqProfileRepository: EQProfileRepository
 
+    @Inject
+    lateinit var settingsRepository: SettingsRepository
+
     private var exoPlayer: ExoPlayer? = null
     private var mediaSession: MediaSession? = null
     private val binder = MusicPlayerBinder()
@@ -76,6 +81,7 @@ class MusicPlayerService : MediaSessionService(), MusicPlayerController {
     private var currentQueue: List<Track> = listOf()
     private var currentTrackIndex = -1
     private var currentPlaybackMode: PlaybackMode = PlaybackMode.CONTINUOUS
+    private var useGapless: Boolean = false
 
     // Audio focus handling
     private lateinit var audioManager: AudioManager
@@ -321,7 +327,19 @@ class MusicPlayerService : MediaSessionService(), MusicPlayerController {
             currentTrackIndex = 0
         }
 
-        playCurrentTrack()
+        // Determine if gapless should be used based on settings and playback mode
+        val gaplessMode = settingsRepository.getGaplessMode()
+        useGapless = when (gaplessMode) {
+            GaplessMode.ENABLED -> true
+            GaplessMode.DISABLED -> false
+            GaplessMode.ALBUMS_ONLY -> mode == PlaybackMode.ALBUM
+        }
+
+        if (useGapless) {
+            playQueueWithGapless(currentTrackIndex)
+        } else {
+            playCurrentTrack()
+        }
     }
 
     /**
@@ -359,6 +377,49 @@ class MusicPlayerService : MediaSessionService(), MusicPlayerController {
             )
 
             startForeground(NOTIFICATION_ID, createNotification(track))
+        }
+    }
+
+    /**
+     * Play queue with gapless playback enabled
+     * Builds the entire queue as MediaItems for seamless transitions
+     */
+    private fun playQueueWithGapless(startIndex: Int) {
+        if (startIndex < 0 || startIndex >= currentQueue.size) return
+
+        exoPlayer?.let { player ->
+            // Clear existing queue
+            player.clearMediaItems()
+
+            // Build MediaItems for entire queue
+            val mediaItems = currentQueue.map { track ->
+                MediaItem.Builder()
+                    .setMediaId(track.id)
+                    .setUri(track.filePath.toUri())
+                    .setMediaMetadata(
+                        MediaMetadata.Builder()
+                            .setTitle(track.title)
+                            .setArtist(track.artist)
+                            .setArtworkUri(track.albumArtUri?.toUri())
+                            .setIsPlayable(true)
+                            .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
+                            .build()
+                    )
+                    .build()
+            }
+
+            // Add all items to player
+            player.setMediaItems(mediaItems, startIndex, 0L)
+            player.prepare()
+            player.play()
+
+            _playbackState.value = _playbackState.value.copy(
+                currentTrack = currentQueue[startIndex],
+                isPlaying = true,
+                currentPosition = 0L
+            )
+
+            startForeground(NOTIFICATION_ID, createNotification(currentQueue[startIndex]))
         }
     }
 
@@ -425,22 +486,54 @@ class MusicPlayerService : MediaSessionService(), MusicPlayerController {
     override fun next() {
         if (currentQueue.isEmpty()) return
 
-        val nextIndex = currentTrackIndex + 1
-
-        // Check if we're at the end of the queue
-        if (nextIndex >= currentQueue.size) {
-            // For album playback, stop at the end
-            if (currentPlaybackMode == PlaybackMode.ALBUM) {
-                pause()
-                return
+        if (useGapless) {
+            // Use ExoPlayer's built-in navigation for gapless playback
+            exoPlayer?.let { player ->
+                if (player.hasNextMediaItem()) {
+                    player.seekToNextMediaItem()
+                    currentTrackIndex = player.currentMediaItemIndex
+                    _playbackState.value = _playbackState.value.copy(
+                        currentTrack = currentQueue.getOrNull(currentTrackIndex),
+                        currentPosition = 0L
+                    )
+                    currentQueue.getOrNull(currentTrackIndex)?.let { track ->
+                        startForeground(NOTIFICATION_ID, createNotification(track))
+                    }
+                } else {
+                    // At end of queue
+                    if (currentPlaybackMode == PlaybackMode.ALBUM) {
+                        pause()
+                    } else {
+                        // Loop back to beginning for continuous mode
+                        player.seekTo(0, 0L)
+                        currentTrackIndex = 0
+                        _playbackState.value = _playbackState.value.copy(
+                            currentTrack = currentQueue.first(),
+                            currentPosition = 0L
+                        )
+                        startForeground(NOTIFICATION_ID, createNotification(currentQueue.first()))
+                    }
+                }
             }
-            // For continuous playback, loop back to the beginning
-            currentTrackIndex = 0
         } else {
-            currentTrackIndex = nextIndex
-        }
+            // Non-gapless mode - use original logic
+            val nextIndex = currentTrackIndex + 1
 
-        playCurrentTrack()
+            // Check if we're at the end of the queue
+            if (nextIndex >= currentQueue.size) {
+                // For album playback, stop at the end
+                if (currentPlaybackMode == PlaybackMode.ALBUM) {
+                    pause()
+                    return
+                }
+                // For continuous playback, loop back to the beginning
+                currentTrackIndex = 0
+            } else {
+                currentTrackIndex = nextIndex
+            }
+
+            playCurrentTrack()
+        }
     }
 
     /**
@@ -453,13 +546,40 @@ class MusicPlayerService : MediaSessionService(), MusicPlayerController {
         if ((exoPlayer?.currentPosition ?: 0) > 3000) {
             exoPlayer?.seekTo(0)
         } else {
-            // Otherwise, go to previous track
-            currentTrackIndex = if (currentTrackIndex - 1 < 0) {
-                currentQueue.size - 1
+            if (useGapless) {
+                // Use ExoPlayer's built-in navigation for gapless playback
+                exoPlayer?.let { player ->
+                    if (player.hasPreviousMediaItem()) {
+                        player.seekToPreviousMediaItem()
+                        currentTrackIndex = player.currentMediaItemIndex
+                        _playbackState.value = _playbackState.value.copy(
+                            currentTrack = currentQueue.getOrNull(currentTrackIndex),
+                            currentPosition = 0L
+                        )
+                        currentQueue.getOrNull(currentTrackIndex)?.let { track ->
+                            startForeground(NOTIFICATION_ID, createNotification(track))
+                        }
+                    } else {
+                        // At beginning of queue - wrap to end
+                        val lastIndex = currentQueue.size - 1
+                        player.seekTo(lastIndex, 0L)
+                        currentTrackIndex = lastIndex
+                        _playbackState.value = _playbackState.value.copy(
+                            currentTrack = currentQueue.last(),
+                            currentPosition = 0L
+                        )
+                        startForeground(NOTIFICATION_ID, createNotification(currentQueue.last()))
+                    }
+                }
             } else {
-                currentTrackIndex - 1
+                // Non-gapless mode - use original logic
+                currentTrackIndex = if (currentTrackIndex - 1 < 0) {
+                    currentQueue.size - 1
+                } else {
+                    currentTrackIndex - 1
+                }
+                playCurrentTrack()
             }
-            playCurrentTrack()
         }
     }
 
@@ -611,8 +731,18 @@ class MusicPlayerService : MediaSessionService(), MusicPlayerController {
         override fun onPlaybackStateChanged(playbackState: Int) {
             when (playbackState) {
                 Player.STATE_ENDED -> {
-                    // Auto-play next track
-                    next()
+                    // In gapless mode, ExoPlayer handles transitions automatically
+                    // Only call next() for non-gapless mode
+                    if (!useGapless) {
+                        next()
+                    } else {
+                        // Check if we're at the end of the queue in album mode
+                        exoPlayer?.let { player ->
+                            if (!player.hasNextMediaItem() && currentPlaybackMode == PlaybackMode.ALBUM) {
+                                pause()
+                            }
+                        }
+                    }
                 }
                 Player.STATE_READY -> {
                     _playbackState.value = _playbackState.value.copy(
@@ -629,6 +759,22 @@ class MusicPlayerService : MediaSessionService(), MusicPlayerController {
                         isPlaying = false,
                         isBuffering = false
                     )
+                }
+            }
+        }
+
+        override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+            // Track media item changes in gapless mode
+            if (useGapless && mediaItem != null) {
+                exoPlayer?.let { player ->
+                    currentTrackIndex = player.currentMediaItemIndex
+                    currentQueue.getOrNull(currentTrackIndex)?.let { track ->
+                        _playbackState.value = _playbackState.value.copy(
+                            currentTrack = track,
+                            currentPosition = 0L
+                        )
+                        startForeground(NOTIFICATION_ID, createNotification(track))
+                    }
                 }
             }
         }

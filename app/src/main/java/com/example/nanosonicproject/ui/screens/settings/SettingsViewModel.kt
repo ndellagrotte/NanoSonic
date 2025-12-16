@@ -22,9 +22,22 @@ class SettingsViewModel @Inject constructor(
             initialValue = ThemeMode.SYSTEM
         )
 
+    val gaplessMode: StateFlow<GaplessMode> = settingsRepository.gaplessMode
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = GaplessMode.ALBUMS_ONLY
+        )
+
     fun setThemeMode(mode: ThemeMode) {
         viewModelScope.launch {
             settingsRepository.setThemeMode(mode)
+        }
+    }
+
+    fun setGaplessMode(mode: GaplessMode) {
+        viewModelScope.launch {
+            settingsRepository.setGaplessMode(mode)
         }
     }
 }
