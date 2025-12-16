@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
@@ -19,9 +17,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.nanosonicproject.ui.theme.NanoSonicProjectTheme
 
 /**
  * Custom text field component for NanoSonic app
@@ -166,162 +162,6 @@ fun NanoSonicTextField(
                     modifier = Modifier.padding(start = 16.dp, top = 4.dp)
                 )
             }
-        }
-    }
-}
-
-// ═══════════════════════════════════════════════════════════════
-// CONVENIENCE VARIANTS
-// ═══════════════════════════════════════════════════════════════
-
-/**
- * Email text field variant
- */
-@Composable
-fun EmailTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    label: String = "Email",
-    isError: Boolean = false,
-    errorMessage: String? = null,
-    imeAction: ImeAction = ImeAction.Next,
-    onImeAction: () -> Unit = {}
-) {
-    NanoSonicTextField(
-        value = value,
-        onValueChange = onValueChange,
-        modifier = modifier,
-        label = label,
-        leadingIcon = Icons.Default.Email,
-        keyboardType = KeyboardType.Email,
-        imeAction = imeAction,
-        onImeAction = onImeAction,
-        isError = isError,
-        errorMessage = errorMessage
-    )
-}
-
-/**
- * Password text field variant
- */
-@Composable
-fun PasswordTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    label: String = "Password",
-    isError: Boolean = false,
-    errorMessage: String? = null,
-    imeAction: ImeAction = ImeAction.Done,
-    onImeAction: () -> Unit = {}
-) {
-    NanoSonicTextField(
-        value = value,
-        onValueChange = onValueChange,
-        modifier = modifier,
-        label = label,
-        isPassword = true,
-        keyboardType = KeyboardType.Password,
-        imeAction = imeAction,
-        onImeAction = onImeAction,
-        isError = isError,
-        errorMessage = errorMessage
-    )
-}
-
-/**
- * Username text field variant
- */
-@Composable
-fun UsernameTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    label: String = "Username",
-    isError: Boolean = false,
-    errorMessage: String? = null,
-    imeAction: ImeAction = ImeAction.Next,
-    onImeAction: () -> Unit = {}
-) {
-    NanoSonicTextField(
-        value = value,
-        onValueChange = onValueChange,
-        modifier = modifier,
-        label = label,
-        leadingIcon = Icons.Default.Person,
-        keyboardType = KeyboardType.Text,
-        imeAction = imeAction,
-        onImeAction = onImeAction,
-        isError = isError,
-        errorMessage = errorMessage
-    )
-}
-
-// ═══════════════════════════════════════════════════════════════
-// PREVIEW
-// ═══════════════════════════════════════════════════════════════
-
-@Preview(showBackground = true)
-@Composable
-private fun NanoSonicTextFieldPreview() {
-    NanoSonicProjectTheme {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            // Normal text field
-            var text1 by remember { mutableStateOf("") }
-            NanoSonicTextField(
-                value = text1,
-                onValueChange = { text1 = it },
-                label = "Normal Field",
-                placeholder = "Enter text here",
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-
-            // Email field
-            var email by remember { mutableStateOf("") }
-            EmailTextField(
-                value = email,
-                onValueChange = { email = it },
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-
-            // Password field
-            var password by remember { mutableStateOf("") }
-            PasswordTextField(
-                value = password,
-                onValueChange = { password = it },
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-
-            // Username field
-            var username by remember { mutableStateOf("") }
-            UsernameTextField(
-                value = username,
-                onValueChange = { username = it },
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-
-            // Error state
-            var errorText by remember { mutableStateOf("invalid@") }
-            EmailTextField(
-                value = errorText,
-                onValueChange = { errorText = it },
-                isError = true,
-                errorMessage = "Invalid email format",
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-
-            // With helper text
-            var helperText by remember { mutableStateOf("") }
-            NanoSonicTextField(
-                value = helperText,
-                onValueChange = { helperText = it },
-                label = "With Helper Text",
-                helperText = "This is a helper message",
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
         }
     }
 }
