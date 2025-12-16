@@ -1,6 +1,6 @@
 # NanoSonic
 
-**A minimalist, offline-first Android music player with accessible professional-grade parametric EQ**
+**A minimalist, offline-first Android music player with accessible and powerful parametric EQ**
 
 [![Android](https://img.shields.io/badge/Platform-Android-green.svg)](https://www.android.com/)
 [![Material You](https://img.shields.io/badge/Design-Material%20You-blue.svg)](https://m3.material.io/)
@@ -10,9 +10,9 @@
 
 ## Overview
 
-NanoSonic is a lightweight, privacy-focused Android music player that prioritizes audio quality and accessible EQ integration. NanoSonic offers professional-grade parametric equalization and provides device-specific profiles sourced from the [AutoEQ](https://github.com/jaakkopasanen/AutoEq) project.
+NanoSonic is a lightweight, privacy-focused local music player for Android. NanoSonic offers professional-grade parametric EQ and provides device-specific profiles sourced from the [AutoEQ](https://github.com/jaakkopasanen/AutoEq) project. These profiles are locally stored and can be imported through our user-friendly setup wizard at any time, regardless of internet connection or the user's level of technical proficiency.
 
-This local music player is ideal for users who want studio-quality EQ without the learning curve.
+NanoSonic is primary designed as a FOSS alternative for users who want studio-quality EQ without the cost of proprietary solutions like Poweramp ($13) or Neutron ($20). Unlike external EQ apps such as Wavelet that require additional configuration, NanoSonic provides integrated, powerful equalization that works seamlessly with your music library out of the box.
 
 ---
 
@@ -42,10 +42,6 @@ This local music player is ideal for users who want studio-quality EQ without th
 - Storage permission for accessing music files
 - Music stored in the default Android music folder: `/storage/emulated/0/Music`
 
----
-
-## ⚠️ Known Limitations
-
 ### Current Limitations
 These limitations exist in the current version and may be addressed in future updates:
 
@@ -58,11 +54,9 @@ NanoSonic is intentionally minimal and offline-focused. The following features a
 
 ❌ **Android Auto**
 
-❌ **Playlist Creation** 
+❌ **Playlist Creation/Management** 
 
-❌ **Internet-Dependent Features** 
-
-❌ **Social Features** 
+❌ **Internet-Dependent Features**
 
 ---
 
@@ -84,13 +78,13 @@ NanoSonic is intentionally minimal and offline-focused. The following features a
 ## 🙏 Acknowledgments
 
 ### AutoEQ Project
-NanoSonic's parametric EQ profiles are sourced from the [AutoEQ project](https://github.com/jaakkopasanen/AutoEq) by Jaakko Pasanen. AutoEQ provides scientifically measured frequency response corrections for thousands of headphones, bringing them closer to a neutral reference sound.
+NanoSonic's parametric EQ profiles are sourced from the [AutoEQ project](https://github.com/jaakkopasanen/AutoEq) by Jaakko Pasanen. AutoEQ provides scientifically measured frequency response corrections for thousands of headphones, bringing them closer to a more widely-preferred Harman sound.
 
 **AutoEQ License**: MIT License  
 **Database**: Includes measurements from:
 - oratory1990 (Reddit)
-- crinacle
-- Rtings
+- Crinacle
+- RTINGS.com
 - Super Review
 - And many other contributors
 
