@@ -37,8 +37,10 @@ fun SettingsDialog(
     val context = LocalContext.current
     var showThemeDialog by remember { mutableStateOf(false) }
     var showPermissionsDialog by remember { mutableStateOf(false) }
-    
+    var showGaplessDialog by remember { mutableStateOf(false) }
+
     val currentTheme by viewModel.themeMode.collectAsStateWithLifecycle()
+    val currentGaplessMode by viewModel.gaplessMode.collectAsStateWithLifecycle()
     var hasAudioPermission by remember { mutableStateOf(PermissionUtil.hasAudioPermission(context)) }
 
     // Permission launcher for requesting audio permission
@@ -87,6 +89,18 @@ fun SettingsDialog(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                // Playback Settings
+                SettingsSection(title = "Playback") {
+                    SettingsItem(
+                        icon = Icons.Default.MusicNote,
+                        title = "Gapless Playback",
+                        subtitle = currentGaplessMode.displayName,
+                        onClick = { showGaplessDialog = true }
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
                 // Privacy Settings
                 SettingsSection(title = "Privacy") {
                     SettingsItem(
@@ -119,6 +133,18 @@ fun SettingsDialog(
                 showThemeDialog = false
             },
             onDismiss = { showThemeDialog = false }
+        )
+    }
+
+    // Gapless Playback Dialog
+    if (showGaplessDialog) {
+        GaplessPlaybackDialog(
+            currentMode = currentGaplessMode,
+            onModeSelected = { newMode ->
+                viewModel.setGaplessMode(newMode)
+                showGaplessDialog = false
+            },
+            onDismiss = { showGaplessDialog = false }
         )
     }
 
@@ -253,6 +279,73 @@ private fun ThemeSelectionDialog(
                     ) {
                         RadioButton(
                             selected = (mode == currentTheme),
+                            onClick = null
+                        )
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Text(
+                            text = mode.displayName,
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Done")
+            }
+        }
+    )
+}
+
+/**
+ * Gapless Playback Selection Dialog
+ */
+@Composable
+private fun GaplessPlaybackDialog(
+    currentMode: GaplessMode,
+    onModeSelected: (GaplessMode) -> Unit,
+    onDismiss: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        icon = {
+            Icon(
+                imageVector = Icons.Default.MusicNote,
+                contentDescription = null,
+                modifier = Modifier.size(32.dp)
+            )
+        },
+        title = {
+            Text(
+                text = "Gapless Playback",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+        },
+        text = {
+            Column {
+                Text(
+                    text = "Eliminates silence between tracks for seamless listening",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+
+                GaplessMode.entries.forEach { mode ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .selectable(
+                                selected = (mode == currentMode),
+                                onClick = { onModeSelected(mode) },
+                                role = Role.RadioButton
+                            )
+                            .padding(vertical = 12.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RadioButton(
+                            selected = (mode == currentMode),
                             onClick = null
                         )
                         Spacer(modifier = Modifier.width(16.dp))
