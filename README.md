@@ -23,7 +23,7 @@ This local music player is ideal for users who want studio-quality EQ without th
 - Real-time audio processing with minimal latency
 - Support for peaking, low-shelf, high-shelf, lowpass, and highpass filters
 
-### 🎧 AutoEQ Profile Support
+### 🎧 Integrated AutoEQ Profiles
 - **Integrated AutoEQ database** for offline access of profiles supporting thousands of headphones and IEMs
 - **User-friendly import wizard** for quick EQ profile setup
 - **Custom profile import** supporting industry-standard parametric EQ profile format
