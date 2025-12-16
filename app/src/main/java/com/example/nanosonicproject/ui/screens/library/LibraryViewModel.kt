@@ -150,7 +150,8 @@ class LibraryViewModel @Inject constructor(
             MediaStore.Audio.Media.DURATION,
             MediaStore.Audio.Media.DATA,
             MediaStore.Audio.Media.DATE_ADDED,
-            MediaStore.Audio.Media.SIZE
+            MediaStore.Audio.Media.SIZE,
+            MediaStore.Audio.Media.TRACK
         )
 
         // Only get music files
@@ -173,6 +174,7 @@ class LibraryViewModel @Inject constructor(
             val dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
             val dateAddedColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATE_ADDED)
             val sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE)
+            val trackColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TRACK)
 
             val totalTracks = cursor.count
             var currentTrack = 0
@@ -207,6 +209,10 @@ class LibraryViewModel @Inject constructor(
                 val dateAdded = cursor.getLong(dateAddedColumn)
                 val size = cursor.getLong(sizeColumn)
 
+                // Extract track number from metadata or filename
+                val trackMetadata = cursor.getInt(trackColumn)
+                val trackNumber = extractTrackNumber(trackMetadata, filePath)
+
                 // Generate album artwork URI
                 val artworkUri = try {
                     ContentUris.withAppendedId(
@@ -229,7 +235,8 @@ class LibraryViewModel @Inject constructor(
                         artworkUri = artworkUri,
                         dateAdded = dateAdded,
                         size = size,
-                        albumArtUri = artworkUri // Also assign to legacy field
+                        albumArtUri = artworkUri, // Also assign to legacy field
+                        trackNumber = trackNumber
                     )
                 )
             }
@@ -240,5 +247,50 @@ class LibraryViewModel @Inject constructor(
 
     fun onErrorDismissed() {
         _state.update { it.copy(error = null) }
+    }
+
+    /**
+     * Extract track number from metadata or filename
+     * @param trackMetadata Track metadata from MediaStore (format: CDTTT where CD is disc, TTT is track)
+     * @param filePath Full file path for filename parsing
+     * @return Track number or null if not found
+     */
+    private fun extractTrackNumber(trackMetadata: Int, filePath: String): Int? {
+        // First try to extract from metadata
+        if (trackMetadata > 0) {
+            // MediaStore TRACK field format: CDTTT (e.g., 1003 = disc 1, track 3)
+            // We only want the track number (last 3 digits)
+            return trackMetadata % 1000
+        }
+
+        // Fallback: try to extract from filename
+        return extractTrackNumberFromFilename(filePath)
+    }
+
+    /**
+     * Extract track number from filename patterns like:
+     * - "01 - Song Name.mp3"
+     * - "01. Song Name.mp3"
+     * - "01 Song Name.mp3"
+     * - "Track 01 - Song Name.mp3"
+     * @param filePath Full file path
+     * @return Track number or null if not found
+     */
+    private fun extractTrackNumberFromFilename(filePath: String): Int? {
+        val filename = filePath.substringAfterLast('/')
+
+        // Pattern 1: "01 - Song.mp3" or "01. Song.mp3" or "01 Song.mp3"
+        val pattern1 = Regex("""^(\d{1,3})\s*[-.\s]""")
+        pattern1.find(filename)?.let {
+            return it.groupValues[1].toIntOrNull()
+        }
+
+        // Pattern 2: "Track 01 - Song.mp3"
+        val pattern2 = Regex("""[Tt]rack\s*(\d{1,3})""")
+        pattern2.find(filename)?.let {
+            return it.groupValues[1].toIntOrNull()
+        }
+
+        return null
     }
 }

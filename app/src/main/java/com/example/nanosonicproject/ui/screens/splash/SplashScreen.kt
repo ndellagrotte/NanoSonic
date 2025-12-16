@@ -300,12 +300,12 @@ private fun ButtonsSection(
         Spacer(modifier = Modifier.height(16.dp))
 
         // Guest info text
-        Text(
-            text = "Guest profiles won't sync across devices",
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center
-        )
+//        Text(
+//            text = "Guest profiles won't sync across devices",
+//            style = MaterialTheme.typography.bodySmall,
+//            color = MaterialTheme.colorScheme.onSurfaceVariant,
+//            textAlign = TextAlign.Center
+//        )
     }
 }
 

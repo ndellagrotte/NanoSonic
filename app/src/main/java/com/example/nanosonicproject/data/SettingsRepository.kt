@@ -2,6 +2,7 @@ package com.example.nanosonicproject.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.nanosonicproject.ui.screens.settings.GaplessMode
 import com.example.nanosonicproject.ui.screens.settings.ThemeMode
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
@@ -15,6 +16,7 @@ import androidx.core.content.edit
 
 private const val PREFS_NAME = "settings_prefs"
 private const val KEY_THEME_MODE = "theme_mode"
+private const val KEY_GAPLESS_MODE = "gapless_mode"
 
 @Singleton
 class SettingsRepository @Inject constructor(
@@ -33,6 +35,17 @@ class SettingsRepository @Inject constructor(
         awaitClose { prefs.unregisterOnSharedPreferenceChangeListener(listener) }
     }.distinctUntilChanged()
 
+    val gaplessMode: Flow<GaplessMode> = callbackFlow {
+        val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+            if (key == KEY_GAPLESS_MODE) {
+                trySend(getGaplessMode())
+            }
+        }
+        prefs.registerOnSharedPreferenceChangeListener(listener)
+        trySend(getGaplessMode()) // Send initial value
+        awaitClose { prefs.unregisterOnSharedPreferenceChangeListener(listener) }
+    }.distinctUntilChanged()
+
     fun getThemeMode(): ThemeMode {
         val themeName = prefs.getString(KEY_THEME_MODE, ThemeMode.SYSTEM.name) ?: ThemeMode.SYSTEM.name
         return try {
@@ -44,5 +57,18 @@ class SettingsRepository @Inject constructor(
 
     fun setThemeMode(mode: ThemeMode) {
         prefs.edit { putString(KEY_THEME_MODE, mode.name) }
+    }
+
+    fun getGaplessMode(): GaplessMode {
+        val modeName = prefs.getString(KEY_GAPLESS_MODE, GaplessMode.ALBUMS_ONLY.name) ?: GaplessMode.ALBUMS_ONLY.name
+        return try {
+            GaplessMode.valueOf(modeName)
+        } catch (e: IllegalArgumentException) {
+            GaplessMode.ALBUMS_ONLY
+        }
+    }
+
+    fun setGaplessMode(mode: GaplessMode) {
+        prefs.edit { putString(KEY_GAPLESS_MODE, mode.name) }
     }
 }
