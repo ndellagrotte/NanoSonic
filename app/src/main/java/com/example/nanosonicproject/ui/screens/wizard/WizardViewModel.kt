@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nanosonicproject.data.EQProfileRepository
 import com.example.nanosonicproject.data.SavedEQProfile
+import com.example.nanosonicproject.data.SettingsRepository
 import com.example.nanosonicproject.ui.screens.wizard.databaseUtil.AndroidLocalAutoEqSearch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -24,7 +25,8 @@ import javax.inject.Inject
 @HiltViewModel
 class WizardViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val eqProfileRepository: EQProfileRepository
+    private val eqProfileRepository: EQProfileRepository,
+    private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
     private val autoEqSearch = AndroidLocalAutoEqSearch(context)
@@ -358,6 +360,9 @@ class WizardViewModel @Inject constructor(
 
                 // Mark wizard as completed
                 eqProfileRepository.markWizardCompleted()
+
+                // Mark app as initialized (user has completed setup)
+                settingsRepository.setAppInitialized(true)
 
                 _state.update {
                     it.copy(

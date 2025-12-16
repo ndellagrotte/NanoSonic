@@ -22,17 +22,7 @@ fun NanoSonicApp() {
     ) {
         composable(route = Screen.Splash.route) {
             SplashScreen(
-                onNavigateToLogin = {
-                    navController.navigate(Screen.Login.route) {
-                        popUpTo(Screen.Splash.route) { inclusive = true }
-                    }
-                },
-                onNavigateToRegister = {
-                    navController.navigate(Screen.Register.route) {
-                        popUpTo(Screen.Splash.route) { inclusive = true }
-                    }
-                },
-                onNavigateAsGuest = {
+                onNavigateToWizard = {
                     navController.navigate(Screen.Wizard.route) {
                         popUpTo(Screen.Splash.route) { inclusive = true }
                     }
@@ -97,8 +87,6 @@ fun NanoSonicApp() {
 
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
-    object Register : Screen("register")
-    object Login : Screen("login")
     object Wizard : Screen("wizard")
     object Main : Screen("main")
 }

@@ -2,7 +2,7 @@ package com.example.nanosonicproject.ui.screens.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.nanosonicproject.data.EQProfileRepository
+import com.example.nanosonicproject.data.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,26 +14,26 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val eqProfileRepository: EQProfileRepository
+    private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SplashState())
     val state: StateFlow<SplashState> = _state.asStateFlow()
 
     init {
-        checkAuthenticationStatus()
+        checkInitializationStatus()
     }
 
-    private fun checkAuthenticationStatus() {
+    private fun checkInitializationStatus() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             delay(500)
 
-            // Check if wizard has been completed (guest or registered user)
-            val wizardCompleted = eqProfileRepository.isWizardCompleted()
+            // Check if app has been initialized (user completed setup)
+            val isInitialized = settingsRepository.isAppInitialized()
 
-            if (wizardCompleted) {
-                // Skip splash/wizard and go directly to main
+            if (isInitialized) {
+                // Skip splash and go directly to main screen
                 _state.update {
                     it.copy(
                         isLoading = false,
@@ -41,32 +41,20 @@ class SplashViewModel @Inject constructor(
                     )
                 }
             } else {
-                // Show splash screen options
+                // Show splash screen with Get Started button
                 _state.update { it.copy(isLoading = false) }
             }
         }
     }
 
-    fun onLoginClicked() {
-        _state.update {
-            it.copy(navigationEvent = NavigationEvent.NavigateToLogin)
-        }
-    }
-
-    fun onRegisterClicked() {
-        _state.update {
-            it.copy(navigationEvent = NavigationEvent.NavigateToRegister)
-        }
-    }
-// this doesn't really work sometimes
-    fun onGuestClicked() {
+    fun onGetStartedClicked() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            delay(500)
+            delay(300)
             _state.update {
                 it.copy(
                     isLoading = false,
-                    navigationEvent = NavigationEvent.NavigateAsGuest
+                    navigationEvent = NavigationEvent.NavigateToWizard
                 )
             }
         }
@@ -85,8 +73,6 @@ data class SplashState(
 
 sealed class NavigationEvent {
     object None : NavigationEvent()
-    object NavigateToLogin : NavigationEvent()
-    object NavigateToRegister : NavigationEvent()
-    object NavigateAsGuest : NavigationEvent()
+    object NavigateToWizard : NavigationEvent()
     object NavigateToMain : NavigationEvent()
 }
