@@ -137,9 +137,10 @@ class MusicPlayerService : MediaSessionService(), MusicPlayerController {
             ): AudioSink {
                 return DefaultAudioSink.Builder(context)
                     .setAudioProcessors(arrayOf(equalizerProcessor))
+                    .setEnableFloatOutput(enableFloatOutput)
                     .build()
             }
-        }
+        }.setEnableAudioFloatOutput(true)
 
         // Initialize ExoPlayer with custom renderers factory
         exoPlayer = ExoPlayer.Builder(this)
@@ -623,19 +624,19 @@ class MusicPlayerService : MediaSessionService(), MusicPlayerController {
     /**
      * Check if we have permission to read audio files
      */
-    private fun hasAudioPermission(): Boolean {
-        val readMediaAudio = ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.READ_MEDIA_AUDIO
-        ) == PackageManager.PERMISSION_GRANTED
-
-        val readExternalStorage = ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED
-
-        return readMediaAudio || readExternalStorage
-    }
+//    private fun hasAudioPermission(): Boolean {
+//        val readMediaAudio = ContextCompat.checkSelfPermission(
+//            this,
+//            Manifest.permission.READ_MEDIA_AUDIO
+//        ) == PackageManager.PERMISSION_GRANTED
+//
+//        val readExternalStorage = ContextCompat.checkSelfPermission(
+//            this,
+//            Manifest.permission.READ_EXTERNAL_STORAGE
+//        ) == PackageManager.PERMISSION_GRANTED
+//
+//        return readMediaAudio || readExternalStorage
+//    }
 
     private fun createTrackFromCursor(cursor: Cursor): Track {
         val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)

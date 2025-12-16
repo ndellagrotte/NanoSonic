@@ -120,8 +120,8 @@ class CustomEqualizerAudioProcessor : AudioProcessor {
             Log.d(TAG, "Applied pending profile with ${filters.size} bands and ${profile.preamp} dB preamp")
         }
 
-        // Only support 16-bit PCM stereo/mono
-        if (encoding != C.ENCODING_PCM_16BIT || channelCount > 2) {
+        // Support 16-bit PCM and Float PCM (for 24-bit/high-res support)
+        if ((encoding != C.ENCODING_PCM_16BIT && encoding != C.ENCODING_PCM_FLOAT) || channelCount > 2) {
             val exception = AudioProcessor.UnhandledAudioFormatException(inputAudioFormat)
             throw exception // Rethrow, unsupported
         }
@@ -162,6 +162,9 @@ class CustomEqualizerAudioProcessor : AudioProcessor {
         when (encoding) {
             C.ENCODING_PCM_16BIT -> {
                 processAudioBuffer16Bit(inputBuffer, outputBuffer)
+            }
+            C.ENCODING_PCM_FLOAT -> {
+                processAudioBufferFloat(inputBuffer, outputBuffer)
             }
             else -> {
                 // Unsupported format, passthrough
@@ -228,6 +231,63 @@ class CustomEqualizerAudioProcessor : AudioProcessor {
                     // Should not happen as configure rejects > 2 channels
                     repeat(channelCount) {
                         output.putShort(input.getShort())
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Process 32-bit Float PCM audio through all biquad filters
+     */
+    private fun processAudioBufferFloat(input: ByteBuffer, output: ByteBuffer) {
+        val sampleCount = input.remaining() / 4 // 4 bytes per 32-bit float sample
+
+        repeat(sampleCount / channelCount) {
+            when (channelCount) {
+                1 -> {
+                    // Mono
+                    val sample = input.getFloat().toDouble()
+                    var processed = sample
+
+                    // Apply all filters in series
+                    for (filter in filters) {
+                        processed = filter.processSample(processed)
+                    }
+
+                    // Apply preamp gain
+                    processed *= preampGain
+
+                    // Output float (clamping is generally not strictly required for float, but good practice if going to int sink later)
+                    // But ExoPlayer sinks handle float clipping usually.
+                    output.putFloat(processed.toFloat())
+                }
+                2 -> {
+                    // Stereo
+                    val leftSample = input.getFloat().toDouble()
+                    val rightSample = input.getFloat().toDouble()
+
+                    var processedLeft = leftSample
+                    var processedRight = rightSample
+
+                    // Apply all filters in series
+                    for (filter in filters) {
+                        val (left, right) = filter.processStereo(processedLeft, processedRight)
+                        processedLeft = left
+                        processedRight = right
+                    }
+
+                    // Apply preamp gain
+                    processedLeft *= preampGain
+                    processedRight *= preampGain
+
+                    output.putFloat(processedLeft.toFloat())
+                    output.putFloat(processedRight.toFloat())
+                }
+                else -> {
+                    // Should not happen as configure rejects > 2 channels
+                    repeat(channelCount) {
+                        output.putFloat(input.getFloat())
                     }
                 }
             }
