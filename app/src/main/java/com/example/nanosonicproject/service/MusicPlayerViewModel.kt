@@ -84,8 +84,8 @@ class MusicPlayerViewModel @Inject constructor(
      * Play a track with a queue
      */
     @OptIn(UnstableApi::class)
-    fun playTrack(track: com.example.nanosonicproject.data.Track, queue: List<com.example.nanosonicproject.data.Track>) {
-        musicPlayerController?.playTrack(track, queue)
+    fun playTrack(track: com.example.nanosonicproject.data.Track, queue: List<com.example.nanosonicproject.data.Track>, mode: PlaybackMode = PlaybackMode.CONTINUOUS) {
+        musicPlayerController?.playTrack(track, queue, mode)
     }
 
     /**
