@@ -524,13 +524,13 @@ private fun EQProfileItem(
                             color = MaterialTheme.colorScheme.secondaryContainer,
                             shape = MaterialTheme.shapes.small
                         ) {
-                            Text(
-                                text = "CUSTOM",
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSecondaryContainer,
-                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
-                                fontWeight = FontWeight.Bold
-                            )
+//                            Text(
+//                                text = "CUSTOM",
+//                                style = MaterialTheme.typography.labelSmall,
+//                                color = MaterialTheme.colorScheme.onSecondaryContainer,
+//                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+//                                fontWeight = FontWeight.Bold
+//                            )
                         }
                     }
                 }
