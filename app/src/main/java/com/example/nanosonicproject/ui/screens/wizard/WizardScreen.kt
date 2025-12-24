@@ -626,15 +626,13 @@ private fun VariantItem(
                         Text(
                             text = variant.sourceDisplay,
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                            color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant                        )
                     }
                     if (variant.rigDisplay.isNotEmpty()) {
                         Text(
                             text = variant.rigDisplay,
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                            color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant                        )
                     }
                 }
             }
