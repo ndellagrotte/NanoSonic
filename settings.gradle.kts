@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "NanoSonicProject"
+rootProject.name = "NanoSonic"
 include(":app")

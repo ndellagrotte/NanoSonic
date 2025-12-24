@@ -10,11 +10,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.nanosonicproject"
+    namespace = "com.denizen.nanosonic"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.nanosonicproject"
+        applicationId = "com.denizen.nanosonic"
         minSdk = 33
         targetSdk = 36
         versionCode = 8
