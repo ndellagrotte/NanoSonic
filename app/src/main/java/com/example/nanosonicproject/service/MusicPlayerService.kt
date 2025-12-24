@@ -1,6 +1,5 @@
 package com.example.nanosonicproject.service
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
@@ -9,7 +8,6 @@ import android.app.PendingIntent
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -20,7 +18,6 @@ import android.os.IBinder
 import android.provider.MediaStore
 import android.support.v4.media.session.MediaSessionCompat.Token.fromBundle
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
@@ -263,6 +260,7 @@ class MusicPlayerService : MediaSessionService(), MusicPlayerController {
         }
 
         // Playback resumption callback
+        @Deprecated("Deprecated in Java")
         override fun onPlaybackResumption(
             mediaSession: MediaSession,
             controller: MediaSession.ControllerInfo
@@ -619,23 +617,6 @@ class MusicPlayerService : MediaSessionService(), MusicPlayerController {
      * Get total duration
      */
     fun getDuration(): Long = exoPlayer?.duration ?: 0L
-
-    /**
-     * Check if we have permission to read audio files
-     */
-    private fun hasAudioPermission(): Boolean {
-        val readMediaAudio = ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.READ_MEDIA_AUDIO
-        ) == PackageManager.PERMISSION_GRANTED
-
-        val readExternalStorage = ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED
-
-        return readMediaAudio || readExternalStorage
-    }
 
     private fun createTrackFromCursor(cursor: Cursor): Track {
         val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)

@@ -242,6 +242,7 @@ class CustomEqualizerAudioProcessor : AudioProcessor {
         return inputEnded && outputBuffer.remaining() == 0
     }
 
+    @Deprecated("Deprecated in Java")
     override fun flush() {
         outputBuffer = EMPTY_BUFFER
         inputEnded = false
