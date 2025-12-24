@@ -4,23 +4,21 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    kotlin("plugin.serialization")
-
-    // ksp and hilt
-    id("com.google.devtools.ksp") version "2.2.20-2.0.4"
-    id("com.google.dagger.hilt.android") version "2.57.2"
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.google.devtools.ksp)
+    alias(libs.plugins.google.dagger.hilt.android)
 }
 
 android {
-    namespace = "com.example.nanosonicproject"
+    namespace = "com.denizen.nanosonic"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.nanosonicproject"
+        applicationId = "com.denizen.nanosonic"
         minSdk = 33
         targetSdk = 36
-        versionCode = 7
-        versionName = "1.2.2"
+        versionCode = 8
+        versionName = "1.2.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -65,39 +63,48 @@ dependencies {
     implementation(libs.material3)
     implementation(libs.androidx.foundation)
     implementation(libs.ui)
+    implementation(libs.androidx.compose.ui.test)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.rules)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    //hilt
-    implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
-    implementation("com.google.dagger:hilt-android:2.57.2")
-    ksp("com.google.dagger:hilt-android-compiler:2.57.2")
-    //ksp
-    implementation("com.google.dagger:dagger-compiler:2.57.2")
-    ksp("com.google.dagger:dagger-compiler:2.57.2")
-    //kotlinx
-    // implementation(libs.kotlinx.coroutines.android)
-    //icons
-    implementation("androidx.compose.material:material-icons-extended")
+    
+    // Hilt
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    
+    // Dagger
+    implementation(libs.dagger.compiler)
+    ksp(libs.dagger.compiler)
 
-    // ExoPlayer for audio playback (now using version catalog)
+    // Icons
+    implementation(libs.androidx.compose.material.icons.extended)
+
+    // ExoPlayer for audio playback
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.exoplayer.dash)
     implementation(libs.androidx.media3.ui)
 
     // Coil for image loading (album art)
-    implementation("io.coil-kt:coil-compose:2.7.0")
+    implementation(libs.coil.compose)
 
     // Media compat for notification MediaStyle
-    implementation("androidx.media:media:1.7.1")
+    implementation(libs.androidx.media)
 
-    //serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
+    // Serialization
+    implementation(libs.kotlinx.serialization.json)
 
-    //android auto (now using version catalog)
+    // Android Auto
     implementation(libs.androidx.media3.session)
+
+    // Espresso
+    implementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.test.runner)
+    implementation(libs.androidx.test.rules)
 }
