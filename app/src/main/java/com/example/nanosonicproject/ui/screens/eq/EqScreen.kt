@@ -468,7 +468,7 @@ private fun NoEqualizationItem(
                 Text(
                     text = "Select a different profile to apply equalization to your music. AutoEQ profiles are recommended and may be imported through the NanoSonic wizard.",
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
@@ -539,14 +539,14 @@ private fun EQProfileItem(
                     Text(
                         text = "Source: ${profile.source} • Rig: ${profile.rig}",
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = "${profile.bands.size} frequency bands",
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
             IconButton(onClick = { showDeleteDialog = true }) {

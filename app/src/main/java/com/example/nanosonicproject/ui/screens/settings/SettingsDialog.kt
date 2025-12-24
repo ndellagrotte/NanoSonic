@@ -413,20 +413,6 @@ private fun PermissionsDialog(
                         }
                     }
                 )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // Network Access Permission (Cosmetic only)
-                PermissionToggleItem(
-                    icon = Icons.Default.Adjust,
-                    title = "Sicko Mode",
-                    subtitle = if (hasNetworkAccess) "Enabled" else "Disabled",
-                    checked = hasNetworkAccess,
-                    onCheckedChange = { enabled ->
-                        // Cosmetic only - does nothing for now
-                        hasNetworkAccess = enabled
-                    }
-                )
             }
         },
         confirmButton = {
