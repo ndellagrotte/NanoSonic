@@ -19,6 +19,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.filled.MusicOff
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -41,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -49,6 +51,7 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import coil.compose.SubcomposeAsyncImage
 import com.example.nanosonicproject.ui.screens.library.LibraryViewModel
 import com.example.nanosonicproject.data.Track
+import com.example.nanosonicproject.service.PlaybackMode
 import com.example.nanosonicproject.ui.screens.about.AboutDialog
 import com.example.nanosonicproject.ui.screens.settings.SettingsDialog
 
@@ -70,7 +73,7 @@ data class Album(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AlbumScreen(
-    onPlayTrack: (com.example.nanosonicproject.data.Track, List<com.example.nanosonicproject.data.Track>, com.example.nanosonicproject.service.PlaybackMode) -> Unit,
+    onPlayTrack: (Track, List<Track>, PlaybackMode) -> Unit,
     viewModel: LibraryViewModel = hiltViewModel(
         checkNotNull(LocalViewModelStoreOwner.current) {
             "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
@@ -167,18 +170,22 @@ private fun AlbumScreenContent(
     onAlbumClick: (Album) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        contentPadding = PaddingValues(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = modifier.fillMaxSize()
-    ) {
-        items(albums) { album ->
-            AlbumCard(
-                album = album,
-                onClick = { onAlbumClick(album) }
-            )
+    if (albums.isEmpty()) {
+        EmptyAlbumScreen(modifier)
+    } else {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = modifier.fillMaxSize()
+        ) {
+            items(albums) { album ->
+                AlbumCard(
+                    album = album,
+                    onClick = { onAlbumClick(album) }
+                )
+            }
         }
     }
 }
@@ -353,5 +360,44 @@ private fun AlbumArtPlaceholder() {
             tint = MaterialTheme.colorScheme.onPrimaryContainer,
             modifier = Modifier.size(48.dp)
         )
+    }
+}
+
+@Composable
+private fun EmptyAlbumScreen(
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(32.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.MusicOff,
+                contentDescription = null,
+                modifier = Modifier.size(80.dp),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "No Albums Found",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = "Add music files with album tags to your Music folder to see them here",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center
+            )
+        }
     }
 }

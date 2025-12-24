@@ -62,7 +62,7 @@ fun AboutDialog(
                 )
 
                 Text(
-                    text = "Version 1.2.0",
+                    text = "Version 1.2.2",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -74,7 +74,7 @@ fun AboutDialog(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "The most sonically-pleasing music player for Android.",
+                    text = "You're powered up, get in there! \uD83C\uDFB5",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium,
                     textAlign = TextAlign.Center,

@@ -36,7 +36,6 @@ fun SettingsDialog(
 ) {
     val context = LocalContext.current
     var showThemeDialog by remember { mutableStateOf(false) }
-    var showPermissionsDialog by remember { mutableStateOf(false) }
     var showGaplessDialog by remember { mutableStateOf(false) }
 
     val currentTheme by viewModel.themeMode.collectAsStateWithLifecycle()
@@ -102,12 +101,24 @@ fun SettingsDialog(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 // Privacy Settings
-                SettingsSection(title = "Privacy") {
-                    SettingsItem(
-                        icon = Icons.Default.Security,
-                        title = "Permissions",
-                        subtitle = "Manage app permissions",
-                        onClick = { showPermissionsDialog = true }
+                SettingsSection(title = "Permissions") {
+                    PermissionToggleItem(
+                        icon = Icons.Default.Folder,
+                        title = "Music Folder",
+                        subtitle = if (hasAudioPermission) "Access Granted" else "Access Denied",
+                        checked = hasAudioPermission,
+                        onCheckedChange = { enabled ->
+                            if (enabled) {
+                                // Request permission
+                                permissionLauncher.launch(PermissionUtil.getAudioPermission())
+                            } else {
+                                // Can't programmatically revoke - open settings
+                                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                    data = Uri.fromParts("package", context.packageName, null)
+                                }
+                                settingsLauncher.launch(intent)
+                            }
+                        }
                     )
                 }
             }
@@ -145,23 +156,6 @@ fun SettingsDialog(
                 showGaplessDialog = false
             },
             onDismiss = { showGaplessDialog = false }
-        )
-    }
-
-    // Permissions Dialog
-    if (showPermissionsDialog) {
-        PermissionsDialog(
-            hasAudioPermission = hasAudioPermission,
-            onRequestPermission = {
-                permissionLauncher.launch(PermissionUtil.getAudioPermission())
-            },
-            onOpenSettings = {
-                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                    data = Uri.fromParts("package", context.packageName, null)
-                }
-                settingsLauncher.launch(intent)
-            },
-            onDismiss = { showPermissionsDialog = false }
         )
     }
 }
@@ -355,78 +349,6 @@ private fun GaplessPlaybackDialog(
                         )
                     }
                 }
-            }
-        },
-        confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Done")
-            }
-        }
-    )
-}
-
-/**
- * Permissions Dialog
- */
-@Composable
-private fun PermissionsDialog(
-    hasAudioPermission: Boolean,
-    onRequestPermission: () -> Unit,
-    onOpenSettings: () -> Unit,
-    onDismiss: () -> Unit
-) {
-    var hasNetworkAccess by remember { mutableStateOf(false) }
-
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        icon = {
-            Icon(
-                imageVector = Icons.Default.Security,
-                contentDescription = null,
-                modifier = Modifier.size(32.dp)
-            )
-        },
-        title = {
-            Text(
-                text = "Permissions",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold
-            )
-        },
-        text = {
-            Column(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                // Music Folder Access Permission (Functional)
-                PermissionToggleItem(
-                    icon = Icons.Default.Folder,
-                    title = "Music Folder Access",
-                    subtitle = if (hasAudioPermission) "Enabled" else "Disabled",
-                    checked = hasAudioPermission,
-                    onCheckedChange = { enabled ->
-                        if (enabled) {
-                            // Request permission
-                            onRequestPermission()
-                        } else {
-                            // Can't programmatically revoke - open settings
-                            onOpenSettings()
-                        }
-                    }
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // Network Access Permission (Cosmetic only)
-                PermissionToggleItem(
-                    icon = Icons.Default.Adjust,
-                    title = "Sicko Mode",
-                    subtitle = if (hasNetworkAccess) "Enabled" else "Disabled",
-                    checked = hasNetworkAccess,
-                    onCheckedChange = { enabled ->
-                        // Cosmetic only - does nothing for now
-                        hasNetworkAccess = enabled
-                    }
-                )
             }
         },
         confirmButton = {
