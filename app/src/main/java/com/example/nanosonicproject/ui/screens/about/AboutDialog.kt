@@ -62,7 +62,7 @@ fun AboutDialog(
                 )
 
                 Text(
-                    text = "Version 1.2.2",
+                    text = "Version 1.2.3",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
