@@ -101,7 +101,7 @@ fun SettingsDialog(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 // Privacy Settings
-                SettingsSection(title = "Privacy") {
+                SettingsSection(title = "Permissions") {
                     PermissionToggleItem(
                         icon = Icons.Default.Folder,
                         title = "Music Folder",
