@@ -33,7 +33,8 @@ import android.provider.OpenableColumns
 @Composable
 fun EqScreen(
     viewModel: EQViewModel = hiltViewModel(),
-    onNavigateToWizard: () -> Unit
+    onNavigateToWizard: () -> Unit,
+    playbackState: com.denizen.nanosonic.service.PlaybackState? = null
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -98,7 +99,8 @@ fun EqScreen(
         },
         onDeleteProfile = { viewModel.deleteProfile(it) },
         onShowSettings = { showSettingsDialog = true },
-        onShowAbout = { showAboutDialog = true }
+        onShowAbout = { showAboutDialog = true },
+        playbackState = playbackState
     )
 
     // Success Snackbar
@@ -158,9 +160,18 @@ private fun EqScreenContent(
     onImportCustomEQ: () -> Unit,
     onDeleteProfile: (String) -> Unit,
     onShowSettings: () -> Unit,
-    onShowAbout: () -> Unit
+    onShowAbout: () -> Unit,
+    playbackState: com.denizen.nanosonic.service.PlaybackState? = null
 ) {
     var showMenu by remember { mutableStateOf(false) }
+
+    // Calculate bottom padding for FAB based on NowPlayingPanel visibility
+    // NowPlayingPanel is 96.dp tall when visible
+    val fabBottomPadding = if (playbackState?.currentTrack != null) {
+        96.dp + 16.dp // Panel height + base padding
+    } else {
+        16.dp // Base padding only
+    }
 
     Scaffold(
         topBar = {
@@ -314,7 +325,7 @@ private fun EqScreenContent(
         Box(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(16.dp)
+                .padding(end = 16.dp, bottom = fabBottomPadding)
         ) {
             FloatingActionButton(
                 onClick = { showMenu = true },
@@ -596,7 +607,8 @@ private fun EqScreenPreview() {
             onImportCustomEQ = {},
             onDeleteProfile = {},
             onShowSettings = {},
-            onShowAbout = {}
+            onShowAbout = {},
+            playbackState = null
         )
     }
 }

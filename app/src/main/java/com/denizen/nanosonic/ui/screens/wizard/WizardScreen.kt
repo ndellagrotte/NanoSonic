@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
@@ -14,6 +15,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -273,6 +275,16 @@ private fun BrandSelectionStep(
     onSearchQueryChanged: (String) -> Unit,
     onBrandSelected: (DeviceBrand) -> Unit
 ) {
+    val listState = rememberLazyListState()
+    val focusManager = LocalFocusManager.current
+
+    // Clear focus (hide keyboard) when user starts scrolling
+    LaunchedEffect(listState.isScrollInProgress) {
+        if (listState.isScrollInProgress) {
+            focusManager.clearFocus()
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -315,6 +327,7 @@ private fun BrandSelectionStep(
             }
         } else {
             LazyColumn(
+                state = listState,
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(brands) { brand ->
@@ -380,6 +393,16 @@ private fun ModelSelectionStep(
     onSearchQueryChanged: (String) -> Unit,
     onModelSelected: (DeviceModel) -> Unit
 ) {
+    val listState = rememberLazyListState()
+    val focusManager = LocalFocusManager.current
+
+    // Clear focus (hide keyboard) when user starts scrolling
+    LaunchedEffect(listState.isScrollInProgress) {
+        if (listState.isScrollInProgress) {
+            focusManager.clearFocus()
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -422,6 +445,7 @@ private fun ModelSelectionStep(
             }
         } else {
             LazyColumn(
+                state = listState,
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(models) { model ->

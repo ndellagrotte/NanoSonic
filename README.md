@@ -18,10 +18,11 @@ NanoSonic is primary designed as a FOSS alternative for users who want studio-qu
 
 ## ✨ Key Features
 
-### 🎚️ Professional Parametric Equalization
+### 🎚️ Studio-grade Parametric Equalization
 - Full parametric EQ support with per-band frequency, gain, and Q (bandwidth) support
-- Real-time audio processing with minimal latency
 - Support for peaking, low-shelf, high-shelf, lowpass, and highpass filters
+- Real-time audio processing with minimal latency
+
 
 ### 🎧 Integrated AutoEQ Profiles
 - **Integrated AutoEQ database** for offline access of profiles supporting thousands of headphones and IEMs
@@ -40,13 +41,13 @@ NanoSonic is primary designed as a FOSS alternative for users who want studio-qu
 ### Requirements
 - Android 13 (API 33) or higher
 - Storage permission for accessing music files
-- Music stored in the default Android music folder: `/storage/emulated/0/Music`
+- Music stored in the default Android music folder: `/storage/emulated/0/Music` or `/storage/emulated/0/Downloads`
 
 ### Current Limitations
 These limitations exist in the current version and may be addressed in future updates:
 
-- **24-bit audio not supported** - The parametric equalizer currently only processes 16-bit PCM audio. 24-bit files will play but may experience quality degradation through the EQ chain.
-- **Fixed music directories** - The app only scans the default Android music directories. Custom directory selection is not currently supported.
+- **24-bit audio not supported** - The equalizer will only process 16-bit PCM audio. 24-bit files will play but will down-sample to 16-bit through the EQ chain.
+- **Fixed music directories** - The app only scans the default Android 'music' and 'downloads' directories. Custom directory selection is not currently supported.
 
 ### Design Philosophy: Features I Probably Won't Add
 

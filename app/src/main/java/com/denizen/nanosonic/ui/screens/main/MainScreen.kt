@@ -126,7 +126,10 @@ private fun MainScreenContent(
             when (page) {
                 0 -> LibraryScreen(onPlayTrack = onPlayTrack)
                 1 -> AlbumScreen(onPlayTrack = onPlayTrack)
-                2 -> EqScreen(onNavigateToWizard = onNavigateToWizard)
+                2 -> EqScreen(
+                    onNavigateToWizard = onNavigateToWizard,
+                    playbackState = playbackState
+                )
             }
         }
     }
