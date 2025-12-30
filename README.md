@@ -2,17 +2,26 @@
 
 **A minimalist, offline-first Android music player with accessible and powerful parametric EQ**
 
+NanoSonic is a lightweight, privacy-focused local music player for Android. It is primary designed as a FOSS alternative for users who want professional-grade EQ without the cost of proprietary solutions like [Poweramp (20$)](https://play.google.com/store/apps/details?id=com.maxmpz.audioplayer.unlock), [Neutron ($13)](https://play.google.com/store/apps/details?id=com.neutroncode.mp), and [UAPP (USB Audio Player PRO) (8$)](https://play.google.com/store/apps/details?id=com.extreamsd.usbaudioplayerpro).
+
+NanoSonic offers professional-grade parametric EQ and provides device-specific profiles sourced from the [AutoEQ](https://github.com/jaakkopasanen/AutoEq) project. These profiles are locally stored and can be imported through our user-friendly setup wizard at any time, regardless of internet connection or the user's level of technical proficiency.
+
+Unlike external EQ apps such as [Wavelet](https://play.google.com/store/apps/details?id=com.pittvandewitt.wavelet&hl=en_US) that require additional configuration, NanoSonic provides integrated, powerful equalization that works seamlessly with your music library out of the box.
+
 [![Android](https://img.shields.io/badge/Platform-Android-green.svg)](https://www.android.com/)
 [![Material You](https://img.shields.io/badge/Design-Material%20You-blue.svg)](https://m3.material.io/)
 [![Offline](https://img.shields.io/badge/Mode-Fully%20Offline-orange.svg)]()
 
 ---
 
-## Overview
+## Screenshots
 
-NanoSonic is a lightweight, privacy-focused local music player for Android. NanoSonic offers professional-grade parametric EQ and provides device-specific profiles sourced from the [AutoEQ](https://github.com/jaakkopasanen/AutoEq) project. These profiles are locally stored and can be imported through our user-friendly setup wizard at any time, regardless of internet connection or the user's level of technical proficiency.
+<img width="675" height="540" alt="device-mockup_1 5x_postspark_2025-12-29_19-03-02" src="https://github.com/user-attachments/assets/fa56a03c-ba3b-46ed-a0d1-a8a38738e2f5" />
 
-NanoSonic is primary designed as a FOSS alternative for users who want studio-quality EQ without the cost of proprietary solutions like [Poweramp (20$)](https://play.google.com/store/apps/details?id=com.maxmpz.audioplayer.unlock&pcampaignid=web_share) or [Neutron ($13)](https://play.google.com/store/apps/details?id=com.neutroncode.mp&pcampaignid=web_share). Unlike external EQ apps such as [Wavelet](https://play.google.com/store/apps/details?id=com.pittvandewitt.wavelet&hl=en_US) that require additional configuration, NanoSonic provides integrated, powerful equalization that works seamlessly with your music library out of the box.
+<img width="675" height="540" alt="device-mockup_1 5x_postspark_2025-12-29_19-03-02" src="https://github.com/user-attachments/assets/fb7af611-06ef-489b-8323-afc84ab672c2" />
+
+<img width="675" height="540" alt="device-mockup_1 5x_postspark_2025-12-29_19-03-02 (Edit)" src="https://github.com/user-attachments/assets/dd702aed-59a6-4635-92e5-60ddaa62ff21" />
+<img width="1080" height="896" alt="device-mockup_1 5x_postspark_2025-12-29_19-03-02 (Edit)" src="https://github.com/user-attachments/assets/dd702aed-59a6-4635-92e5-60ddaa62ff21" />
 
 ---
 
