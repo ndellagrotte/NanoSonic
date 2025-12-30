@@ -95,6 +95,7 @@ class AndroidLocalAutoEqSearch(private val context: Context) {
     /**
      * Search for headphones by brand name.
      * Returns unique brands found in the database.
+     * If query is blank, returns all brands.
      */
     fun searchBrands(query: String, maxResults: Int = 50): List<String> {
         if (!isIndexed) {
@@ -102,19 +103,25 @@ class AndroidLocalAutoEqSearch(private val context: Context) {
             return emptyList()
         }
 
-        if (query.isBlank()) return emptyList()
-
         val lowerQuery = query.lowercase().trim()
 
         // Extract brand names from headphone labels
         // Most headphone names start with the brand: "Sony WH-1000XM4", "Sennheiser HD 600", etc.
-        val brands = entries
+        val allBrands = entries
             .map { entry ->
                 // Try to extract brand from the label (first word usually)
                 val firstWord = entry.label.split(" ", "-", "(")[0]
                 firstWord.trim()
             }
             .distinct()
+
+        // If query is blank, return all brands sorted alphabetically
+        if (lowerQuery.isBlank()) {
+            return allBrands.sorted().take(maxResults)
+        }
+
+        // Otherwise, filter and sort by relevance
+        val brands = allBrands
             .filter { it.lowercase().contains(lowerQuery) }
             .sortedWith(compareByDescending<String> { brand ->
                 when {

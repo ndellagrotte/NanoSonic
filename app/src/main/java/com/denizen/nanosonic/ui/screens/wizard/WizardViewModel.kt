@@ -50,6 +50,8 @@ class WizardViewModel @Inject constructor(
                 }
             } else {
                 _state.update { it.copy(isLoading = false) }
+                // Load all brands immediately after index is built
+                searchBrands("")
             }
         }
     }
@@ -70,16 +72,12 @@ class WizardViewModel @Inject constructor(
     }
 
     private fun searchBrands(query: String) {
-        if (query.isBlank()) {
-            _state.update { it.copy(brands = emptyList()) }
-            return
-        }
-
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, error = null) }
 
             try {
                 // Search for brands in the AutoEQ database
+                // Empty query returns all brands
                 val brandNames = autoEqSearch.searchBrands(query)
 
                 val brands = brandNames.map { brandName ->
@@ -116,6 +114,8 @@ class WizardViewModel @Inject constructor(
                 models = emptyList()
             )
         }
+        // Load all models for this brand immediately
+        searchModels("")
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -135,16 +135,12 @@ class WizardViewModel @Inject constructor(
     private fun searchModels(query: String) {
         val selectedBrand = _state.value.selectedBrand ?: return
 
-        if (query.isBlank()) {
-            _state.update { it.copy(models = emptyList()) }
-            return
-        }
-
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, error = null) }
 
             try {
                 // Search for models by brand in the AutoEQ database
+                // Empty query returns all models for the brand
                 val entries = autoEqSearch.searchModelsByBrand(selectedBrand.name, query)
 
                 // Group by unique model names (since same model can have multiple variants)
@@ -288,6 +284,8 @@ class WizardViewModel @Inject constructor(
         _state.update { currentState ->
             when (currentState.currentStep) {
                 WizardStep.MODEL_SELECTION -> {
+                    // Reload all brands when going back
+                    searchBrands(currentState.brandSearchQuery)
                     currentState.copy(
                         currentStep = WizardStep.BRAND_SELECTION,
                         selectedModel = null,
@@ -296,6 +294,8 @@ class WizardViewModel @Inject constructor(
                     )
                 }
                 WizardStep.VARIANT_SELECTION -> {
+                    // Reload all models when going back
+                    searchModels(currentState.modelSearchQuery)
                     currentState.copy(
                         currentStep = WizardStep.MODEL_SELECTION,
                         variants = emptyList(),
