@@ -26,6 +26,7 @@ import com.denizen.nanosonic.ui.theme.NanoSonicProjectTheme
 import com.denizen.nanosonic.ui.screens.about.AboutDialog
 import com.denizen.nanosonic.ui.screens.settings.SettingsDialog
 import android.provider.OpenableColumns
+import androidx.compose.ui.window.PopupProperties
 
 /**
  * EQ Screen - Manage and select EQ profiles
@@ -168,7 +169,8 @@ private fun EqScreenContent(
     // Calculate bottom padding for FAB based on NowPlayingPanel visibility
     // NowPlayingPanel is 96.dp tall when visible
     val fabBottomPadding = if (playbackState?.currentTrack != null) {
-        96.dp + 16.dp // Panel height + base padding
+//        96.dp + 16.dp // Panel height + base padding
+        16.dp // Base padding only
     } else {
         16.dp // Base padding only
     }
@@ -321,70 +323,71 @@ private fun EqScreenContent(
             }
         }
 
-        // Floating Action Button with popup menu anchored to it
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(end = 16.dp, bottom = fabBottomPadding)
-        ) {
-            FloatingActionButton(
-                onClick = { showMenu = true },
-                containerColor = MaterialTheme.colorScheme.tertiary,
-                contentColor = MaterialTheme.colorScheme.onTertiary
+            // Floating Action Button with popup menu anchored to it
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(end = 16.dp, bottom = fabBottomPadding)
             ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Import EQ Profile"
-                )
-            }
+                FloatingActionButton(
+                    onClick = { showMenu = true },
+                    containerColor = MaterialTheme.colorScheme.tertiary,
+                    contentColor = MaterialTheme.colorScheme.onTertiary
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Import EQ Profile"
+                    )
+                }
 
-            // Dropdown menu anchored to FAB
-            DropdownMenu(
-                expanded = showMenu,
-                onDismissRequest = { showMenu = false },
-                offset = DpOffset(x = 0.dp, y = (-56).dp) // Position above the FAB
-            ) {
-                DropdownMenuItem(
-                    text = {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.AutoFixHigh,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.primary
-                            )
-                            Text("Import via Wizard")
+                // Dropdown menu anchored to FAB
+                // Anchor the menu to expand upward from the FAB
+                DropdownMenu(
+                    expanded = showMenu,
+                    onDismissRequest = { showMenu = false },
+                    properties = PopupProperties(focusable = true),
+                ) {
+                    DropdownMenuItem(
+                        text = {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.AutoFixHigh,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.primary
+                                )
+                                Text("Import via Wizard")
+                            }
+                        },
+                        onClick = {
+                            showMenu = false
+                            onImportViaWizard()
                         }
-                    },
-                    onClick = {
-                        showMenu = false
-                        onImportViaWizard()
-                    }
-                )
-                DropdownMenuItem(
-                    text = {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Upload,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.secondary
-                            )
-                            Text("Import Custom EQ")
+                    )
+                    DropdownMenuItem(
+                        text = {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Upload,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.secondary
+                                )
+                                Text("Import Custom EQ")
+                            }
+                        },
+                        onClick = {
+                            showMenu = false
+                            onImportCustomEQ()
                         }
-                    },
-                    onClick = {
-                        showMenu = false
-                        onImportCustomEQ()
-                    }
-                )
+                    )
+                }
             }
         }
-    }
     }
 }
 
@@ -407,7 +410,12 @@ private fun OverflowMenu(
 
         DropdownMenu(
             expanded = expanded,
-            onDismissRequest = { expanded = false }
+            onDismissRequest = { expanded = false },
+            offset = DpOffset(
+                x = 0.dp,
+                y = -56.dp
+//                y = if (isPanelVisible) 0.dp else (-56).dp
+            )
         ) {
             DropdownMenuItem(
                 text = { Text("Settings") },
