@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /home/nick/StudioProjects/NanoSonic/app/src/main/assets/autoeqDB/results -name \"*.txt\" -exec wc -c {} +)",
+      "Bash(find /home/nick/StudioProjects/NanoSonic/app/src/main/assets/autoeqDB/results -name \"*.png\" -exec du -ch {} +)"
+    ]
+  }
+}
