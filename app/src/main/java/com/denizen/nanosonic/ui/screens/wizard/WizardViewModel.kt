@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.denizen.nanosonic.data.EQProfileRepository
 import com.denizen.nanosonic.data.SavedEQProfile
 import com.denizen.nanosonic.data.SettingsRepository
-import com.denizen.nanosonic.ui.screens.wizard.databaseUtil.AndroidLocalAutoEqSearch
+import com.denizen.nanosonic.ui.screens.wizard.databaseUtil.GitHubAutoEqSearch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Job
@@ -29,7 +29,7 @@ class WizardViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
-    private val autoEqSearch = AndroidLocalAutoEqSearch(context)
+    private val autoEqSearch = GitHubAutoEqSearch(context)
 
     private val _state = MutableStateFlow(WizardState())
     val state: StateFlow<WizardState> = _state.asStateFlow()

@@ -100,6 +100,9 @@ dependencies {
     // Serialization
     implementation(libs.kotlinx.serialization.json)
 
+    // Networking (GitHub AutoEQ database fetching)
+    implementation(libs.okhttp)
+
     // Android Auto
     implementation(libs.androidx.media3.session)
 
