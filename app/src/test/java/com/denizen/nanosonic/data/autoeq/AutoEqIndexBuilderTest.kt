@@ -51,7 +51,7 @@ class AutoEqIndexBuilderTest {
         assertEquals("Sony WH-1000XM4", sony.name)
         val variants = index.variants("sony", sony.key)
         assertEquals(2, variants.size)
-        assertTrue(variants.all { it.isAncVariant })
+        assertEquals(listOf("Sony WH-1000XM4 (ANC off)", "Sony WH-1000XM4 (ANC on)"), variants.map { it.label })
     }
 
     @Test

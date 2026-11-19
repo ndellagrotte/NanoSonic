@@ -17,14 +17,6 @@ data class AutoEqEntry(
     val assetPath: String
         get() = "${AutoEqIndexBuilder.RESULTS_DIR}/$source/$formDirectory/$label/$label ParametricEQ.txt"
 
-    val isAncVariant: Boolean
-        get() = label.contains("(ANC", ignoreCase = true) ||
-            label.contains("ANC on", ignoreCase = true) ||
-            label.contains("ANC off", ignoreCase = true)
-
-    val isPadVariant: Boolean
-        get() = (label.contains("velour", ignoreCase = true) || label.contains("pad", ignoreCase = true)) &&
-            !label.contains("(sample", ignoreCase = true)
 }
 
 data class Brand(val key: String, val name: String, val modelCount: Int)
