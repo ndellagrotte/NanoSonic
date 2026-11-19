@@ -77,10 +77,25 @@ NanoSonic is intentionally minimal and offline-focused. The following features a
 - **Latency**: Optimized for real-time playback with minimal delay
 
 ### EQ Implementation
-- **Filter Type**: Biquad IIR filters
-- **Coefficient Calculation**: Based on Audio EQ Cookbook formulas
-- **Processing**: Serial cascade of filters in the audio processing chain
-- **Precision**: Double-precision coefficient calculation for accuracy
+- **Filter Type**: Biquad IIR filters (peaking, low/high shelf, low/high pass)
+- **Coefficient Calculation**: Based on Audio EQ Cookbook formulas, recomputed whenever the sample rate changes
+- **Processing**: Serial cascade of filters inside ExoPlayer's audio sink, in double precision
+- **Latency**: Switching profiles takes effect within the audio output buffer (typically a few hundred milliseconds)
+
+### Playback
+- Built on Media3: a `MediaSessionService` hosts the player and the app, notification, lock screen and Bluetooth
+  controls all talk to the same session.
+- Library playback loops the whole library; album playback stops after the last track.
+- With gapless playback off, the player pauses for a moment at the end of each track before starting the next one.
+
+### Project Structure
+```
+core/       Plain Kotlin models (tracks, EQ profiles, settings enums)
+data/       Settings, saved EQ profiles, the bundled AutoEQ database, the MediaStore library
+playback/   Media session service, controller connection, EQ DSP
+ui/         Jetpack Compose screens, navigation and shared components
+```
+Run the unit tests with `./gradlew testDebugUnitTest`.
 
 ---
 
