@@ -54,7 +54,6 @@ Unlike external EQ apps such as [Wavelet](https://play.google.com/store/apps/det
 ### Current Limitations
 These limitations exist in the current version and may be addressed in future updates:
 
-- **24-bit audio not supported** - The equalizer will only process 16-bit PCM audio. 24-bit files will play but will down-sample to 16-bit through the EQ chain.
 - **Fixed music directories** - The app only scans the default Android 'music' and 'downloads' directories. Custom directory selection is not currently supported.
 
 ### Design Philosophy: Features I Probably Won't Add
@@ -73,13 +72,16 @@ NanoSonic is intentionally minimal and offline-focused. The following features a
 
 ### Audio Processing
 - **Sample Rate**: Adaptive (matches device/file sample rate)
-- **Bit Depth**: 16-bit PCM processing
+- **Bit Depth**: High-resolution end to end. 16-bit, 24-bit, 32-bit and float sources are equalized in 64-bit
+  precision and sent to Android as 32-bit float, so 24-bit files keep their full resolution and EQ boosts don't clip
+  in the app (whether the DAC receives 24-bit depends on the device's output path)
 - **Latency**: Optimized for real-time playback with minimal delay
 
 ### EQ Implementation
 - **Filter Type**: Biquad IIR filters (peaking, low/high shelf, low/high pass)
 - **Coefficient Calculation**: Based on Audio EQ Cookbook formulas, recomputed whenever the sample rate changes
-- **Processing**: Serial cascade of filters inside ExoPlayer's audio sink, in double precision
+- **Processing**: Serial cascade of filters in double precision, applied to decoded audio just before ExoPlayer's
+  audio sink (whose own processor chain would first convert high-resolution audio to 16-bit)
 - **Latency**: Switching profiles takes effect within the audio output buffer (typically a few hundred milliseconds)
 
 ### Playback

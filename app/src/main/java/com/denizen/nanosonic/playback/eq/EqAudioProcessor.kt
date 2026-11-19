@@ -3,19 +3,21 @@ package com.denizen.nanosonic.playback.eq
 import androidx.media3.common.C
 import androidx.media3.common.audio.AudioProcessor.AudioFormat
 import androidx.media3.common.audio.BaseAudioProcessor
+import androidx.media3.common.util.Util
 import com.denizen.nanosonic.core.model.ParametricEq
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
 /**
- * Parametric EQ in ExoPlayer's audio sink.
+ * Parametric EQ for decoded PCM.
+ *
+ * Accepts 16-bit, packed 24-bit, 32-bit integer or float PCM with one or two channels, and always outputs
+ * 32-bit float (unclamped), including while EQ is off, so turning EQ on or off never changes the output
+ * format. Other formats are not handled (`configure` returns [AudioFormat.NOT_SET]) and should bypass it.
  *
  * [setEq] may be called from any thread: it publishes an immutable snapshot, and the audio thread picks
  * it up at the start of the next buffer, recomputing coefficients for the current sample rate. A change
  * becomes audible once the audio already queued in the AudioTrack has played (a few hundred ms).
- *
- * Only 16-bit PCM with one or two channels is processed. Other formats bypass the EQ. With float output
- * disabled (the default), higher bit depths are converted to 16-bit before reaching this processor.
  */
 class EqAudioProcessor : BaseAudioProcessor() {
     @Volatile private var requested: ParametricEq? = null
@@ -30,8 +32,8 @@ class EqAudioProcessor : BaseAudioProcessor() {
     }
 
     override fun onConfigure(inputAudioFormat: AudioFormat): AudioFormat =
-        if (inputAudioFormat.encoding == C.ENCODING_PCM_16BIT && inputAudioFormat.channelCount in 1..2) {
-            inputAudioFormat
+        if (inputAudioFormat.encoding in EqChain.SUPPORTED_ENCODINGS && inputAudioFormat.channelCount in 1..2) {
+            AudioFormat(inputAudioFormat.sampleRate, inputAudioFormat.channelCount, C.ENCODING_PCM_FLOAT)
         } else {
             AudioFormat.NOT_SET
         }
@@ -39,26 +41,25 @@ class EqAudioProcessor : BaseAudioProcessor() {
     override fun queueInput(inputBuffer: ByteBuffer) {
         val size = inputBuffer.remaining()
         if (size == 0) return
-        val activeChain = currentChain()
-        val output = replaceOutputBuffer(size)
-        if (activeChain == null) {
-            output.put(inputBuffer)
-        } else {
-            activeChain.process(inputBuffer.order(ByteOrder.nativeOrder()), output)
-        }
+        val encoding = inputAudioFormat.encoding
+        val output = replaceOutputBuffer(size / Util.getByteDepth(encoding) * FLOAT_BYTES)
+        currentChain().process(inputBuffer.order(ByteOrder.nativeOrder()), encoding, output)
+        // Drop a trailing partial sample, if any, so the input always counts as consumed.
+        inputBuffer.position(inputBuffer.limit())
         output.flip()
     }
 
-    private fun currentChain(): EqChain? {
+    private fun currentChain(): EqChain {
         val eq = requested
         val format = inputAudioFormat
         val existing = chain
-        if (eq === applied && (existing == null || (existing.sampleRate == format.sampleRate && existing.channelCount == format.channelCount))) {
+        if (existing != null && eq === applied && existing.sampleRate == format.sampleRate && existing.channelCount == format.channelCount) {
             return existing
         }
         applied = eq
-        chain = eq?.let { EqChain(it, format.sampleRate, format.channelCount) }?.also { new -> existing?.let(new::copyStateFrom) }
-        return chain
+        return EqChain(eq ?: FLAT, format.sampleRate, format.channelCount)
+            .also { new -> existing?.let(new::copyStateFrom) }
+            .also { chain = it }
     }
 
     override fun onFlush() {
@@ -68,5 +69,10 @@ class EqAudioProcessor : BaseAudioProcessor() {
     override fun onReset() {
         chain = null
         applied = null
+    }
+
+    private companion object {
+        const val FLOAT_BYTES = 4
+        val FLAT = ParametricEq(0.0, emptyList())
     }
 }
