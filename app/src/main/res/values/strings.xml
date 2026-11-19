@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">NanoSonic</string>
+
+    <!-- Media session -->
+    <string name="seek_back_10">Back 10 seconds</string>
+    <string name="seek_forward_10">Forward 10 seconds</string>
 </resources>
