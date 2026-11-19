@@ -5,9 +5,6 @@
     <!-- Audio permission -->
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
 
-    <!-- Storage permissions for custom EQ import (legacy - for Android 9 and below) -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
 
     <!-- foreground service permissions for music playback, TODO:(handle android 14+ proper permissions for foreground service -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"
