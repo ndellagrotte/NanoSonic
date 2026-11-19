@@ -6,14 +6,20 @@ import androidx.media3.exoplayer.audio.AudioSink
 import androidx.media3.exoplayer.audio.DefaultAudioSink
 import com.denizen.nanosonic.playback.eq.EqAudioProcessor
 
-/** Renderers whose audio sink runs [eq]. Float output stays off so the EQ always sees 16-bit PCM. */
+/**
+ * Renderers whose audio sink runs [eq] (see [EqAudioSink]). Float output is enabled, so decoders deliver
+ * float (keeping 24-bit precision) and the EQ'd float goes to the AudioTrack without reduction to 16-bit.
+ */
 class EqRenderersFactory(context: Context, private val eq: EqAudioProcessor) : DefaultRenderersFactory(context) {
     override fun buildAudioSink(
         context: Context,
         enableFloatOutput: Boolean,
         enableAudioOutputPlaybackParams: Boolean,
-    ): AudioSink = DefaultAudioSink.Builder(context)
-        .setEnableAudioOutputPlaybackParameters(enableAudioOutputPlaybackParams)
-        .setAudioProcessors(arrayOf(eq))
-        .build()
+    ): AudioSink = EqAudioSink(
+        DefaultAudioSink.Builder(context)
+            .setEnableFloatOutput(true)
+            .setEnableAudioOutputPlaybackParameters(enableAudioOutputPlaybackParams)
+            .build(),
+        eq,
+    )
 }
