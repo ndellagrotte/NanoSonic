@@ -16,6 +16,7 @@ import com.denizen.nanosonic.core.model.Track
 import com.denizen.nanosonic.di.AppScope
 import com.denizen.nanosonic.di.IoDispatcher
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -56,7 +57,8 @@ class MediaStoreLibraryRepository @Inject constructor(
                 context.contentResolver.registerContentObserver(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true, observer)
                 observerRegistered = true
             }
-            if (_state.value !is LibraryState.Loaded) scan()
+            val scanning = scanJob?.isActive == true
+            if (_state.value !is LibraryState.Loaded && !scanning) scan()
         } else {
             scanJob?.cancel()
             _state.value = LibraryState.NoPermission
@@ -76,6 +78,8 @@ class MediaStoreLibraryRepository @Inject constructor(
                 val tracks = withContext(io) { queryTracks(context.contentResolver) }
                 val albums = withContext(io) { AlbumGrouping.group(tracks) }
                 LibraryState.Loaded(tracks, albums)
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: SecurityException) {
                 LibraryState.NoPermission
             } catch (e: Exception) {

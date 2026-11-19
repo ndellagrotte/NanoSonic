@@ -11,6 +11,7 @@ import com.denizen.nanosonic.data.eq.EqProfileRepository
 import com.denizen.nanosonic.data.eq.LegacyProfileIds
 import com.denizen.nanosonic.data.settings.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -66,6 +67,8 @@ class WizardViewModel @Inject constructor(
             try {
                 database.index()
                 _state.update { it.copy(isDatabaseLoading = false) }
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 _state.update { it.copy(isDatabaseLoading = false, error = WizardError.DatabaseUnavailable) }
             }
@@ -141,6 +144,8 @@ class WizardViewModel @Inject constructor(
                 profiles.upsertAutoEq(newProfiles)
                 settings.setAppInitialized(true)
                 _state.update { it.copy(isSaving = false, isFinished = true) }
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 _state.update { it.copy(isSaving = false, error = WizardError.SaveFailed(e.message ?: e.javaClass.simpleName)) }
             }
